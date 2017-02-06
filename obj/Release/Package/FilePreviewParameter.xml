@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="s0mebody-001-site1" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Константин\\Documents\\Visual\ Studio\ 2015\\Projects\\D\\D\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Константин\\Documents\\Visual\ Studio\ 2015\\Projects\\D\\D\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="db-Web.config Connection String" description="" value="data source=DESKTOP-DVDAFAQ\;initial catalog=D;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Константин\\Documents\\Visual\ Studio\ 2015\\Projects\\D\\D\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='db']/@connectionString" />
+  </parameter>
+</parameters>

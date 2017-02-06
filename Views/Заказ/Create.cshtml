@@ -1,0 +1,128 @@
+﻿
+@model D.Models.Заказ
+@using D.Models
+
+
+@{
+    ViewBag.Title = "Новый заказ";
+    
+}
+
+
+@using (Html.BeginForm("Create", "Заказ"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Новый заказ</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            
+            @Html.LabelFor(model => model.Дата_заказа, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Дата_заказа", DateTime.Now.ToShortDateString(), new { @class = "form-control", @id = "datepicker", @readonly="readonly" } )
+                @Html.ValidationMessageFor(model => model.Дата_заказа, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+           
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID_клиента,"Клиент", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="indoorBtnDiv">
+                    <input data-val="true" data-val-number="The field ID_клиента must be a number." data-val-required="Требуется поле ID_клиента." id="ID_клиента" name="ID_клиента" type="hidden" /> 
+                    <input id="indoorText" data-val="true"  data-val-required="Требуется поле" name="Название организации" type="text" value="" readonly />
+                    <input type="button" class="indoorBtn" id="btnAddClient" value="+">
+                </div>
+                @*@Html.DropDownList("ID_клиента", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.ID_клиента, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Табельный_номер, "Сотрудник", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Табельный_номер", null, htmlAttributes: new { @class = "form-control",@id="employee" })
+                @Html.ValidationMessageFor(model => model.Табельный_номер, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+       
+        <div class="form-group">
+            <div id="button" class="col-md-offset-2 col-md-10"><input type="button" value="Добавить товар в заказ" class="btn btn-default" /></div>
+        </div>
+
+        <div class="test-border" id="AdGoods_div" style="display:none">
+
+            <table class="table-bordered table-striped" id="AddGoods">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.Label("Обозначение")
+                        </th>
+                        <th>
+                           @Html.Label("Наименование")
+                        </th>
+                        <th>
+                           @Html.Label("Цена")
+                        </th>
+                        <th>
+                            @Html.Label("Цена с НДС")
+                        </th>
+                        <th>
+                            @Html.Label("Количество")
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+
+        </div>
+                
+
+                <div class="form-group"  >
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Записать" id="btnDone" style="display:none" class="btn btn-success delbtn" />
+                    </div>
+                </div>
+          
+        </div>
+}
+  
+<div id="popupClients" class="popupContact">
+    <a id="popupClientsClose" class="popupContactClose">x</a>
+
+    @Html.Action("AllClients")
+    <input type="submit" id="sidebtnC" class="sideButton" value="+" />
+
+</div>
+<div id="backgroundPopupClients" class="backgroundPopup"></div>
+
+    
+    <div id="popupContact" class="popupContact">
+        <a id="popupContactClose" class="popupContactClose">x</a>
+
+        @Html.Action("AllGoods")
+            <input type="submit" id="sidebtnG" class="sideButton" value="+" />
+
+    </div>
+    <div id="backgroundPopup" class="backgroundPopup"></div>
+
+
+
+    @*<div>
+        @Html.ActionLink("<<", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/popupCreateOrders")
+}
+
+   

@@ -1,0 +1,63 @@
+﻿@using D.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Вход";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/LogIn.css" rel="stylesheet" />
+
+
+
+
+    <meta name="description" content="Автоматизированная система учета автозапчастей" />
+    
+
+</head>
+<body>
+    
+        <div class="center">
+
+            <div class="validation-summary-errors text-danger">
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })<br />
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+           
+        </div>
+   
+
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-1" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <p class="field">
+            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Имя",@Value="директор" })
+
+            <i class="glyphicon glyphicon-user"></i>
+        </p>
+
+
+                                    <p class="field">
+                                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Пароль", @Value = "22" })
+
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                    </p>
+                                    <p class="submit">
+                                        <button type="submit" name="submit"><i class="glyphicon  glyphicon-arrow-right"></i></button>
+                                    </p>
+
+    }
+
+
+</body>
+
+</html>

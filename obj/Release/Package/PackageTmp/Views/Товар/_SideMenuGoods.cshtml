@@ -1,0 +1,62 @@
+﻿
+@{ AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+        LoadingElementId = "load",
+        LoadingElementDuration = 1000
+    };
+}
+
+<div id="box" style="display: none" class="dontPrint">
+    <img src="~/Content/loading.gif" id="load" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
+    <div class="indoorBtnDiv search">
+        @using (Ajax.BeginForm("Search", ajaxOptions))
+        {
+            <input id="indoorText" data-val="true" data-val-required="Введите текст" name="search" type="text" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Товар")' />
+            <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать"></button>
+        }
+    
+
+        
+        </div>
+</div>
+
+<div id="sidebar-menu" class="sidebar-menu dontPrint navbar-collapse collapse">
+    <ul>
+        <li class="fa fa-user">
+            <a href=@Url.Action("Create") class="glyphicon glyphicon-plus">
+                @*Добавить*@
+
+
+            </a>
+
+        </li>
+
+
+        <li class="fa fa-cog">
+            <a id="toggler" href="#" class="glyphicon glyphicon-search">@*Поиск*@</a>
+        </li>
+        <li class="fa fa-life-ring">
+
+
+            <div id="dd" class="dropdown" tabindex="1">
+                <a href='' class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown">@*Отчет*@</a>
+                <ul class="dropdown-menu sidebar-menu">
+                    <li>@Html.ActionLink("Товары с остатком '0'", "ROst_0", "Товар")</li>
+                    <li>@Html.ActionLink("Ведомость остатков", "ROst", "Товар")</li>
+                    <li>@Html.ActionLink("Прайс-лист", "Price", "Товар")</li>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <a class="print dontPrint glyphicon glyphicon-print">@*Печать*@</a>
+        </li>
+
+        <li>
+            @Html.ActionLink(" ", "ExpExcl", null, new { @class = "glyphicon glyphicon-export" })
+        </li>
+
+    </ul>
+</div>

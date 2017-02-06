@@ -1,0 +1,91 @@
+﻿@model IEnumerable< D.Models.Поставщик_цена>
+    @using D.Models
+
+@{
+    ViewBag.Title = "Данные о поставщике";
+}
+
+<h3>Данные о поставщике</h3>
+
+<div>
+    
+    <hr />
+    
+    <dl class="dl-horizontal">
+        <dt>
+            Название организации:
+        </dt>
+
+        <dd>
+            @ViewBag.p.Название_организации
+        </dd>
+
+        <dt>
+            Адрес:
+        </dt>
+
+        <dd>
+            @ViewBag.p.Адрес
+        </dd>
+
+        <dt>
+            Телефон:
+        </dt>
+
+        <dd>
+           @ViewBag.p.Телефон
+        </dd>
+
+        <dt>
+            Описание:
+        </dt>
+
+        <dd>
+            @ViewBag.p.Описание
+        </dd>
+    </dl>
+
+</div>
+<p>
+<p>@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.p.УНП_поставщика }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" })</p> @*@Html.ActionLink("Добавить поставляемый товар", "AddG", new { id = @ViewBag.p.УНП_поставщика }, new { @class = "btn btn-default dontPrint", @style = "margin-top:0px;margin-left:170px;" })*@ <br />
+
+@Html.ActionLink("Назад", "Index", null, new { @class = "dontPrint" })
+@{ if (Model.Count() > 0)
+    {
+<div class="test-border tprovider">
+    <table class="table-bordered table-striped det">
+        <thead>
+            <tr><th colspan="4">Поставляемые товары</th></tr>
+            <tr>
+                <th>Обозначение</th>
+                <th>Наименование</th>
+                <th>Ед.Изм.</th>
+                
+                <th>Цена без НДС</th>
+                
+            </tr>
+
+
+        </thead>
+        <tbody>
+            @foreach (Поставщик_цена i in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayName(i.Товар.Обозначение.ToString())</td>
+                    <td>@Html.DisplayName(i.Товар.Наименование)</td>
+                    
+                    <td>@Html.DisplayName(i.Товар.Единица_измерения)</td>
+                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                    <td>@Html.DisplayName(str)</td>
+                   
+                       
+                    @*<td><a href='@Url.Action("DeleteG", new { id = i.Товар.ID_товара, p = @ViewBag.p.УНП_поставщика })'><img src='\Content\png\error.png' /></a></td>}*@
+                    
+                </tr>
+                        }
+        </tbody>
+    </table>
+</div>
+                        }}
+
+<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>

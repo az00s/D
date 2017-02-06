@@ -1,0 +1,412 @@
+﻿.navbar-fixed-top {
+border-radius:5px;
+top:1%;
+right:1%;
+left:1%;
+
+}
+
+div.scrollup {
+  position: fixed; /* фиксированная позиция */
+  color: #fff; /* цвет текста */
+  background-color: #E81C2C; /* цвет заднего фона */
+  right: 20px; /* расстояние от правого края */
+  bottom: 0px; /* расстояние от нижнего края */
+  padding: 4px 10px; /* отступы до содержимого блока */
+  font-size: 20px; /* размер шрифта (иконки) */
+  border-top-left-radius: 4px; /* скругление верхнего левого угла */
+  border-top-right-radius: 4px; /* скругление верхнего правого угла */
+  cursor: pointer; /* форма курсора */
+  display: none; /* не отображать элемент */
+  text-align: center; /*выравнивание содержимого элемента по центру */
+}
+div.scrollup:hover {
+  background-color: #C30006; /* цвет заднего фона при наведении */
+}
+
+#datetimepicker1 input[type="text"] {
+max-width:239px;
+}
+
+#left-collapse-button {
+    float:left!important;
+    margin-left:15px!important;
+}
+
+.det1 {
+max-width:740px;
+}
+
+.det {
+
+max-width:400px;
+}
+
+.tprovider {
+
+position:absolute;
+right:0;
+top:70px;
+z-index:2;
+}
+
+.Theader {
+text-decoration:none !important;
+color:black;
+}
+
+#chart {
+    display:none ;
+width: 500px  !important;
+height: 250px !important;
+border-radius:4px 4px 4px 4px;
+position:fixed;
+right:10px;
+top:60px;
+}
+
+#chart :after{
+   
+position:absolute;
+right:10px;
+top:60px;
+
+}
+
+#print{
+    position:fixed;
+    right:20px;
+    top:70px;
+}
+
+@media print
+ { 
+    .dontPrint {display:none}
+    a[href]:after {display: none;} 
+               
+}
+
+.reportDate input{
+border: none/*solid 1px black*/; /* Убираем рамку */
+    outline: none; /* Убираем свечение в Chrome и Safari */
+    -webkit-appearance: none; /* Убираем рамку в Chrome и Safari */
+    width: 140px; /* Ширина поля */
+    vertical-align: middle; /* Выравнивание по середине */
+    height:34px;
+    margin-left:1px;
+    border-radius:4px 4px;
+    border-bottom:1px solid #BCC1C9; 
+}
+
+.reportOrderBtn {
+
+margin-top:0;
+width: 33px; /* Ширина кнопки */
+    height: 33px; /* Высота кнопки */
+    border: none; 
+    
+    /*margin:0;*/
+    color:#E81C2C;
+    vertical-align: top;
+    font-size:15px;
+   font-weight:bold;
+   align-content:center;
+}
+.reportDate p {
+
+vertical-align:bottom;
+align-self:auto;
+
+}
+.reportDate {
+    margin-top:15px;
+    width: 410px;
+    border: 1px solid #BCC1C9; 
+    min-height: 20px; 
+    text-align:match-parent;
+    border-radius:4px 4px 4px 4px !important;
+    
+    background: #DADDE2 !important;
+   
+
+}
+
+    .reportDate input, button {
+        background: #DADDE2 !important;
+    }
+
+.search input,button {
+    background: #DADDE2 !important;
+}
+
+.search {
+    border: solid 2px #BCC1C9 !important;
+border-radius:6px 6px;
+margin-top:15px;
+width: 280px !important;
+background: #DADDE2 !important;
+}
+
+.homediv
+{
+    margin-top:70px;
+   
+
+}
+
+.homediv1 {
+margin-top:70px;
+}
+
+.delbtn {
+margin-top:20px;
+}
+
+/*img {
+width:20px;
+height:20px;
+}*/
+
+#indoorText {
+border: none/*solid 1px black*/; /* Убираем рамку */
+    outline: none; /* Убираем свечение в Chrome и Safari */
+    -webkit-appearance: none; /* Убираем рамку в Chrome и Safari */
+    width: 238px; /* Ширина поля */
+    vertical-align: middle; /* Выравнивание по середине */
+    height:34px;
+    margin-left:1px;
+}
+.indoorBtn {
+width: 33px; /* Ширина кнопки */
+    height: 33px; /* Высота кнопки */
+    border: none; 
+    background-color:white;
+    margin:0;
+    color:#E81C2C;
+    vertical-align: top;
+    font-size:15px;
+   font-weight:bold;
+   align-content:center;
+   
+
+}
+
+
+.indoorBtnDiv {
+width: 280px;
+    border: 1px solid #BCC1C9; 
+    min-height: 20px; 
+    background-color:white;
+    border-radius:4px 4px 4px 4px !important;
+    vertical-align: top;
+    /*align-content:center;*/
+    
+}
+.sideButton
+ {
+    
+    padding:5px 15px; 
+    background:#E81C2C; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0px 0px 5px; 
+    position:fixed;
+    position:absolute;
+    z-index:2;
+   
+    top:50px;
+    /*left:200px;*/
+    width:50px;
+    height:50px;
+    font-size:xx-large;
+    display:none;
+   
+
+}
+
+.tr_red {
+background-color:#E81C2C !important;
+
+}
+
+a {
+  cursor: pointer;
+  text-decoration:none !important;
+}
+
+.backgroundPopup{
+  display:none;
+  position:fixed;
+  _position:absolute; /* hack for internet explorer 6 */
+  height:100%;
+  width:100%;
+  top:0;
+  left:0;
+  background:#000000;
+  border:1px solid #DADDE2;
+  z-index:1;
+}
+.popupContact{
+    
+  display:none;
+ position:fixed;
+  position:absolute; /* hack for internet explorer 6 */
+  /*height:384px;
+  width:408px;*/
+  background:#FFFFFF;
+  border:2px solid #E81C2C;
+  z-index:2;
+  padding:12px;
+  font-size:13px;
+  border-radius:5px;
+
+}
+
+.popupContactClose {
+  font-size:14px;
+  line-height:14px;
+  right:6px;
+  top:4px;
+  position:absolute;
+  color:#6fa5fd;
+  font-weight:bold;
+  display:block;
+  text-decoration:none;
+}
+
+.popupContactClose:hover{
+
+  color:red;
+}
+
+
+/*.ab {
+top:100px;
+left:800px;
+position:absolute;
+border:1px solid black;
+width:500px;
+height:100px;
+}*/
+html {
+  height:100% !important;
+}
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color:#DADDE2;
+    height:100% !important;
+    
+}
+.wrapper{
+
+    padding-bottom: 90px;
+}
+.footer {
+     position:absolute ;
+         bottom:0px;
+         left:0px;
+         width: 100%;
+  height: 80px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+  min-height: 100%;
+  padding-bottom: 90px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#sidebar-menu ul {
+
+    -webkit-padding-start: 0px!important;
+    padding:0;
+    
+}
+
+#sidebar-menu ul li {
+
+    -webkit-padding-start: 0px!important;
+
+}
+
+
+#sidebar-menu {
+	position: fixed; /* фиксируем наше меню */
+	top: 40%; /* положение меню относительно верхнего края браузера */
+	left: 0; /* прилипили меню к левому краю */
+	/*padding: 10px;*/
+	max-width:150px;
+    max-height:230px;
+    /*height:25%;*/
+    min-width:35px;
+    width:2%;
+	color: #FFF;
+    font-weight:bold;
+    /*border:2px solid  #BCC1C9;*/
+	/*border-radius: 0 5px 5px 0;*/
+    /*margin-left:-50px;*/
+    box-shadow: 2px 2px 4px 0px black;
+    padding-left: 0px;
+    padding-right: 0px;
+    
+}
+.sidebar-menu{background: #E81C2C !important;
+              background-color: #E81C2C !important;
+              
+}
+.sidebar-menu li {
+	position: relative;
+	cursor: pointer;
+    list-style-type: none;
+    color: #FFF;
+    
+    
+}
+
+
+.sidebar-menu li+li {margin-top: 4px;}
+
+.sidebar-menu li a {
+    text-decoration: none;
+	display: block;
+	padding: 4px 8px;
+	/*border-radius: 2px;*/
+	color: #FFF;
+	-webkit-transition: all .2s;
+	   -moz-transition: all .2s;
+	    /*-ms-transition: all .2s;*/
+	     -o-transition: all .2s;
+	        transition: all .2s;
+            font-weight:bold;
+}
+
+.sidebar-menu li:hover {
+	display: block;
+	background: #BC0000 !important;
+}
+
+.sidebar-menu li a:hover {
+	display: block;
+	background: #BC0000 !important;
+}
+
+
+

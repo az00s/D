@@ -1,0 +1,17 @@
+﻿@model IEnumerable <D.Models.Товар>
+
+
+@using D.Models
+
+<div class="ab">
+    <table class="table-bordered table-striped" id="tbGoods">
+        @foreach (Товар p in Model)
+        {
+            @Html.Partial("GoodsBlock", p)
+        }
+</table>
+
+
+</div>
+
+

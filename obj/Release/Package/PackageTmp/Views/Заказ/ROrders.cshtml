@@ -1,0 +1,79 @@
+﻿@model IEnumerable<D.Models.Заказ>
+<div class="test-border" style="display:@ViewBag.b">
+    <table class="table-bordered table-striped">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ID_заказа)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Дата_заказа)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Клиент.Название_организации)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Сумма_заказа_с_НДС)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Статус_заказа)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Сотрудник.Фамилия)
+            </th>
+            <th class="dontPrint"></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_заказа)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Дата_заказа)
+                </td>
+                <td>
+                    @{ if (item.Клиент.Название_организации == null || item.Клиент.Название_организации == "")
+                        { <p>@Html.DisplayFor(modelItem => item.Клиент.Фамилия)&nbsp; @Html.DisplayFor(modelItem => item.Клиент.Имя) &nbsp; @Html.DisplayFor(modelItem => item.Клиент.Отчество)</p>}
+                        else
+                        { @Html.DisplayFor(modelItem => item.Клиент.Название_организации)}
+                    }
+
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Сумма_заказа_с_НДС)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Статус_заказа)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Сотрудник.Фамилия)
+                </td>
+                <td class="dontPrint">
+                    <a href='@Url.Action("Edit",new { id = item.ID_заказа })'><img src='~/Content/png/edit.png' /></a>
+                    <a href='@Url.Action("Delete",new { id = item.ID_заказа })'><img src='~/Content/png/error.png' /></a>
+                    <a href='@Url.Action("Invoice",new { id = item.ID_заказа })'><img src='~/Content/png/file.png' /></a>
+                    <a href='@Url.Action("Details",new { id = item.ID_заказа })'><img src='~/Content/png/more-1.png' /></a>
+
+
+                </td>
+            </tr>
+                        }
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

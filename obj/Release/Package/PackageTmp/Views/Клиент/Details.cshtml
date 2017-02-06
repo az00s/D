@@ -1,0 +1,82 @@
+﻿@model D.Models.Клиент
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Клиент</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Номер_паспорта)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Номер_паспорта)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.УНП_Клиента)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.УНП_Клиента)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Название_организации)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Название_организации)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Телефон)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Телефон)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Адрес)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Адрес)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Фамилия)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Фамилия)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Имя)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Имя)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Отчество)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Отчество)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_клиента }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

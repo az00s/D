@@ -1,0 +1,184 @@
+﻿@model IEnumerable<D.Models.Заказ>
+
+@{
+    ViewBag.Title = "Заказы";
+}
+
+@Html.Partial("_SideMenuOrder")
+@*<div style="display:@ViewBag.a !important;margin-top:10px">Ничего не найдено.</div>*@
+<div id="table">
+    <div class="test-border" style="display:@ViewBag.b">
+        <table class="table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.ActionLink("Номер заказа", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })</th>
+                    <th>
+                        @Html.ActionLink("Дата заказа", "Index", new { sort = ViewBag.DateSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Клиент", "Index", new { sort = ViewBag.NameSortParm }, new { @class = "Theader" })
+                    </th>
+
+
+                    <th>
+                        @Html.ActionLink("Сумма заказа с НДС", "Index", new { sort = ViewBag.AmountSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Статус заказа", "Index", new { sort = ViewBag.StatusSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Сотрудник", "Index", new { sort = ViewBag.EmpSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th class="dontPrint"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID_заказа)
+                            @Html.HiddenFor(modelItem => item.ID_заказа)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Дата_заказа)
+                        </td>
+                        <td>
+                            @{ if (item.Клиент.Название_организации == null || item.Клиент.Название_организации == "")
+                                { <p>@Html.DisplayFor(modelItem => item.Клиент.Фамилия)&nbsp; @Html.DisplayFor(modelItem => item.Клиент.Имя) &nbsp; @Html.DisplayFor(modelItem => item.Клиент.Отчество)</p>}
+                                else
+                                { @Html.DisplayFor(modelItem => item.Клиент.Название_организации)}
+                            }
+
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Сумма_заказа_с_НДС)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Статус_заказа)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Сотрудник.Фамилия)
+                        </td>
+                        <td class="dontPrint">
+                            <a href='@Url.Action("Edit",new { id = item.ID_заказа })'><img src='~/Content/png/edit.png' /></a>
+                            <a href='@Url.Action("Delete",new { id = item.ID_заказа })'><img src='~/Content/png/error.png' /></a>
+                            <a href='@Url.Action("Invoice",new { id = item.ID_заказа })'><img src='~/Content/png/file.png' /></a>
+                            @*<a href='@Url.Action("Details",new { id = item.ID_заказа })'><img src='~/Content/png/more-1.png' /></a>*@
+
+
+                        </td>
+                    </tr>
+                                }
+            </tbody>
+
+        </table>
+    </div>
+    </div>
+    <div class="scrollup">
+        <!-- Иконка fa-chevron-up (Font Awesome) -->
+        <i class="glyphicon glyphicon-chevron-up"></i>
+    </div>
+
+    <script>
+        $(function () {
+            // при нажатии на кнопку scrollup
+            $('.scrollup').click(function () {
+                // переместиться в верхнюю часть страницы
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 500);
+            })
+        })
+        // при прокрутке окна (window)
+        $(window).scroll(function () {
+            // если пользователь прокрутил страницу более чем на 200px
+            if ($(this).scrollTop() > 200) {
+                // то сделать кнопку scrollup видимой
+                $('.scrollup').fadeIn();
+            }
+                // иначе скрыть кнопку scrollup
+            else {
+                $('.scrollup').fadeOut();
+            }
+        });
+    </script>
+    <script>
+
+        window.onload = function () {
+
+            document.getElementById('toggler').onclick = function () {
+                openbox('box', this);
+
+                return false;
+
+            };
+
+
+
+            function openbox(id, toggler) {
+
+                var div = document.getElementById(id);
+
+                if (div.style.display == 'block') {
+
+                    div.style.display = 'none';
+
+                    toggler.style.background = 'none';
+
+                }
+
+                else {
+
+                    div.style.display = 'block';
+
+                    toggler.style.background = '#BC0000';
+
+                }
+
+            }
+
+
+        };
+    </script>
+
+    @section Scripts {
+
+
+        <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+
+        <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+        <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+    }
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("[data-autocomplete-source]").each(function () {
+                var target = $(this);
+                target.autocomplete({ source: target.attr("data-autocomplete-source") });
+            });
+        });
+    </script>
+
+<script>
+
+$(document).ready(function(){
+
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.ID_заказа']").val();
+                     $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+</script>

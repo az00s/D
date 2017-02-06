@@ -1,0 +1,215 @@
+﻿@model IEnumerable<D.Models.Товар>
+
+@{
+    ViewBag.Title = "Товары";
+
+    //var grid = new WebGrid(source: Model, canPage: false);
+}
+
+@Html.Partial("_SideMenuGoods")
+<div id="table">
+<div style="display:@ViewBag.a !important;margin-top:10px">Ничего не найдено.</div>
+<div class="test-border" style="display:@ViewBag.b" >
+    @*@grid.GetHtml(tableStyle: "table-bordered table-striped",
+           columns: grid.Columns(
+               grid.Column(columnName: "ID_товара", header: "Номер"),
+               grid.Column(columnName: "Вес", header: "Вес"),
+               grid.Column(columnName: "Единица_измерения", header: "Единица измерения"),
+               grid.Column(columnName: "Краткое_описание", header: "описание"),
+                grid.Column(columnName: "Наименование", header: "Наименование"),
+                grid.Column(columnName: "Обозначение", header: "Обозначение"),
+                grid.Column(columnName: "Остаток_на_складе", header: "Остаток"),
+                grid.Column(columnName: "Срок_поставки", header: "Срок"),
+               grid.Column(columnName: "Цена_с_НДС", header: "Цена с НДС"),
+               grid.Column(columnName: "Цена", header: "Цена")
+               ))*@
+    <table class="table-bordered table-striped table-hover" >
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Обозначение", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.ActionLink("Наименование", "Index", new { sort = ViewBag.NameSortParm }, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Краткое_описание)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
+
+                <th>
+                    @Html.ActionLink("Остаток", "Index", new { sort = ViewBag.OstSortParm }, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.ActionLink("Поставка, дней", "Index", new { sort = ViewBag.DaySortParm }, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.ActionLink("Вес, г", "Index", new { sort = ViewBag.WeightSortParm }, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.ActionLink("Цена", "Index", new { sort = ViewBag.PriceSortParm }, new { @class = "Theader" })
+                </th>
+
+                <th>
+                    @Html.ActionLink("Цена с НДС", "Index", new { sort = ViewBag.PriceVatSortParm }, new { @class = "Theader" })
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.Обозначение)
+                        @Html.HiddenFor(modelItem=>item.ID_товара)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Наименование)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Краткое_описание)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Единица_измерения)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Срок_поставки)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Вес)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_товара }  )'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
+                        @*<a href='@Url.Action("Details",new { id = item.ID_товара })'><img src='~/Content/png/more-1.png' /></a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        
+        </table>
+</div>
+    </div>
+<script>
+
+$(document).ready(function(){
+    
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+            @*$.get("@Url.Action("Details")/"+ID, function (data) {
+                     $('.body-content').html(data);
+            });*@
+
+            $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+            
+
+});
+
+    
+
+</script>
+
+
+<div class="scrollup">
+    <!-- Иконка fa-chevron-up (Font Awesome) -->
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+
+<script>
+$(function() {
+  // при нажатии на кнопку scrollup
+  $('.scrollup').click(function() {
+    // переместиться в верхнюю часть страницы
+    $("html, body").animate({
+      scrollTop:0
+    },500);
+  })
+})
+// при прокрутке окна (window)
+$(window).scroll(function() {
+  // если пользователь прокрутил страницу более чем на 200px
+  if ($(this).scrollTop()>200) {
+    // то сделать кнопку scrollup видимой
+    $('.scrollup').fadeIn();
+  }
+  // иначе скрыть кнопку scrollup
+  else {
+    $('.scrollup').fadeOut();
+  }
+});
+
+
+</script>
+
+<script>
+
+    window.onload = function () {
+
+        document.getElementById('toggler').onclick = function () {
+            openbox('box', this);
+
+            return false;
+
+        };
+
+
+
+        function openbox(id, toggler) {
+
+            var div = document.getElementById(id);
+
+            if (div.style.display == 'block') {
+
+                div.style.display = 'none';
+
+                toggler.style.background = 'none';
+
+            }
+
+            else {
+
+                div.style.display = 'block';
+
+                toggler.style.background = '#BC0000';
+
+            }
+
+        }
+
+
+    };
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("[data-autocomplete-source]").each(function () {
+            var target = $(this);
+            target.autocomplete({ source: target.attr("data-autocomplete-source") });
+        });
+    });
+</script>
+
+
+

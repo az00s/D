@@ -1,0 +1,106 @@
+﻿@model IEnumerable< D.Models.Оформление_заказа>
+@using D.Models
+@{
+    ViewBag.Title = "Счет";
+}
+
+
+<div>
+    <h4>Счет №@ViewBag.ID от @ViewBag.Date</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            Поставщик:
+        </dt>
+
+        <dd>
+            «Торговый дом» ОАО «МАЗ» (Могилевский филиал), УНН:100320487,ОКПО:288321402000
+            220075, г. Минск, пер. Промышленный, 7, Р/с 3012200191010 в "Беларусбанк" ОАО ЦБУ 200 г.Минск,
+            код 153001749, тел/факс:(8 0222) 72-86-25, 72-89-63, 72-89-13
+        </dd>
+
+        <dt>
+            Покупатель:
+        </dt>
+
+        <dd>
+            @ViewBag.Client
+        </dd>
+
+        @*<dt>
+            Ответственный:
+        </dt>
+
+        <dd>
+            @ViewBag.Employee
+        </dd>*@
+
+
+
+    </dl>
+    <div class="test-border" >
+        <table class="table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Обозначение)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Наименование)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Единица_измерения)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Количество)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Цена)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Цена_с_НДС)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Оформление_заказа p in Model)
+            {
+                    <tr>
+                        <td>
+                            <strong> @Html.DisplayTextFor(modelItem => p.Товар.Обозначение)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Товар.Наименование)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Товар.Единица_измерения)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Количество)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => p.Товар.Цена)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => p.Товар.Цена_с_НДС)</strong>
+                        </td>
+
+                    </tr>
+                  
+
+                }
+                <tr><td></td><td></td><td></td><td></td><td><strong>Итого:</strong></td><td><strong>@ViewBag.Amount</strong></td></tr>
+
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+<br />
+<p>Счет действителен в течении 10 банковских дней</p>
+            @*@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.ID }, new { @class = "btn btn-default dontPrint", @style="margin-top:20px;margin-left:170px;" })*@ 
+
+    
+<p><strong>Условия поставки:</strong> EXW г.Могилев</p> 
+   <p> <strong>Условия оплаты: </strong>Предоплата 100%</p>
+    <p> <strong>Срок поставки:</strong> Поставка в течение @ViewBag.time рабочих дней со дня поступления денег на р/с Поставщика.</p><br />
+    <p><strong>Поставщик</strong>______________/______________/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Покупатель</strong>______________/______________/</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;М.П.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;М.П.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <br />
+
+    @*@Html.ActionLink("<<", "Index", null, new { @class = "dontPrint" })*@
+
+    <a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+

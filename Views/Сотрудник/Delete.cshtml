@@ -1,0 +1,66 @@
+﻿@model D.Models.Сотрудник
+
+@{
+    ViewBag.Title = "Удаление сотрудника";
+}
+
+
+<h3>Вы действительно хотите удалить этого сотрудника?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Фамилия)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Фамилия)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Имя)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Имя)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Отчество)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Отчество)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Должность)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Должность)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Телефон)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Телефон)
+        </dd>
+        <dt></dt>
+        <dd>@using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn btn-danger delbtn" />
+            </div>
+        }</dd>
+    </dl>
+
+    
+    @*@Html.ActionLink("<<", "Index")*@
+
+
+</div>

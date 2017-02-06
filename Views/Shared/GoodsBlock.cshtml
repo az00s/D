@@ -1,0 +1,21 @@
+﻿@model D.Models.Товар
+
+    
+        <tr>
+            <td>
+                @Html.HiddenFor(p => p.ID_товара) @Model.Обозначение
+                </td>
+            <td>@Model.Наименование</td>
+            <td>@Model.Цена.Value.ToString("0.00")</td>
+            <td>@Model.Цена_с_НДС.Value.ToString("0.00")</td>
+
+
+
+            </tr>
+                
+
+                
+                
+
+
+

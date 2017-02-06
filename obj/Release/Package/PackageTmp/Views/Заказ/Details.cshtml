@@ -1,0 +1,137 @@
+﻿@model IEnumerable< D.Models.Оформление_заказа>
+@using D.Models
+@{
+    ViewBag.Title = "Детали заказа";
+}
+
+
+<div>
+    <h2>Заказ №@ViewBag.ID</h2>
+    <hr />
+
+    <dl class="dl-horizontal">
+       
+
+        <dt>
+            Дата заказа:
+        </dt>
+
+        <dd>
+            @ViewBag.Date
+        </dd>
+
+        <dt>
+           Клиент:
+        </dt>
+
+        <dd>
+            @ViewBag.Client
+        </dd>
+
+        <dt>
+            Ответственный:
+        </dt>
+
+        <dd>
+            @ViewBag.Employee
+        </dd>
+
+        
+
+    </dl>
+    <div class="test-border" >
+        <table class="table-bordered table-striped det1">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Обозначение)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Наименование)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Единица_измерения)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Количество)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Цена)</th>
+                    <th>@Html.DisplayNameFor(modelItem => modelItem.Товар.Цена_с_НДС)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Оформление_заказа p in Model)
+            {
+                    <tr>
+                        <td>
+                            <strong> @Html.DisplayTextFor(modelItem => p.Товар.Обозначение)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Товар.Наименование)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Товар.Единица_измерения)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayTextFor(modelItem => p.Количество)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => p.Товар.Цена)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => p.Товар.Цена_с_НДС)</strong>
+                        </td>
+
+                    </tr>
+                  
+
+                }
+                <tr><td></td><td></td><td></td><td></td><td><strong>Итого:</strong></td><td><strong>@ViewBag.Amount</strong></td></tr>
+
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+
+            @Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.ID }, new { @class = "btn btn-info dontPrint", @style="margin-top:20px;margin-left:170px;" }) 
+    <br />
+
+    @Html.ActionLink("Назад", "Index",null, new { @class = "dontPrint"})
+
+<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+@{ if (ViewBag.list.Count > 0)
+    { 
+<div class="test-border tprovider">
+    <table class="table-bordered table-striped det dontPrint">
+        <thead>
+            <tr><th colspan="5">Связанные поступления</th></tr>
+            <tr>
+                <th>Номер</th>
+                <th>Дата</th>
+
+                <th>Клиент</th>
+                <th>Сумма </th>
+                <th></th>
+            </tr>
+
+
+        </thead>
+        <tbody>
+            @foreach (Оплата_заказа i in ViewBag.list)
+            {
+                <tr>
+                    <td>@Html.DisplayName(i.ID_поступления.ToString())</td>
+                    <td>@i.Денежное_поступление.Дата_поступления.Value.ToShortDateString()</td>
+                    <td>@Html.DisplayName(i.Денежное_поступление.Клиент.Название_организации)</td>
+                    <td>@Html.DisplayName(i.Сумма.Value.ToString("0.00"))</td>
+                    
+                   
+                    <td>
+                        @using (Html.BeginForm("DeleteP", "Заказ", new { id = i.ID_заказа, p = i.ID_поступления }, FormMethod.Post))
+                        {
+                            <input type="image" src="~/Content/png/error.png" />
+                        }
+                    </td>
+  
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    } }
+
+

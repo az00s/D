@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="db-Web.config Connection String" description="db Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="data source=DESKTOP-DVDAFAQ\;initial catalog=D;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Константин\\Documents\\Visual\ Studio\ 2015\\Projects\\D\\D\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='db']/@connectionString" />
+  </parameter>
+</parameters>

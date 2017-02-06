@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Главная";
+    
+}
+
+
+<div class="homediv">
+    <center>
+        <h3>
+            Автоматизированная система обработки информации по учету автозапчастей Могилевского филиала «Торговый дом» ОАО «МАЗ»
+            г.Могилёв
+        </h3>
+    </center>
+</div>
+<div class="homediv1">
+    <p>Система содержит информацию о <strong>@ViewBag.t</strong>  товаре(ах), <strong>@ViewBag.c</strong> клиенте(ах), <strong>@ViewBag.p</strong> организации(ях)-поставщике(ах), <strong>@ViewBag.e</strong> сотруднике(ах) и о <strong>@ViewBag.o</strong> заказе(ах).</p>
+    <p>На @DateTime.Now.ToLongDateString() на складе храниться товаров на общую сумму <strong>@{decimal m = ViewBag.amount; }@m.ToString("0.000")</strong> BYN, общим весом<strong> @ViewBag.w</strong> кг.</p>
+    <p>Заказы (включая НДС):</p>
+    <ul>
+        <li>За предыдущий год: <strong>@{int counY = ViewBag.o1Y == null ? 0 : ViewBag.o1Y; }@counY</strong> заказа(ов) на сумму <strong>@{decimal m1Y = ViewBag.o1mY == null ? 0 : ViewBag.o1mY; }@m1Y.ToString("0.000")</strong> BYN.</li>
+        <li>За текущий год: <strong>@{int counYN = ViewBag.o1YN == null ? 0 : ViewBag.o1YN; }@counYN</strong> заказа(ов) на сумму <strong>@{decimal m1YN = ViewBag.o1mYN == null ? 0 : ViewBag.o1mYN; }@m1YN.ToString("0.000")</strong> BYN.</li>
+
+        <li>За предыдущий месяц: <strong>@{int coun = ViewBag.o1 == null ? 0 : ViewBag.o1; }@coun</strong> заказа(ов) на сумму <strong>@{decimal m1 = ViewBag.o1m == null ? 0 : ViewBag.o1m; }@m1.ToString("0.000")</strong> BYN.</li>
+        <li>За текущий месяц: <strong>@{int count = ViewBag.o2 == null ? 0 : ViewBag.o2; }@count</strong> заказа(ов) на сумму <strong>@{decimal m2 = ViewBag.o2m == null ? 0 : ViewBag.o2m; }@m2.ToString("0.000")</strong> BYN.</li>
+    </ul>
+    <p>Денежные поступления:</p>
+    <ul>
+        <li>За предыдущий год: <strong>@{int coun1Y = ViewBag.o11Y == null ? 0 : ViewBag.o11Y; }@coun1Y</strong> поступление(й) на сумму <strong>@{decimal m11Y = ViewBag.o1m1Y == null ? 0 : ViewBag.o1m1Y; }@m11Y.ToString("0.000")</strong> BYN.</li>
+        <li>За текущий год: <strong>@{int count1Y = ViewBag.o21Y == null ? 0 : ViewBag.o21Y; }@count1Y</strong> поступление(й) на сумму <strong>@{decimal m21Y = ViewBag.o2m1Y == null ? 0 : ViewBag.o2m1Y; }@m21Y.ToString("0.000")</strong> BYN.</li>
+
+        <li>За предыдущий месяц: <strong>@{int coun1 = ViewBag.o11 == null ? 0 : ViewBag.o11; }@coun1</strong> поступление(й) на сумму <strong>@{decimal m11 = ViewBag.o1m1 == null ? 0 : ViewBag.o1m1; }@m11.ToString("0.000")</strong> BYN.</li>
+        <li>За текущий месяц: <strong>@{int count1 = ViewBag.o21 == null ? 0 : ViewBag.o21; }@count1</strong> поступление(й) на сумму <strong>@{decimal m21 = ViewBag.o2m1 == null ? 0 : ViewBag.o2m1; }@m21.ToString("0.000")</strong> BYN.</li>
+    </ul>
+    
+   
+
+   
+</div>
+
+@*@section Scripts {
+        @Styles.Render("~/bundles/popupCreateOrders")
+    }*@

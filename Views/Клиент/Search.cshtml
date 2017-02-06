@@ -1,0 +1,77 @@
+﻿@model IEnumerable<D.Models.Клиент>
+<div class="test-border" style="display:@ViewBag.b">
+    <table class="table-bordered table-striped">
+
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.УНП_Клиента)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Название_организации)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Телефон)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Адрес)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Фамилия)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Имя)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Отчество)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Номер_паспорта)
+            </th>
+            <th class="dontPrint"></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.УНП_Клиента)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Название_организации)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Телефон)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Адрес)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Фамилия)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Имя)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Отчество)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Номер_паспорта)
+                </td>
+                <td class="dontPrint">
+                    <a href='@Url.Action("Edit",new { id = item.ID_клиента })'><img src='~/Content/png/edit.png' /></a>
+                    <a href='@Url.Action("Delete",new { id = item.ID_клиента })'><img src='~/Content/png/error.png' /></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+
+
+
+
+

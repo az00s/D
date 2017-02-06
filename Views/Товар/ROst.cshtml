@@ -1,0 +1,123 @@
+﻿@model IEnumerable<D.Models.Товар>
+
+@{
+    ViewBag.Title = "Ведомость остатков";
+}
+<div class="dontPrint">@Html.Partial("_SideMenuGoods")</div>
+
+<div style="display:@ViewBag.a !important;margin-top:10px" class="dontPrint">Ничего не найдено.</div>
+<div class="test-border" style="display:@ViewBag.b">
+    <table class="table-bordered table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Обозначение)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Наименование)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Единица_измерения)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Остаток_на_складе)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-left">
+                    @Html.DisplayFor(modelItem => item.Обозначение)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Наименование)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Единица_измерения)
+                </td>
+
+                <td style="font-weight:bold">
+                    @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+   
+    
+</div>
+
+<div class="scrollup">
+    <!-- Иконка fa-chevron-up (Font Awesome) -->
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+
+<script>
+$(function() {
+  // при нажатии на кнопку scrollup
+  $('.scrollup').click(function() {
+    // переместиться в верхнюю часть страницы
+    $("html, body").animate({
+      scrollTop:0
+    },500);
+  })
+})
+// при прокрутке окна (window)
+$(window).scroll(function() {
+  // если пользователь прокрутил страницу более чем на 200px
+  if ($(this).scrollTop()>200) {
+    // то сделать кнопку scrollup видимой
+    $('.scrollup').fadeIn();
+  }
+  // иначе скрыть кнопку scrollup
+  else {
+    $('.scrollup').fadeOut();
+  }
+});
+</script>
+<script>
+
+    window.onload = function () {
+
+        document.getElementById('toggler').onclick = function () {
+            openbox('box', this);
+
+            return false;
+
+        };
+
+
+
+        function openbox(id, toggler) {
+
+            var div = document.getElementById(id);
+
+            if (div.style.display == 'block') {
+
+                div.style.display = 'none';
+
+                toggler.style.background = 'none';
+
+            }
+
+            else {
+
+                div.style.display = 'block';
+
+                toggler.style.background = '#E81C2C';
+
+            }
+
+        }
+
+
+    };
+</script>
+
+
+
+
+
+

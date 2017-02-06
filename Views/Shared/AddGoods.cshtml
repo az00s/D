@@ -1,0 +1,57 @@
+﻿@model IEnumerable<D.Models.Товар>
+
+
+    <table class="table-bordered table-striped" id="AddGoods">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Обозначение)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Наименование)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Цена)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Цена_с_НДС)
+                </th>
+                <th>
+                    @Html.DisplayName("Количество")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (D.Models.Товар item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Обозначение)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Наименование)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                    </td>
+                    <td>
+                        @Html.Hidden("ID_товара")
+                        @Html.TextBox("Количество", 0)
+                    </td>
+                    <td>
+
+                        @Html.ActionLink("Удалить", "DelFromList", "Заказ", new { id = item.ID_товара }, null)
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+

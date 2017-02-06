@@ -1,0 +1,136 @@
+﻿@model IEnumerable< D.Models.Поставщик_цена>
+    @using D.Models
+
+@{
+    ViewBag.Title = "Карточка товара";
+
+    Поставщик_цена p = @Model.First();
+}
+
+<h3>Карточка товара</h3>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Обозначение:        </dt>
+
+        <dd>
+           @p.Товар.Обозначение
+        </dd>
+        <dt>
+            Наименование:
+        </dt>
+
+        <dd>
+            @Html.DisplayName(p.Товар.Наименование)
+        </dd>
+        <dt>Краткое описание:</dt>
+        <dd>@p.Товар.Краткое_описание</dd>
+        
+
+        
+
+        
+
+        <dt>
+            Единица измерения:
+        </dt>
+
+        <dd>
+            @Html.DisplayName(p.Товар.Единица_измерения)
+        </dd>
+
+        <dt>
+           Остаток:
+        </dt>
+
+        <dd>
+            @Html.DisplayName(p.Товар.Остаток_на_складе.ToString())
+        </dd>
+
+        <dt>
+            Срок поставки:
+        </dt>
+
+        <dd>
+            @p.Товар.Срок_поставки
+        </dd>
+
+        <dt>
+            Вес:
+        </dt>
+
+        <dd>
+            @p.Товар.Вес
+        </dd>
+
+        <dt>
+            Цена:
+        </dt>
+
+        <dd>@{string price = p.Товар.Цена.Value.ToString("0.00") ?? "";}
+            @price
+        </dd>
+
+        <dt>
+            Цена с НДС:
+        </dt>
+
+        <dd>
+           @{ string t=p.Товар.Цена_с_НДС!= null ? @p.Товар.Цена_с_НДС.Value.ToString("0.00") : "";}
+            @t
+        </dd>
+
+    </dl>
+    
+   
+</div>
+
+    <p>@Html.ActionLink("Редактировать", "Edit", new { id = p.ID_товара }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" }) @Html.ActionLink("Добавить поставщика", "AddP", new { id = p.ID_товара }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:20px;" }) </p>
+    <br />
+    @Html.ActionLink("Назад", "Index", null, new { @class = "dontPrint" })
+
+<div class="test-border tprovider">
+    <table class="table-bordered table-striped">
+        <thead>
+            <tr><th colspan="4">Связанные поставщики</th></tr>
+            <tr>
+                <th>УНП</th>
+                <th>Поставщик</th>
+                <th>Цена без НДС</th>
+@{ if (Model.Count() > 1)
+    {<th></th>}
+    }
+            </tr>
+            
+
+        </thead>
+        <tbody>
+            @foreach (Поставщик_цена i in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayName(i.Поставщик.УНП_поставщика.ToString())</td>
+                    <td>@Html.DisplayName(i.Поставщик.Название_организации)</td>
+                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                    <td>@Html.DisplayName(str)</td>
+
+                    @{ if (Model.Count() > 1)
+                        {
+                            <td>
+                                @using (Html.BeginForm("DeleteP", "Товар", new { id = p.ID_товара, p = i.УНП_поставщика }, FormMethod.Post))
+                                {
+                                <input type="image" src="~/Content/png/error.png" />
+                                }
+                            </td>
+                        }
+                    }
+                            
+                </tr>
+                        }
+        </tbody>
+    </table>
+</div>
+
+<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>

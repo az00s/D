@@ -1,0 +1,174 @@
+﻿@model IEnumerable<D.Models.Заказ>
+    @using D.Models
+
+
+@{
+    ViewBag.Title = "Отнесение поступления на заказа";
+}
+
+
+@using (Html.BeginForm("AddM", "Денежное_поступление"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Связать оплату с заказом</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.Label("Номер поступления", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Hidden("d", "",new { @value= ViewBag.d.ID_поступления })
+                @Html.TextBox("ID_поступления", "", new { @class = "form-control",@readonly="readonly",@Value = ViewBag.d.ID_поступления } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Дата", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Дата_поступления", "",new { @class = "form-control", @readonly = "readonly",@Value= ViewBag.d.Дата_поступления.ToString("dd.MM.yyyy") } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Сумма", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Сумма1", "", new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.d.Сумма.ToString("0.00") })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Клиент", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Hidden("ID_клиента", "", new { @Value = ViewBag.d.Клиент.ID_клиента })
+                @Html.TextBox("Клиент", "", new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.d.Клиент.Название_организации })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Краткое_описание, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Краткое_описание, 2, 46, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Краткое_описание, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Единица_измерения, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Единица_измерения, new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Единица_измерения, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Остаток_на_складе, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Остаток_на_складе, new { htmlAttributes = new { @class = "form-control", @Value = "0" } })
+                @Html.ValidationMessageFor(model => model.Остаток_на_складе, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Срок_поставки, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Срок_поставки, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Срок_поставки, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Вес, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Вес, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Вес, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Цена, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Цена, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Цена, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Заказ</label>
+            <div class="col-md-10">
+                <div class="indoorBtnDiv">
+                    <input id="indoorText" @*class="form-control text-box single-line"*@ data-val="true" data-val-number="The field УНП_поставщика must be a number." data-val-required="Требуется поле УНП_поставщика." name="ID_заказа" type="text" value="" readonly />
+                    <input type="button" class="indoorBtn" id="button" value="+">
+                </div>
+                <span class="field-validation-valid text-danger" data-valmsg-for="УНП_поставщика" data-valmsg-replace="true"></span><br />
+                @*@Html.ActionLink("Добавить поставщика", "Create", "Поставщик")*@
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Сумма в счет оплаты заказа", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("Сумма", "", new { htmlAttributes = new { @class = "form-control", @Value = "0"} }  )@*<input type="text" name='Сумма' class = "form-control" min="0.01" value="0" />*@
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Записать" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div id="popupContact" class="popupContact">
+            <a id="popupContactClose" class="popupContactClose">x</a>
+
+            @*@Html.Action("AllProviders")*@
+    <table class="table-bordered table-striped" id="tbGoods">
+        @foreach (Заказ item in Model)
+        {
+
+
+            <tr>
+                <td>
+                    <strong>@Html.HiddenFor(modelItem => item.ID_заказа) @item.Дата_заказа.Value.ToString("dd.MM.yyyy")</strong>
+                </td>
+                <td>
+                    <strong>@Html.DisplayTextFor(modelItem => item.ID_заказа)</strong>
+                </td>
+                <td><strong>@Html.DisplayTextFor(modelItem => item.Клиент.Название_организации)</strong></td>
+                <td><strong>@item.Сумма_заказа_с_НДС.Value.ToString("0.000")</strong></td>
+
+            </tr>
+
+
+
+
+
+        }
+    </table>
+
+        </div>
+        <div id="backgroundPopup" class="backgroundPopup"></div>
+        <input type="button" class="sideButton" value="+" />
+
+<div>
+    @Html.ActionLink("<<", "Index")
+
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/popupCreateMoney")
+}
+
+
+
+

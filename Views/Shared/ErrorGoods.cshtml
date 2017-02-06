@@ -1,0 +1,14 @@
+﻿@model HandleErrorInfo
+@{
+    ViewBag.Title = "Ошибка";
+}
+
+<div style="margin-top:20px">
+    <h3>Ошибка!</h3>
+    <span>
+        Похоже, вы пытаетесь удалить товар, который содержится в заказах. Чтобы это сделать - сначала нужно удалить заказы с этим товаром.
+    </span>
+</div>
+<div>
+    @Html.ActionLink("<<", "Index")
+</div>

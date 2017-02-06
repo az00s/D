@@ -1,0 +1,66 @@
+﻿@model IEnumerable<D.Models.Сотрудник>
+<div class="test-border" style="display:@ViewBag.b">
+    <table class="table-bordered table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Табельный_номер)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Фамилия)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Имя)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Отчество)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Должность)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Телефон)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Дата_рождения)
+            </th>
+            <th class="dontPrint"></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Табельный_номер)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Фамилия)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Имя)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Отчество)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Должность)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Телефон)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Дата_рождения)
+                </td>
+                <td class="dontPrint">
+                    <a href='@Url.Action("Edit",new { id = item.Табельный_номер })'><img src='~/Content/png/edit.png' /></a>
+                    <a href='@Url.Action("Delete",new { id = item.Табельный_номер })'><img src='~/Content/png/error.png' /></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+
+
+

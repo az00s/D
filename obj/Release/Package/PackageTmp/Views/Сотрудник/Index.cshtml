@@ -1,0 +1,204 @@
+﻿@model IEnumerable<D.Models.Сотрудник>
+
+@{
+    ViewBag.Title = "Сотрудники";
+}
+
+@Html.Partial("_SideMenuEmployee")
+@*<div style="display:@ViewBag.a !important;margin-top:10px">Ничего не найдено.</div>*@
+<div id="table">
+    <div class="test-border" style="display:@ViewBag.b">
+        <table class="table-bordered table-striped ">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Табельный номер", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Фамилия", "Index", new { sort = ViewBag.LastSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Имя", "Index", new { sort = ViewBag.FirstSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Отчество", "Index", new { sort = ViewBag.PatSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Должность", "Index", new { sort = ViewBag.PosSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Телефон)
+                    </th>
+                    <th>
+                        @Html.ActionLink("Дата рождения", "Index", new { sort = ViewBag.BirthSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th class="dontPrint"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Табельный_номер)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Фамилия)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Имя)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Отчество)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Должность)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Телефон)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Дата_рождения)
+                        </td>
+                        <td class="dontPrint">
+                            <a href='@Url.Action("Edit",new { id = item.Табельный_номер })'><img src='~/Content/png/edit.png' /></a>
+                            <a href='@Url.Action("Delete",new { id = item.Табельный_номер })'><img src='~/Content/png/error.png' /></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    </div>
+    <div class="dontPrint" id="chart">
+        @*<img id="chart" src="@Url.Action("CreateChart")" />*@
+    </div>
+
+    @*<div id="chart_div"></div>*@
+
+        <script type="text/javascript" src="~/Scripts/jsapi.js">
+             </script>
+
+        <script type="text/javascript">
+                 // Подгружаем API
+                 google.load('visualization', '1.0', { 'packages': ['corechart'] });
+
+                 // Устанавливаем callback
+                 google.setOnLoadCallback(drawChart);
+
+                 function drawChart() {
+
+                   var options = {
+                       'title': 'График результативности продавцов',
+                       'width': 500,
+                       'height': 400,
+                       is3D: true,
+                       //pieSliceText: 'label',
+                       backgroundColor: "#DADDE2",
+                       chartArea: { left: 70, top: 40, width: '100%', height: '100%' },
+                       pieSliceText: "percentage",
+                       tooltip: { showColorCode: true,text:"value" },
+                    };
+
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Employees');
+                   data.addColumn('number', 'Orders');
+
+                   $.getJSON('@Url.Action("GetDataForChart", "Сотрудник")', null,
+                                                                function (result) {
+                                                                    if (result.Employees.length) {
+                                                                        $.each(result.Employees, function (index, c) {
+                                data.addRow(
+                                    [c.Name, c.Value]
+                                );
+                            });
+                            // Отрисовка диаграммы
+                            var chart = new google.visualization.PieChart(
+                                                document.getElementById('chart'));
+                            chart.draw(data, options);
+                        };
+                    });
+                }
+            </script>
+
+    <div class="scrollup">
+        <!-- Иконка fa-chevron-up (Font Awesome) -->
+        <i class="glyphicon glyphicon-chevron-up"></i>
+    </div>
+
+    <script>
+        $(function () {
+            // при нажатии на кнопку scrollup
+            $('.scrollup').click(function () {
+                // переместиться в верхнюю часть страницы
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 500);
+            })
+        })
+        // при прокрутке окна (window)
+        $(window).scroll(function () {
+            // если пользователь прокрутил страницу более чем на 200px
+            if ($(this).scrollTop() > 200) {
+                // то сделать кнопку scrollup видимой
+                $('.scrollup').fadeIn();
+            }
+                // иначе скрыть кнопку scrollup
+            else {
+                $('.scrollup').fadeOut();
+            }
+        });
+    </script>
+    <script>
+
+        window.onload = function () {
+
+            document.getElementById('toggler').onclick = function () {
+                openbox('box', this);
+
+                return false;
+
+            };
+
+
+
+            function openbox(id, toggler) {
+
+                var div = document.getElementById(id);
+
+                if (div.style.display == 'block') {
+
+                    div.style.display = 'none';
+
+                    toggler.style.background = 'none';
+
+                }
+
+                else {
+
+                    div.style.display = 'block';
+
+                    toggler.style.background = '#BC0000';
+
+                }
+
+            }
+
+
+        };
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("[data-autocomplete-source]").each(function () {
+                var target = $(this);
+                target.autocomplete({ source: target.attr("data-autocomplete-source") });
+            });
+        });
+    </script>
+
+
+
+
+

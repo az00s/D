@@ -1,0 +1,91 @@
+﻿@model IEnumerable <D.Models.Оплата_заказа>
+    @using D.Models
+
+@{
+    ViewBag.Title = "Информация о поступлении";
+}
+
+<h2>Информация о поступлении</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Клиент:
+        </dt>
+
+        <dd>
+            @ViewBag.p.Клиент.Название_организации
+        </dd>
+
+        <dt>
+            Сумма
+        </dt>
+
+        <dd>
+            @ViewBag.p.Сумма.ToString("0.00")
+        </dd>
+
+        <dt>
+            Дата поступления:
+        </dt>
+
+        <dd>
+            @{string str = ViewBag.p.Дата_поступления != null ? ViewBag.p.Дата_поступления.ToString("dd.MM.yyyy") : "";
+            }
+            @str
+        </dd>
+
+    </dl>
+</div>
+
+<p>@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.p.ID_поступления }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" }) </p>
+<p>@Html.ActionLink("Связать поступление с заказом", "AddM", new { id=@ViewBag.p.ID_поступления }, new { @class = "btn btn-info dontPrint", @style = "margin-top:0px;margin-left:170px;" }) </p>
+<br />   
+ @Html.ActionLink("Назад", "Index",null, new { @class = "dontPrint" })
+@{ if (Model.Count() > 0)
+    { 
+    <div class="test-border tprovider">
+        <table class="table-bordered table-striped">
+            <thead>
+                <tr><th colspan="4">Связанные заказы</th></tr>
+                <tr>
+                    <th>Номер заказа</th>
+                    @*<th>Дата заказа</th>*@
+                    
+                    <th>Клиент</th>
+                    <th>Сумма заказа</th>
+                    <th>Отнесено на заказ</th>
+                    @*@{ if (Model.Count() > 1)
+                        {
+                <th></th>}
+                    }*@
+                </tr>
+
+
+            </thead>
+            <tbody>
+                @foreach (Оплата_заказа i in Model)
+            {
+                    <tr>
+                        <td>@Html.DisplayName(i.ID_заказа.ToString())</td>
+                        @*<td>@Html.Display(i.Заказ.Дата_заказа.Value.ToString())</td>*@
+                        <td>@Html.DisplayName(i.Заказ.Клиент.Название_организации)</td>
+                        <td>@Html.DisplayName(i.Заказ.Сумма_заказа_с_НДС.Value.ToString("0.00"))</td>
+                        <td>@i.Сумма.Value.ToString("0.00")</td>
+                        @*@{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                        <td>@Html.DisplayName(str)</td>*@
+                        @*@{ if (Model.Count() > 1)
+                            {
+                    <td><a href='@Url.Action("DeleteP", new { id = p.ID_товара, p = i.УНП_поставщика })'><img src='\Content\png\error.png' /></a></td>}
+                        }*@
+                    </tr>
+                            }
+            </tbody>
+        </table>
+    </div>
+
+    } }
+
+<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+

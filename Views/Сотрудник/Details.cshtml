@@ -1,0 +1,58 @@
+﻿@model D.Models.Сотрудник
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Сотрудник</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Фамилия)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Фамилия)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Имя)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Имя)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Отчество)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Отчество)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Должность)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Должность)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Телефон)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Телефон)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Табельный_номер }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
