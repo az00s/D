@@ -4,7 +4,7 @@ The application for the auto parts store, which built using  C#,asp.net mvc, Jav
 
 Entry form:
 
-![CC0](https://github.com/az00s/myProject/blob/master/Screenshots/Entry.png)
+![CC0](https://github.com/az00s/D/blob/master/Screenshots/Entry.png)
 
 Main page:
 ![CC0](https://github.com/az00s/myProject/blob/master/Screenshots/MainPage.png?raw=true)
