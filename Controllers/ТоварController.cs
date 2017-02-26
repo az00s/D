@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Web.Helpers;
 using System.Threading.Tasks;
 using D.Infrastructure;
+using System.Collections;
 
 namespace D.Controllers
 {
@@ -78,10 +79,7 @@ namespace D.Controllers
         //autocomplete function for search field----------------------------------------
         public ActionResult AutocompleteSearch(string term)
         {
-                         var result = from N in db.Товар.AsParallel()
-                          where N.Наименование.Contains(term)
-                            select new { value = N.Наименование };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(db.Товар.AsEnumerable().Where(s => s.Наименование.Contains(term)).Select(s => s.Наименование), JsonRequestBehavior.AllowGet);
         }
         //------------------------------------------------------------------------------
 
@@ -94,16 +92,13 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var товар = db.Товар.Find(id);
-            if (товар == null)
+            
+            if (db.Товар.Find(id) == null)
             {
                 return HttpNotFound();
             }
-                var query = from g in db.Поставщик_цена
-                where g.ID_товара == id
-                select g;
-            
-            return View(query.ToList());
+                            
+            return View(db.Поставщик_цена.AsEnumerable().Where(s=>s.ID_товара==id));
         }
 
         
@@ -116,27 +111,37 @@ namespace D.Controllers
         [ActionName("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed(/*[Bind(Include = "Обозначение,Наименование,Краткое_описание,Цена,Остаток_на_складе,Единица_измерения,Срок_поставки,Вес,Цена_с_НДС")] Товар товар*/)
+        public ActionResult CreateConfirmed()
         {
-            if (ModelState.IsValid)
+            try
             {
-                товар.Обозначение = Request.Form["Обозначение"];
-                товар.Наименование = Request.Form["Наименование"];
-                товар.Краткое_описание = Request.Form["Краткое_описание"];
-                товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
-                товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
-                товар.Единица_измерения = Request.Form["Единица_измерения"];
-                товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
-                товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
+                if (ModelState.IsValid)
+                {
 
-                товар.AddtoTable(db,товар);
-                //Поставщик_цена p = new Поставщик_цена();
-                p.ID_товара = товар.ID_товара;
-                p.УНП_поставщика= Convert.ToInt32(Request.Form["УНП_поставщика"]);
-                p.AddtoTable(db,p);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    товар.Обозначение = Request.Form["Обозначение"];
+                    товар.Наименование = Request.Form["Наименование"];
+                    товар.Краткое_описание = Request.Form["Краткое_описание"];
+                    товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
+                    товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
+                    товар.Единица_измерения = Request.Form["Единица_измерения"];
+                    товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
+                    товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
+
+                    товар.AddtoTable(db, товар);
+
+                    p.ID_товара = товар.ID_товара;
+                    p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
+                    p.AddtoTable(db, p);
+                    db.SaveChanges();
+
+
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception)
+
+            { return View("Error"); }
+            //finally { db.Dispose(); }
 
             return View(товар);
         }
@@ -148,7 +153,7 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var товар = db.Товар.Find(id);
+            товар = db.Товар.Find(id);
             if (товар == null)
             {
                 return HttpNotFound();
@@ -162,26 +167,30 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit()
         {
-  
-            if (ModelState.IsValid)
+            try
             {
-                товар=db.Товар.Find(Convert.ToInt32(Request.Form["ID_товара"]));
-                товар.Обозначение = Request.Form["Обозначение"];
-                товар.Наименование = Request.Form["Наименование"];
-                товар.Краткое_описание = Request.Form["Краткое_описание"];
-                товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
-                товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
-                товар.Единица_измерения = Request.Form["Единица_измерения"];
-                товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
-                товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
+                if (ModelState.IsValid)
+                {
+                    товар = db.Товар.Find(Convert.ToInt32(Request.Form["ID_товара"]));
+                    товар.Обозначение = Request.Form["Обозначение"];
+                    товар.Наименование = Request.Form["Наименование"];
+                    товар.Краткое_описание = Request.Form["Краткое_описание"];
+                    товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
+                    товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
+                    товар.Единица_измерения = Request.Form["Единица_измерения"];
+                    товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
+                    товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
 
 
-                db.Entry(товар).State = EntityState.Modified;
-                
+                    db.Entry(товар).State = EntityState.Modified;
 
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception)
+            { return View("Error"); }
             return View(товар);
         }
 
@@ -192,8 +201,8 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var товар = db.Товар.Find(id);
-            if (товар == null)
+            
+            if (db.Товар.Find(id) == null)
             {
                 return HttpNotFound();
             }
@@ -207,10 +216,14 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var товар = db.Товар.Find(id);
-            db.Товар.Remove(товар);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.Товар.Remove(db.Товар.Find(id));
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            { return View("Error"); }
         }
 
         protected override void Dispose(bool disposing)
@@ -227,16 +240,14 @@ namespace D.Controllers
         [ChildActionOnly]
         public ActionResult AllProviders()
         {
-           return PartialView("AllProviders", db.Поставщик.ToList());
+           return PartialView("AllProviders", db.Поставщик);
         }
 
         //report about goods,which quantity equals 0       
         public ActionResult ROst_0()
         {
-            
-            var queryGoods = from good in db.Товар
-                             where good.Остаток_на_складе==0
-                                select good;
+
+            var queryGoods = db.Товар.AsEnumerable().Where(s => s.Остаток_на_складе == 0);
 
             if (queryGoods.Count() == 0)
             {
@@ -249,18 +260,18 @@ namespace D.Controllers
                 ViewBag.b = "normal";
             }
             
-            return View("Index", queryGoods.ToList());
+            return View("Index", queryGoods);
         }
 
         //a report about quantities of goods
             public ActionResult ROst()
         {           
             ViewBag.a = "none";      
-            return View("ROst", db.Товар.ToList());
+            return View("ROst", db.Товар);
         }
 
         //export to excel
-        public ActionResult ExpExcl()
+        public void ExpExcl()
         {
             var grid = new GridView();
             grid.DataSource = db.Товар.ToList(); 
@@ -269,69 +280,70 @@ namespace D.Controllers
             Response.AddHeader("content-disposition", "attachement; filename=Товары.xls");
             Response.ContentType = "application/excel";
             StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return View();
+            
+
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                grid.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                sw.Close();
+                htw.Close();
+                grid.Dispose();
+            
+            
         }
 
         //a report about prices
         public ActionResult Price()
         {
             ViewBag.a = "none";
-            return View(db.Товар.ToList());
+            return View(db.Товар);
         }
 
         [HttpPost]
         //deleting provider for goods
         public ActionResult DeleteP(int id,int p)
         {
-            var query = from q in db.Поставщик_цена
-                               where q.ID_товара == id && q.УНП_поставщика == p
-                               select q;
-            db.Поставщик_цена.Remove(query.First());
-            db.SaveChanges();
+            try
+            {
+                db.Поставщик_цена.Remove(db.Поставщик_цена.Single(q => q.ID_товара == id && q.УНП_поставщика == p));
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+         
 
-
-            var query1 = from g in db.Поставщик_цена
-                        where g.ID_товара == id
-                        select g;
-
-
-            return View("Details",query1.ToList());
+            return View("Details", db.Поставщик_цена.AsEnumerable().Where(g => g.ID_товара == id));
         }
 
         //adding provider for goods-------------------------------------------------
        
         public ActionResult AddP(int id)
         {
-            var queryGoods = from good in db.Товар
-                             where good.ID_товара == id
-                             select good;
-
-            ViewBag.number = (queryGoods.First()).Обозначение;
-            ViewBag.name= (queryGoods.First()).Наименование;
-            ViewBag.id = id;
-            var query = from s in db.Поставщик_цена
-                        where s.ID_товара == id
-                        select s.Поставщик;
-
-            
-            var p= db.Поставщик.Except(query);
+            ViewBag.Item= db.Товар.Find(id);
+            var p= db.Поставщик.Except(
+                
+                db.Поставщик_цена.Where(s=>s.ID_товара==id).Select(s=>s.Поставщик)
+                                    );
 
             return View("AddP",p );
         }
         [HttpPost]
-        public ActionResult AddP(int id,int u,decimal? price)
+        public ActionResult AddP(int id,int u,decimal? price=0)
         {
-            //Поставщик_цена o = new Поставщик_цена();
-            p.ID_товара = id;
-            p.УНП_поставщика = u;
-            p.Оптовая_цена = price;
-            p.AddtoTable(db,p);
-            db.SaveChanges();
+            try
+            {
+                p.ID_товара = id;
+                p.УНП_поставщика = u;
+                p.Оптовая_цена = price;
+                p.AddtoTable(db, p);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            { return View("Error"); }
 
             return RedirectToAction("Details",new { id = id });
         }
@@ -340,13 +352,11 @@ namespace D.Controllers
         
         public ActionResult Search(string search)
         {
-            var queryGoods = from good in db.Товар
-            where good.Наименование.Contains(search) || good.Обозначение.Contains(search)
-            select good;
+            var queryGoods = db.Товар.Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
 
             if (queryGoods.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(queryGoods);
             }
 
             else return PartialView("NoResult");

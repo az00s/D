@@ -7,127 +7,116 @@
 }
 
 @Html.Partial("_SideMenuGoods")
-<div id="table">
+
 <div style="display:@ViewBag.a !important;margin-top:10px">Ничего не найдено.</div>
-<div class="test-border" style="display:@ViewBag.b" >
-    @*@grid.GetHtml(tableStyle: "table-bordered table-striped",
-           columns: grid.Columns(
-               grid.Column(columnName: "ID_товара", header: "Номер"),
-               grid.Column(columnName: "Вес", header: "Вес"),
-               grid.Column(columnName: "Единица_измерения", header: "Единица измерения"),
-               grid.Column(columnName: "Краткое_описание", header: "описание"),
-                grid.Column(columnName: "Наименование", header: "Наименование"),
-                grid.Column(columnName: "Обозначение", header: "Обозначение"),
-                grid.Column(columnName: "Остаток_на_складе", header: "Остаток"),
-                grid.Column(columnName: "Срок_поставки", header: "Срок"),
-               grid.Column(columnName: "Цена_с_НДС", header: "Цена с НДС"),
-               grid.Column(columnName: "Цена", header: "Цена")
-               ))*@
-    <table class="table-bordered table-striped table-hover" >
-        <thead>
-            <tr>
-                <th>
-                    @Html.ActionLink("Обозначение", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })
-                </th>
-                <th>
-                    @Html.ActionLink("Наименование", "Index", new { sort = ViewBag.NameSortParm }, new { @class = "Theader" })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Краткое_описание)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Единица_измерения)
-                </th>
+<div id="table">
+    <div class="test-border" style="display:@ViewBag.b">
 
-                <th>
-                    @Html.ActionLink("Остаток", "Index", new { sort = ViewBag.OstSortParm }, new { @class = "Theader" })
-                </th>
-                <th>
-                    @Html.ActionLink("Поставка, дней", "Index", new { sort = ViewBag.DaySortParm }, new { @class = "Theader" })
-                </th>
-                <th>
-                    @Html.ActionLink("Вес, г", "Index", new { sort = ViewBag.WeightSortParm }, new { @class = "Theader" })
-                </th>
-                <th>
-                    @Html.ActionLink("Цена", "Index", new { sort = ViewBag.PriceSortParm }, new { @class = "Theader" })
-                </th>
 
-                <th>
-                    @Html.ActionLink("Цена с НДС", "Index", new { sort = ViewBag.PriceVatSortParm }, new { @class = "Theader" })
-                </th>
-                <th class="dontPrint"></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model)
-            {
+        <table class="table-bordered table-striped table-hover">
+            <thead>
                 <tr>
-                    <td class="text-left">
-                        @Html.DisplayFor(modelItem => item.Обозначение)
-                        @Html.HiddenFor(modelItem=>item.ID_товара)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Наименование)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Краткое_описание)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Единица_измерения)
-                    </td>
+                    <th>
+                        @Html.ActionLink("Обозначение", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Наименование", "Index", new { sort = ViewBag.NameSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Краткое_описание)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Единица_измерения)
+                    </th>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Остаток_на_складе)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Срок_поставки)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Вес)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Цена)
-                    </td>
+                    <th>
+                        @Html.ActionLink("Остаток", "Index", new { sort = ViewBag.OstSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Поставка, дней", "Index", new { sort = ViewBag.DaySortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Вес, г", "Index", new { sort = ViewBag.WeightSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Цена", "Index", new { sort = ViewBag.PriceSortParm }, new { @class = "Theader" })
+                    </th>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
-                    </td>
-                    <td class="dontPrint">
-                        <a href='@Url.Action("Edit",new { id = item.ID_товара }  )'><img src='~/Content/png/edit.png' /></a>
-                        <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
-                        @*<a href='@Url.Action("Details",new { id = item.ID_товара })'><img src='~/Content/png/more-1.png' /></a>*@
-                    </td>
+                    <th>
+                        @Html.ActionLink("Цена с НДС", "Index", new { sort = ViewBag.PriceVatSortParm }, new { @class = "Theader" })
+                    </th>
+                    <th class="dontPrint"></th>
                 </tr>
-            }
-        </tbody>
+            </thead>
+            <tbody>
 
-        
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td class="text-left">
+                            @Html.DisplayFor(modelItem => item.Обозначение)
+                            @Html.HiddenFor(modelItem => item.ID_товара)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Наименование)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Краткое_описание)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Единица_измерения)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Срок_поставки)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Вес)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Цена)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                        </td>
+                        <td class="dontPrint">
+                            <a href='@Url.Action("Edit",new { id = item.ID_товара }  )'><img src='~/Content/png/edit.png' /></a>
+                            <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
         </table>
-</div>
     </div>
+</div>
 <script>
 
 $(document).ready(function(){
-    
+
     $(".table-hover tbody tr td:not(.dontPrint)").click(
         function ()
         {
+
             var ID = $(this).parent().find("input[name='item.ID_товара']").val();
-            @*$.get("@Url.Action("Details")/"+ID, function (data) {
-                     $('.body-content').html(data);
-            });*@
+
 
             $.ajax({
                 method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
                 $('.body-content').html(data);
             });
         });
-            
+
 
 });
 
-    
+
 
 </script>
 

@@ -39,7 +39,7 @@ namespace D.Controllers
             ViewBag.DateSortParm = sort == "date_desc" ? "date" : "date_desc";
             ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
             ViewBag.AmountSortParm = sort == "amount_desc" ? "amount" : "amount_desc";
-            ViewBag.StatusSortParm = sort == "status_desc" ? "status" : "status_desc";
+            ViewBag.StatusSortParm = sort == "status_desc" ? "statdistinus" : "status_desc";
             ViewBag.EmpSortParm= sort == "emp_desc" ? "emp" : "emp_desc";
 
             switch (sort)
@@ -77,16 +77,23 @@ namespace D.Controllers
             {
                 return HttpNotFound();
             }
-            
+
+            var b = db.Заказ.Where(ord => ord.ID_заказа == id)
+                .GroupJoin(
+                db.Оформление_заказа,
+                o => o.ID_заказа,
+                of => of.ID_заказа,
+                (o, of) => new { amount = of.Sum(oa => oa.Количество * oa.Товар.Цена_с_НДС) });
+
             var queryGoods = from good in db.Оформление_заказа
-                             where good.ID_заказа==заказ.ID_заказа
+                             where good.ID_заказа == заказ.ID_заказа
                              select good;
-            decimal? amount = 0;
-            foreach (var i in queryGoods)
-            {              
-                 amount+= i.Количество * i.Товар.Цена_с_НДС;
-            }         
-            ViewBag.Amount = amount.Value.ToString("0.00");
+            //decimal? amount = 0;
+            //foreach (var i in queryGoods)
+            //{              
+            //     amount+= i.Количество * i.Товар.Цена_с_НДС;
+            //}         
+            ViewBag.Amount = b.First().amount.Value.ToString("0.00");
             ViewBag.ID = заказ.ID_заказа;
             ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
             ViewBag.Client = заказ.Клиент.Название_организации;
@@ -110,8 +117,8 @@ namespace D.Controllers
             {
                 return HttpNotFound();
             }
-            var goods = db.Оформление_заказа;
-            var queryGoods = from good in goods
+            
+            var queryGoods = from good in db.Оформление_заказа
                              where good.ID_заказа == заказ.ID_заказа
                              select good;
             decimal? amount = 0;
@@ -142,7 +149,7 @@ namespace D.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*[Bind(Include = "ID_заказа,Дата_заказа,Сумма_заказа_с_НДС,ID_клиента,Табельный_номер")] Заказ заказ,*/ List<int> Количество, List<int> ID)
+        public ActionResult Create(List<int> Количество, List<int> ID)
         {
             if (ModelState.IsValid)
             {
@@ -204,7 +211,7 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(/*[Bind(Include = "ID_заказа,Дата_заказа,Сумма_заказа_с_НДС,ID_клиента,Табельный_номер")] Заказ заказ,*/ List<int> Количество, List<int> ID)
+        public ActionResult Edit(List<int> Количество, List<int> ID)
         {
             if (ModelState.IsValid)
             {

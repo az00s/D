@@ -1,81 +1,111 @@
 ﻿@model IEnumerable<D.Models.Товар>
-<div class="test-border" style="display:@ViewBag.b">
-    <table class="table-bordered table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Обозначение)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Наименование)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Краткое_описание)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Единица_измерения)
-            </th>
+<script>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Остаток_на_складе)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Срок_поставки)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Вес)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Цена)
-            </th>
+$(document).ready(function(){
 
-            <th>
-                @Html.DisplayNameFor(model => model.Цена_с_НДС)
-            </th>
-            <th class="dontPrint"></th>
-        </tr>
-
-        @foreach (var item in Model)
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
         {
+
+            var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+
+
+            $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+
+
+</script>
+<div class="test-border" style="display:@ViewBag.b">
+    <table class="table-bordered table-striped table-hover">
+        <thead>
             <tr>
-                <td class="text-left">
-                    @Html.DisplayFor(modelItem => item.Обозначение)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Наименование)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Краткое_описание)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Единица_измерения)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Обозначение)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Наименование)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Краткое_описание)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Остаток_на_складе)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Срок_поставки)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Вес)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Цена)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Остаток_на_складе)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Срок_поставки)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Вес)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Цена)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Цена_с_НДС)
-                </td>
-                <td class="dontPrint">
-                    <a href='@Url.Action("Edit",new { id = item.ID_товара })'><img src='~/Content/png/edit.png' /></a>
-                    <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
-                    <a href='@Url.Action("Details",new { id = item.ID_товара })'><img src='~/Content/png/more-1.png' /></a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Цена_с_НДС)
+                </th>
+                <th class="dontPrint"></th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.Обозначение)
+                        @Html.HiddenFor(modelItem => item.ID_товара)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Наименование)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Краткое_описание)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Единица_измерения)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Срок_поставки)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Вес)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_товара })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
 
     </table>
     </div>
+
+
+
 
 
 
