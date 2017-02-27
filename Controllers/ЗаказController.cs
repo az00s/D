@@ -44,23 +44,23 @@ namespace D.Controllers
 
             switch (sort)
             {
-                case "num": return View(заказ.ToList().OrderBy(p => p.ID_заказа));
-                case "num_desc": return View(заказ.ToList().OrderByDescending(p => p.ID_заказа));
-                case "date": return View(заказ.ToList().OrderBy(p => p.Дата_заказа));
-                case "date_desc": return View(заказ.ToList().OrderByDescending(p => p.Дата_заказа));
+                case "num": return View(заказ.AsNoTracking().OrderBy(p => p.ID_заказа));
+                case "num_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.ID_заказа));
+                case "date": return View(заказ.AsNoTracking().OrderBy(p => p.Дата_заказа));
+                case "date_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Дата_заказа));
 
-                case "name": return View(заказ.ToList().OrderBy(p => p.Клиент.Название_организации));
-                case "name_desc": return View(заказ.ToList().OrderByDescending(p => p.Клиент.Название_организации));
+                case "name": return View(заказ.AsNoTracking().OrderBy(p => p.Клиент.Название_организации));
+                case "name_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Клиент.Название_организации));
 
-                case "amount": return View(заказ.ToList().OrderBy(p => p.Сумма_заказа_с_НДС));
-                case "amount_desc": return View(заказ.ToList().OrderByDescending(p => p.Сумма_заказа_с_НДС));
-                case "status": return View(заказ.ToList().OrderBy(p => p.Статус_заказа));
-                case "status_desc": return View(заказ.ToList().OrderByDescending(p => p.Статус_заказа));
-                case "emp": return View(заказ.ToList().OrderBy(p => p.Сотрудник.Фамилия));
-                case "emp_desc": return View(заказ.ToList().OrderByDescending(p => p.Сотрудник.Фамилия));
+                case "amount": return View(заказ.AsNoTracking().OrderBy(p => p.Сумма_заказа_с_НДС));
+                case "amount_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Сумма_заказа_с_НДС));
+                case "status": return View(заказ.AsNoTracking().OrderBy(p => p.Статус_заказа));
+                case "status_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Статус_заказа));
+                case "emp": return View(заказ.AsNoTracking().OrderBy(p => p.Сотрудник.Фамилия));
+                case "emp_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Сотрудник.Фамилия));
 
 
-                default: return View(заказ.ToList().OrderBy(p => p.ID_заказа));
+                default: return View(заказ.AsNoTracking().OrderBy(p => p.ID_заказа));
             }
             //-----------------------------------------------------------------------------------------------------------------
             
@@ -73,37 +73,29 @@ namespace D.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var заказ = db.Заказ.Find(id);
+           
             if (заказ == null)
             {
                 return HttpNotFound();
             }
 
-            var b = db.Заказ.Where(ord => ord.ID_заказа == id)
-                .GroupJoin(
-                db.Оформление_заказа,
-                o => o.ID_заказа,
-                of => of.ID_заказа,
-                (o, of) => new { amount = of.Sum(oa => oa.Количество * oa.Товар.Цена_с_НДС) });
-
-            var queryGoods = from good in db.Оформление_заказа
-                             where good.ID_заказа == заказ.ID_заказа
-                             select good;
-            //decimal? amount = 0;
-            //foreach (var i in queryGoods)
-            //{              
-            //     amount+= i.Количество * i.Товар.Цена_с_НДС;
-            //}         
-            ViewBag.Amount = b.First().amount.Value.ToString("0.00");
+            ViewBag.Amount = db.Заказ.AsNoTracking().Where(ord => ord.ID_заказа == id)
+                            .GroupJoin(
+                            db.Оформление_заказа,
+                            o => o.ID_заказа,
+                            of => of.ID_заказа,
+                            (o, of) => new { amount = of.Sum(oa => oa.Количество * oa.Товар.Цена_с_НДС) })
+                            .FirstOrDefault().amount.Value.ToString("0.00");
+                  
             ViewBag.ID = заказ.ID_заказа;
             ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
             ViewBag.Client = заказ.Клиент.Название_организации;
             ViewBag.Employee = заказ.Сотрудник.Фамилия;
 
-            var query = from g in db.Оплата_заказа
-                             where g.ID_заказа == id
-                             select g;
-            ViewBag.list = query.ToList();
-            return View(queryGoods);
+            
+            ViewBag.list = db.Оплата_заказа.AsNoTracking().Where(g=> g.ID_заказа == id).ToList();
+
+            return View(db.Оформление_заказа.AsNoTracking().Where(d=>d.ID_заказа==id));
         }
         //getting an invoice for order---------------------------------------------------------------------
         public ActionResult Invoice(int? id)
@@ -117,24 +109,17 @@ namespace D.Controllers
             {
                 return HttpNotFound();
             }
-            
-            var queryGoods = from good in db.Оформление_заказа
-                             where good.ID_заказа == заказ.ID_заказа
-                             select good;
-            decimal? amount = 0;
-            int? timeD = 0;
-            foreach (var i in queryGoods)
-            {
-                amount += i.Количество * i.Товар.Цена_с_НДС;
-                timeD = timeD < i.Товар.Срок_поставки ? i.Товар.Срок_поставки : timeD;
-            }
-            ViewBag.Amount = amount.Value.ToString("0.00");
+
+            var query = db.Оформление_заказа.AsNoTracking().Where(a=>a.ID_заказа==id).Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good=g   }  );
+
+            ViewBag.Amount = query.Sum(obj=>obj.good.Цена_с_НДС*obj.oform.Количество).Value.ToString("0.00");
+            ViewBag.time = query.Max(obj=>obj.good.Срок_поставки);
             ViewBag.ID = заказ.ID_заказа;
             ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
             ViewBag.Client = заказ.Клиент.Название_организации+", "+ "УНП: "+заказ.Клиент.УНП_Клиента+", "+ заказ.Клиент.Адрес+", "+ заказ.Клиент.Телефон+".";
             ViewBag.Employee = заказ.Сотрудник.Фамилия;
-            ViewBag.time = timeD;
-            return View(queryGoods);
+          
+            return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
         }     
         //-----------------------------------------------------------------------------------------------------
        
@@ -158,20 +143,19 @@ namespace D.Controllers
                 p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
                 p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
                 p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
-                
-
                 p.AddtoTable(db, p);
                            
                 for (int i=0;i<Количество.Count;i++)
                 {
-                    //Оформление_заказа o = new Оформление_заказа();
+                    Оформление_заказа o = new Оформление_заказа();
                     o.ID_заказа = p.ID_заказа;
                     o.ID_товара = ID[i];
                     o.Количество = Количество[i];
                     o.AddtoTable(db,o);
-                    db.SaveChanges();
-                }             
-                
+                }
+
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации", p.ID_клиента);
@@ -190,21 +174,23 @@ namespace D.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.List = db.Оформление_заказа.AsNoTracking()
+                           .Where(p => p.ID_заказа == id)
+                           .AsEnumerable()
+                           .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new Товар{
+                                                                                                        ID_товара = g.ID_товара,
+                                                                                                        Обозначение = g.Обозначение,
+                                                                                                        Наименование =g.Наименование,
+                                                                                                        Цена =g.Цена,
+                                                                                                        Цена_с_НДС =g.Цена_с_НДС,
+                                                                                                        Остаток_на_складе =of.Количество
+                                                                                                    } );
+           
             
-            var Queryg = from p in db.Оформление_заказа
-                         where p.ID_заказа == заказ.ID_заказа
-                         select p;
-            List<IТоварInterface> list=new List<IТоварInterface>();
-            //List<int> list1 = new List<int>();
-            foreach(var i in Queryg)
-            {
-                var t = db.Товар.Find(i.ID_товара);
-                t.Остаток_на_складе = i.Количество;
-                list.Add(t);              
-            }
-            ViewBag.List = list;        
             ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации", заказ.ID_клиента);
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", заказ.Табельный_номер);
+
             return View(заказ);
         }
         
@@ -221,23 +207,21 @@ namespace D.Controllers
                 p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
                 p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
                 db.Entry(p).State = EntityState.Modified;
-                
 
-                var Query = from f in db.Оформление_заказа
-                            where f.ID_заказа == p.ID_заказа
-                            select f;
-                foreach(var i in Query)
-                { db.Оформление_заказа.Remove(i); }
-                db.SaveChanges();
 
-                for (int i = 0; i<Количество.Count; i++)
+                var Orderlist = db.Оформление_заказа.Where(o => o.ID_заказа == p.ID_заказа);
+                db.Оформление_заказа.RemoveRange(Orderlist);
+
+                for (int i = 0; i < Количество.Count; i++)
                 {
-                    o.ID_заказа = p.ID_заказа;
-                    o.ID_товара = ID[i];
-                    o.Количество = Количество[i];
-                    o.AddtoTable(db,o);
-                    db.SaveChanges();
+                    Оформление_заказа of = new Оформление_заказа();
+                    of.ID_заказа = p.ID_заказа;
+                    of.ID_товара = ID[i];
+                    of.Количество = Количество[i];
+                    db.Оформление_заказа.Add(of);
                 }
+                                
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Номер_паспорта", p.ID_клиента);
@@ -265,8 +249,8 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var заказ = db.Заказ.Find(id);
-            db.Заказ.Remove(заказ);
+           
+            db.Заказ.Remove(db.Заказ.Find(id));
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -283,13 +267,13 @@ namespace D.Controllers
         [ChildActionOnly]
         public ActionResult AllClients()
         {
-            return PartialView("AllClients", db.Клиент.ToList());
+            return PartialView("AllClients", db.Клиент);
         }
         //getting list of all goods--------------------------------------------
         [ChildActionOnly]
         public ActionResult AllGoods()
         {
-            return PartialView("AllGoods", db.Товар.ToList());
+            return PartialView("AllGoods", db.Товар);
         }
         
         //Export to excel---------------------------------------------------------------
@@ -316,10 +300,7 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult DeleteP(int id, int p)
         {
-            var query = from q in db.Оплата_заказа
-                        where q.ID_заказа == id && q.ID_поступления == p
-                        select q;
-            db.Оплата_заказа.Remove(query.First());
+            db.Оплата_заказа.Remove(db.Оплата_заказа.Single(q=> q.ID_заказа == id && q.ID_поступления == p));
             db.SaveChanges();
             return RedirectToAction("Details", new { id = id });
         }
@@ -329,21 +310,22 @@ namespace D.Controllers
 
         public ActionResult AutocompleteSearch(string term)
         { 
-            var result = from N in db.Заказ
-                         where N.Клиент.Название_организации.Contains(term)
-                         select new { value = N.Клиент.Название_организации };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(
+                db.Заказ.AsNoTracking()
+                .Where(N=> N.Клиент.Название_организации.Contains(term))
+                .Select(N=> N.Клиент.Название_организации ), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Search(string search)
         {
-            var queryGoods = from good in db.Заказ
-                             where good.ID_заказа.ToString().Contains(search) || good.Клиент.Название_организации.Contains(search) || good.Клиент.Фамилия.Contains(search) || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search)
-                             select good;
+            var queryGoods = 
+                db.Заказ.AsNoTracking()
+                .Where(good => good.ID_заказа.ToString().Contains(search) || good.Клиент.Название_организации.Contains(search) || good.Клиент.Фамилия.Contains(search) || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search));
+                
 
             if (queryGoods.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(queryGoods);
             }
 
             else return PartialView("NoResult");
@@ -353,13 +335,12 @@ namespace D.Controllers
         //a report for period----------------------------------------------------------------------
         public ActionResult ROrders(DateTime start, DateTime end)
         {
-            var queryGoods = from good in db.Заказ
-                             where good.Дата_заказа >= start && good.Дата_заказа <= end
-                             select good;
+            var queryGoods = db.Заказ.AsNoTracking().Where(good => good.Дата_заказа >= start && good.Дата_заказа <= end);
+                
 
             if (queryGoods.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(queryGoods);
             }
 
             else return PartialView("NoResult");

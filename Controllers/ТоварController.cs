@@ -55,22 +55,22 @@ namespace D.Controllers
 
             switch (sort)
             {
-                case "number_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p=>p.Обозначение));
-                case "number": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Обозначение));
-                case "name": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Наименование));
-                case "name_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Наименование));            
-                case "ost": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Остаток_на_складе));
-                case "ost_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Остаток_на_складе));
-                case "day": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Срок_поставки));
-                case "day_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Срок_поставки));
-                case "weight": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Вес));
-                case "weight_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Вес));
-                case "price": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Цена));
-                case "price_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Цена));
-                case "pricevat": return View(db.Товар.ToListAsync().Result.OrderBy(p => p.Цена_с_НДС));
-                case "pricevat_desc": return View(db.Товар.ToListAsync().Result.OrderByDescending(p => p.Цена_с_НДС));
+                case "number_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p=>p.Обозначение));
+                case "number": return View(db.Товар.AsNoTracking().OrderBy(p => p.Обозначение));
+                case "name": return View(db.Товар.AsNoTracking().OrderBy(p => p.Наименование));
+                case "name_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Наименование));            
+                case "ost": return View(db.Товар.AsNoTracking().OrderBy(p => p.Остаток_на_складе));
+                case "ost_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Остаток_на_складе));
+                case "day": return View(db.Товар.AsNoTracking().OrderBy(p => p.Срок_поставки));
+                case "day_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Срок_поставки));
+                case "weight": return View(db.Товар.AsNoTracking().OrderBy(p => p.Вес));
+                case "weight_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Вес));
+                case "price": return View(db.Товар.AsNoTracking().OrderBy(p => p.Цена));
+                case "price_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Цена));
+                case "pricevat": return View(db.Товар.AsNoTracking().OrderBy(p => p.Цена_с_НДС));
+                case "pricevat_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Цена_с_НДС));
 
-                default: return View(db.Товар.ToListAsync().Result.OrderBy(p => p.ID_товара));
+                default: return View(db.Товар.AsNoTracking().OrderBy(p => p.ID_товара));
             }
         //----------------------------------------------------------------------------------------------------
         }
@@ -79,7 +79,7 @@ namespace D.Controllers
         //autocomplete function for search field----------------------------------------
         public ActionResult AutocompleteSearch(string term)
         {
-            return Json(db.Товар.AsEnumerable().Where(s => s.Наименование.Contains(term)).Select(s => s.Наименование), JsonRequestBehavior.AllowGet);
+            return Json(db.Товар.AsNoTracking().Where(s => s.Наименование.Contains(term)).Select(s => s.Наименование), JsonRequestBehavior.AllowGet);
         }
         //------------------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ namespace D.Controllers
                 return HttpNotFound();
             }
                             
-            return View(db.Поставщик_цена.AsEnumerable().Where(s=>s.ID_товара==id));
+            return View(db.Поставщик_цена.AsNoTracking().Where(s=>s.ID_товара==id));
         }
 
         
@@ -141,7 +141,7 @@ namespace D.Controllers
             catch (Exception)
 
             { return View("Error"); }
-            //finally { db.Dispose(); }
+            
 
             return View(товар);
         }
@@ -247,7 +247,7 @@ namespace D.Controllers
         public ActionResult ROst_0()
         {
 
-            var queryGoods = db.Товар.AsEnumerable().Where(s => s.Остаток_на_складе == 0);
+            var queryGoods = db.Товар.AsNoTracking().Where(s => s.Остаток_на_складе == 0);
 
             if (queryGoods.Count() == 0)
             {
@@ -274,7 +274,7 @@ namespace D.Controllers
         public void ExpExcl()
         {
             var grid = new GridView();
-            grid.DataSource = db.Товар.ToList(); 
+            grid.DataSource = db.Товар.AsNoTracking(); 
             grid.DataBind();
             Response.ClearContent();
             Response.AddHeader("content-disposition", "attachement; filename=Товары.xls");
@@ -316,7 +316,7 @@ namespace D.Controllers
             }
          
 
-            return View("Details", db.Поставщик_цена.AsEnumerable().Where(g => g.ID_товара == id));
+            return View("Details", db.Поставщик_цена.AsNoTracking().Where(g => g.ID_товара == id));
         }
 
         //adding provider for goods-------------------------------------------------
@@ -324,9 +324,9 @@ namespace D.Controllers
         public ActionResult AddP(int id)
         {
             ViewBag.Item= db.Товар.Find(id);
-            var p= db.Поставщик.Except(
+            var p= db.Поставщик.AsNoTracking().Except(
                 
-                db.Поставщик_цена.Where(s=>s.ID_товара==id).Select(s=>s.Поставщик)
+                db.Поставщик_цена.AsNoTracking().Where(s=>s.ID_товара==id).Select(s=>s.Поставщик)
                                     );
 
             return View("AddP",p );
@@ -352,7 +352,7 @@ namespace D.Controllers
         
         public ActionResult Search(string search)
         {
-            var queryGoods = db.Товар.Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
+            var queryGoods = db.Товар.AsNoTracking().Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
 
             if (queryGoods.Count() > 0)
             {
