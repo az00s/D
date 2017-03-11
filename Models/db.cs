@@ -78,9 +78,7 @@
                 .WithRequired(e => e.Заказ)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Клиент>()
-                .Property(e => e.Номер_паспорта)
-                .IsUnicode(false);
+            
 
             modelBuilder.Entity<Клиент>()
                 .Property(e => e.Название_организации)

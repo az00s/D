@@ -48,6 +48,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.10\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -255,6 +263,8 @@
     <Compile Include="Interfaces\IОформление_заказаInterface.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\КлиентController.cs" />
+    <Compile Include="Models\MvcRazorToPdf.cs" />
+    <Compile Include="Models\PdfActionResult.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\Денежное_поступление.cs" />
     <Compile Include="Models\Заказ.cs" />
@@ -304,6 +314,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="bundleconfig.json" />
+    <Content Include="fonts\7454.ttf" />
     <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\maz - FTP %282%29.pubxml" />
@@ -322,12 +333,19 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jsapi.js" />
+    <Content Include="Scripts\MainJavaScript.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr-2.6.2.min.js">
+      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\myScripts.js" />
+    <Content Include="Scripts\myScripts.min.js">
+      <DependentUpon>myScripts.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\popupCreateGoods.js" />
     <Content Include="Scripts\popupCreateMoney.js" />
     <Content Include="Scripts\popupCreateOrders.js" />
@@ -434,6 +452,13 @@
     <Content Include="Views\Денежное_поступление\Search.cshtml" />
     <Content Include="Views\Заказ\ROrders.cshtml" />
     <Content Include="Views\Денежное_поступление\ROrders.cshtml" />
+    <Content Include="Views\Товар\Table.cshtml" />
+    <Content Include="Views\Сотрудник\Table.cshtml" />
+    <Content Include="Views\Поставщик\Table.cshtml" />
+    <Content Include="Views\Клиент\Table.cshtml" />
+    <Content Include="Views\Заказ\Table.cshtml" />
+    <Content Include="Views\Shared\_PdfLayout.cshtml" />
+    <Content Include="Views\Денежное_поступление\Table.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

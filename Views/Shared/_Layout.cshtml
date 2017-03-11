@@ -6,16 +6,16 @@
     <title>@ViewBag.Title </title>
     
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery-ui")
-    @Scripts.Render("~/bundles/myScripts")
+    @Scripts.Render("~/bundles/myScripts")*@
 
-    @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <script src="~/Scripts/MainJavaScript.js"></script>
     
 
     <meta name="description" content="Автоматизированная система учета автозапчастей" />
@@ -53,19 +53,19 @@
         </div>
     </div>
     <div class="container body-content">
-        @*<div class="wrapper">*@
+       
         @RenderBody()
-        @*</div>*@
+       
 
         <div class="container footer dontPrint">
             <hr />
             <footer>
-                <p>&copy; К. Ю. Зинькевич, @DateTime.Now.Year @*Зинькевич Константин*@</p>
+                <p>&copy; К. Ю. Зинькевич, @DateTime.Now.Year </p>
             </footer>
         </div>
     </div>
 
 
-    @*@RenderSection("scripts", required: false)*@
+  
 </body>
 </html>

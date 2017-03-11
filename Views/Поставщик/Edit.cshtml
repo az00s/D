@@ -3,10 +3,6 @@
 @{
     ViewBag.Title = "Редактирование поставщика";
 }
-
-
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -56,11 +52,6 @@
         </div>
     </div>
 }
-
-@*<div>
-    @Html.ActionLink("<<", "Index")
-</div>*@
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

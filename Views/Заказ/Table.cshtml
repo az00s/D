@@ -1,0 +1,94 @@
+﻿@model IEnumerable<D.Models.Заказ>
+
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+
+    };
+}
+<script>
+
+$(document).ready(function(){
+
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.ID_заказа']").val();
+                     $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+</script>
+
+<div class="test-border">
+    <table class="table-bordered table-striped table-hover" id="Table">
+        <thead>
+            <tr>
+                <th>@Ajax.ActionLink("Номер заказа", "Sorting", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })</th>
+                <th>
+                    @Ajax.ActionLink("Дата заказа", "Sorting", new { sort = ViewBag.DateSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Клиент", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+
+
+                <th>
+                    @Ajax.ActionLink("Сумма заказа с НДС", "Sorting", new { sort = ViewBag.AmountSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Статус заказа", "Sorting", new { sort = ViewBag.StatusSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Сотрудник", "Sorting", new { sort = ViewBag.EmpSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID_заказа)
+                        @Html.HiddenFor(modelItem => item.ID_заказа)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Дата_заказа)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Клиент.Название_организации)
+
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Сумма_заказа_с_НДС)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Статус_заказа)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Сотрудник.Фамилия)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_заказа })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_заказа })'><img src='~/Content/png/error.png' /></a>
+                        <a href='@Url.Action("Invoice",new { id = item.ID_заказа })'><img src='~/Content/png/file.png' /></a>
+
+
+                    </td>
+                </tr>
+                            }
+        </tbody>
+
+    </table>
+</div>
+

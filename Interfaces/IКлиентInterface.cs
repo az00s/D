@@ -10,7 +10,7 @@ namespace D.Interfaces
     {
          int ID_клиента { get; set; }
 
-        string Номер_паспорта { get; set; }
+       
 
         int? УНП_Клиента { get; set; }
 
@@ -20,11 +20,7 @@ namespace D.Interfaces
 
          string Адрес { get; set; }
 
-         string Фамилия { get; set; }
-
-         string Имя { get; set; }
-
-        string Отчество { get; set; }
+        
 
         
          ICollection<Заказ> Заказ { get; set; }

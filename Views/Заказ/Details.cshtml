@@ -6,7 +6,7 @@
 
 
 <div>
-    <h2>Заказ №@ViewBag.ID</h2>
+    <h2>Заказ №@ViewBag.Ord.ID_заказа</h2>
     <hr />
 
     <dl class="dl-horizontal">
@@ -17,7 +17,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Date
+            @ViewBag.Ord.Дата_заказа.ToString("dd'.'MM'.'yyyy")
         </dd>
 
         <dt>
@@ -25,7 +25,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Client
+            @ViewBag.Ord.Клиент.Название_организации
         </dd>
 
         <dt>
@@ -33,7 +33,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Employee
+            @ViewBag.Ord.Сотрудник.Фамилия
         </dd>
 
         
@@ -87,7 +87,7 @@
 
     </div>
 
-            @Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.ID }, new { @class = "btn btn-info dontPrint", @style="margin-top:20px;margin-left:170px;" }) 
+            @Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.Ord.ID_заказа }, new { @class = "btn btn-info dontPrint", @style="margin-top:20px;margin-left:170px;" }) 
     <br />
 
     @Html.ActionLink("Назад", "Index",null, new { @class = "dontPrint"})

@@ -21,39 +21,35 @@ namespace D.Controllers
 
         public ПоставщикController(IdbInterface dbParam, IПоставщикInterface pParam)//dependency injection via constructor
         {
-
             db = dbParam;
             p = pParam;
-
-
-        }
-
-        
+        }      
         public ActionResult Index(string sort)
         {
-            ViewBag.a = "none";
+            ViewBag.UnpSortParm = "unp_desc";
+            ViewBag.NameSortParm = "name";
 
-            //sorting----------------------------------------------------------------------------------------------
-
-            ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
-            ViewBag.NameSortParm=sort== "name_desc" ? "name" : "name_desc";
-
-
-
-            switch (sort)
-            {
-                case "unp": return View(db.Поставщик.ToList().OrderBy(p => p.УНП_поставщика));
-                case "unp_desc": return View(db.Поставщик.ToList().OrderByDescending(p => p.УНП_поставщика));
-                case "name": return View(db.Поставщик.ToList().OrderBy(p => p.Название_организации));
-                case "name_desc": return View(db.Поставщик.ToList().OrderByDescending(p => p.Название_организации));
-
-                default: return View(db.Поставщик.ToList().OrderBy(p => p.УНП_поставщика));
-            }
-            //---------------------------------------------------------------------------------------------------------------
-            
+            return View(db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
         }
 
-       
+        public ActionResult Sorting(string sort)
+        {
+            ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
+            ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
+            
+            switch (sort)
+            {
+                case "unp": return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
+                case "unp_desc": return PartialView("Table", db.Поставщик.AsNoTracking().OrderByDescending(p => p.УНП_поставщика));
+                case "name": return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.Название_организации));
+                case "name_desc": return PartialView("Table", db.Поставщик.AsNoTracking().OrderByDescending(p => p.Название_организации));
+
+                default: return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
+            }
+            //---------------------------------------------------------------------------------------------------------------}
+        }
+
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -67,11 +63,8 @@ namespace D.Controllers
             }
 
             ViewBag.p = поставщик;
-
-            var query = from g in db.Поставщик_цена
-                        where g.УНП_поставщика == id
-                        select g;
-            return View(query.ToList());
+            
+            return View(db.Поставщик_цена.AsNoTracking().Where(pro=>pro.УНП_поставщика==id));
         }
 
         
@@ -83,15 +76,15 @@ namespace D.Controllers
         
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed(/*[Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик поставщик*/)
+        public ActionResult CreateConfirmed([Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик p)
         {
             if (ModelState.IsValid)
             {
-                p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
-                p.Название_организации = Request.Form["Название_организации"];
-                p.Адрес = Request.Form["Адрес"];
-                p.Телефон = Request.Form["Телефон"];
-                p.Описание = Request.Form["Описание"];
+                //p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
+                //p.Название_организации = Request.Form["Название_организации"];
+                //p.Адрес = Request.Form["Адрес"];
+                //p.Телефон = Request.Form["Телефон"];
+                //p.Описание = Request.Form["Описание"];
                 p.AddtoTable(db, p);
                 
                 db.SaveChanges();
@@ -120,15 +113,15 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(/*[Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик поставщик*/)
+        public ActionResult Edit([Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик p)
         {
             if (ModelState.IsValid)
             {
-                p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
-                p.Название_организации = Request.Form["Название_организации"];
-                p.Адрес = Request.Form["Адрес"];
-                p.Телефон = Request.Form["Телефон"];
-                p.Описание = Request.Form["Описание"];
+                //p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
+                //p.Название_организации = Request.Form["Название_организации"];
+                //p.Адрес = Request.Form["Адрес"];
+                //p.Телефон = Request.Form["Телефон"];
+                //p.Описание = Request.Form["Описание"];
               
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
@@ -159,8 +152,8 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var поставщик = db.Поставщик.Find(id);
-            db.Поставщик.Remove(поставщик);
+            
+            db.Поставщик.Remove(db.Поставщик.Find(id));
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -177,75 +170,30 @@ namespace D.Controllers
         //a report about providers from Minsk
         public ActionResult PMinsk()
         {
-            var queryGoods = from good in db.Поставщик
-                             where good.Адрес.Contains("минск")
-                             select good;
-
-            if (queryGoods.Count() == 0)
-            {
-                ViewBag.a = "normal";
-                ViewBag.b = "none";
-            }
-            else
-            {
-                ViewBag.a = "none";
-                ViewBag.b = "normal";
-            }
-            return View("Index", queryGoods.ToList());
+            
+            return View("Index",db.Поставщик.AsNoTracking().Where(pro=> pro.Адрес.Contains("минск")));
         }
 
-        //export to excel----------------------------------------------------------------------
-        public ActionResult ExpExcl()
+         public ActionResult AutocompleteSearch(string term)
         {
-
-            var grid = new GridView();
-            grid.DataSource = db.Поставщик.ToList();
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachement; filename=Поставщики.xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return View();
-        }
-        //-----------------------------------------------------------------------------------------
-        //[HttpPost]
-        //[Authorize(Roles = "admin")]
-        //public ActionResult DeleteG(int id, int p)
-        //{
-        //    var query = from q in db.Поставщик_цена
-        //                where q.ID_товара == id && q.УНП_поставщика == p
-        //                select q;
-        //    db.Поставщик_цена.Remove(query.First());
-        //    db.SaveChanges();
-
-        //    return RedirectToAction("Details", new { id=p});
-        //}
-
-        //autocomplete function for search field----------------------------------------
-
-        public ActionResult AutocompleteSearch(string term)
-        {
-            var result = from N in db.Поставщик
-                         where N.Название_организации.Contains(term)
-                         select new { value = N.Название_организации };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            
+            return Json(db.Поставщик
+                .AsNoTracking()
+                .Where(pro=>pro.Название_организации.Contains(term))
+                .Select(p => new { value = p.Название_организации })
+                , JsonRequestBehavior.AllowGet);
         }
         //--------------------------------------------------------------------------------
 
         public ActionResult Search(string search)
         {
-            var queryGoods = from good in db.Поставщик
-                             where good.Название_организации.Contains(search) || good.УНП_поставщика.ToString().Contains(search) || good.Описание.Contains(search)
-                             select good;
+            var query = db.Поставщик
+                .AsNoTracking()
+                .Where(pro => pro.Название_организации.Contains(search) || pro.УНП_поставщика.ToString().Contains(search) || pro.Описание.Contains(search));
 
-            if (queryGoods.Count() > 0)
+            if (query.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(query);
             }
 
             else return PartialView("NoResult");

@@ -1,29 +1,24 @@
 ﻿@model IEnumerable<D.Models.Товар>
 <script>
-
 $(document).ready(function(){
 
     $(".table-hover tbody tr td:not(.dontPrint)").click(
         function ()
         {
-
             var ID = $(this).parent().find("input[name='item.ID_товара']").val();
 
-
             $.ajax({
-                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
-                $('.body-content').html(data);
+                method: "GET",
+                url: "@Url.Action("Details")/" + ID
+                    })
+                .done(function (data) {
+                                        $('.body-content').html(data);
             });
         });
-
-
 });
-
-
-
 </script>
-<div class="test-border" style="display:@ViewBag.b">
-    <table class="table-bordered table-striped table-hover">
+<div class="test-border" >
+    <table class="table-bordered table-striped table-hover" id="Table">
         <thead>
             <tr>
                 <th>

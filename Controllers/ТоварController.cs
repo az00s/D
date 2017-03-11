@@ -34,45 +34,51 @@ namespace D.Controllers
             товар=товарParam;
            
         }
-
-       
-        
-       
-
-        public ActionResult Index(string sort)
+        public ActionResult Index()
         {
-            
-            ViewBag.a = "none";
-        //sorting----------------------------------------------------------------------------------------------
-            ViewBag.NumSortParm = sort=="number_desc" ? "number" :"number_desc";
+           
+            ViewBag.NumSortParm ="number_desc";
+            ViewBag.NameSortParm ="name" ;
+            ViewBag.OstSortParm =  "ost";
+            ViewBag.DaySortParm = "day";
+            ViewBag.WeightSortParm =  "weight";
+            ViewBag.PriceSortParm = "price";
+            ViewBag.PriceVatSortParm = "pricevat";
+           
+            return View(db.Товар.AsNoTracking().OrderBy(p => p.ID_товара));
+        }
+
+        public ActionResult Sorting(string sort)
+        {
+            //sorting----------------------------------------------------------------------------------------------
+            ViewBag.NumSortParm = sort == "number_desc" ? "number" : "number_desc";
             ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
-            ViewBag.OstSortParm= sort == "ost_desc" ? "ost" : "ost_desc";
-            ViewBag.DaySortParm=sort == "day_desc" ? "day" : "day_desc";
-            ViewBag.WeightSortParm= sort == "weight_desc" ? "weight" : "weight_desc";
-            ViewBag.PriceSortParm= sort == "price_desc" ? "price" : "price_desc";
-            ViewBag.PriceVatSortParm= sort == "pricevat_desc" ? "pricevat" : "pricevat_desc";
+            ViewBag.OstSortParm = sort == "ost_desc" ? "ost" : "ost_desc";
+            ViewBag.DaySortParm = sort == "day_desc" ? "day" : "day_desc";
+            ViewBag.WeightSortParm = sort == "weight_desc" ? "weight" : "weight_desc";
+            ViewBag.PriceSortParm = sort == "price_desc" ? "price" : "price_desc";
+            ViewBag.PriceVatSortParm = sort == "pricevat_desc" ? "pricevat" : "pricevat_desc";
 
 
             switch (sort)
             {
-                case "number_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p=>p.Обозначение));
-                case "number": return View(db.Товар.AsNoTracking().OrderBy(p => p.Обозначение));
-                case "name": return View(db.Товар.AsNoTracking().OrderBy(p => p.Наименование));
-                case "name_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Наименование));            
-                case "ost": return View(db.Товар.AsNoTracking().OrderBy(p => p.Остаток_на_складе));
-                case "ost_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Остаток_на_складе));
-                case "day": return View(db.Товар.AsNoTracking().OrderBy(p => p.Срок_поставки));
-                case "day_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Срок_поставки));
-                case "weight": return View(db.Товар.AsNoTracking().OrderBy(p => p.Вес));
-                case "weight_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Вес));
-                case "price": return View(db.Товар.AsNoTracking().OrderBy(p => p.Цена));
-                case "price_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Цена));
-                case "pricevat": return View(db.Товар.AsNoTracking().OrderBy(p => p.Цена_с_НДС));
-                case "pricevat_desc": return View(db.Товар.AsNoTracking().OrderByDescending(p => p.Цена_с_НДС));
+                case "number_desc": return PartialView("Table",db.Товар.AsNoTracking().OrderByDescending(p => p.Обозначение));
+                case "number": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Обозначение));
+                case "name": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Наименование));
+                case "name_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Наименование));
+                case "ost": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Остаток_на_складе));
+                case "ost_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Остаток_на_складе));
+                case "day": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Срок_поставки));
+                case "day_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Срок_поставки));
+                case "weight": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Вес));
+                case "weight_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Вес));
+                case "price": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Цена));
+                case "price_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Цена));
+                case "pricevat": return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Цена_с_НДС));
+                case "pricevat_desc": return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Цена_с_НДС));
 
-                default: return View(db.Товар.AsNoTracking().OrderBy(p => p.ID_товара));
+                default: return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.ID_товара));
             }
-        //----------------------------------------------------------------------------------------------------
         }
         
        
@@ -111,21 +117,21 @@ namespace D.Controllers
         [ActionName("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed()
+        public ActionResult CreateConfirmed([Bind(Include = "Обозначение,Наименование,Краткое_описание,Цена,Остаток_на_складе,Единица_измерения,Срок_поставки,Вес")] Товар товар)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
 
-                    товар.Обозначение = Request.Form["Обозначение"];
-                    товар.Наименование = Request.Form["Наименование"];
-                    товар.Краткое_описание = Request.Form["Краткое_описание"];
-                    товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
-                    товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
-                    товар.Единица_измерения = Request.Form["Единица_измерения"];
-                    товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
-                    товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
+                    //товар.Обозначение = Request.Form["Обозначение"];
+                    //товар.Наименование = Request.Form["Наименование"];
+                    //товар.Краткое_описание = Request.Form["Краткое_описание"];
+                    //товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
+                    //товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
+                    //товар.Единица_измерения = Request.Form["Единица_измерения"];
+                    //товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
+                    //товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
 
                     товар.AddtoTable(db, товар);
 
@@ -165,21 +171,21 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit()
+        public ActionResult Edit([Bind(Include = "ID_товара,Обозначение,Наименование,Краткое_описание,Цена,Остаток_на_складе,Единица_измерения,Срок_поставки,Вес")] Товар товар)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    товар = db.Товар.Find(Convert.ToInt32(Request.Form["ID_товара"]));
-                    товар.Обозначение = Request.Form["Обозначение"];
-                    товар.Наименование = Request.Form["Наименование"];
-                    товар.Краткое_описание = Request.Form["Краткое_описание"];
-                    товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
-                    товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
-                    товар.Единица_измерения = Request.Form["Единица_измерения"];
-                    товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
-                    товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
+                    //товар = db.Товар.Find(Convert.ToInt32(Request.Form["ID_товара"]));
+                    //товар.Обозначение = Request.Form["Обозначение"];
+                    //товар.Наименование = Request.Form["Наименование"];
+                    //товар.Краткое_описание = Request.Form["Краткое_описание"];
+                    //товар.Цена = Convert.ToDecimal(Request.Form["Цена"]);
+                    //товар.Остаток_на_складе = Convert.ToInt32(Request.Form["Остаток_на_складе"]);
+                    //товар.Единица_измерения = Request.Form["Единица_измерения"];
+                    //товар.Срок_поставки = Convert.ToInt32(Request.Form["Срок_поставки"]);
+                    //товар.Вес = Convert.ToInt32(Request.Form["Вес"]);
 
 
                     db.Entry(товар).State = EntityState.Modified;
@@ -189,8 +195,11 @@ namespace D.Controllers
                     return RedirectToAction("Index");
                 }
             }
+
             catch (Exception)
+
             { return View("Error"); }
+
             return View(товар);
         }
 
@@ -201,8 +210,8 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            if (db.Товар.Find(id) == null)
+            товар = db.Товар.Find(id);
+            if (товар == null)
             {
                 return HttpNotFound();
             }
@@ -216,14 +225,12 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
+            
                 db.Товар.Remove(db.Товар.Find(id));
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            catch (Exception)
-            { return View("Error"); }
+            
+            
         }
 
         protected override void Dispose(bool disposing)
@@ -245,60 +252,23 @@ namespace D.Controllers
 
         //report about goods,which quantity equals 0       
         public ActionResult ROst_0()
-        {
-
-            var queryGoods = db.Товар.AsNoTracking().Where(s => s.Остаток_на_складе == 0);
-
-            if (queryGoods.Count() == 0)
-            {
-                ViewBag.a = "normal";
-                ViewBag.b = "none";
-            }
-            else
-            {
-                ViewBag.a = "none";
-                ViewBag.b = "normal";
-            }
-            
-            return View("Index", queryGoods);
+        {                  
+            return PartialView("Search", db.Товар.AsNoTracking().Where(s => s.Остаток_на_складе == 0));
         }
 
         //a report about quantities of goods
             public ActionResult ROst()
         {           
-            ViewBag.a = "none";      
-            return View("ROst", db.Товар);
+                
+            return PartialView("ROst", db.Товар);
         }
 
-        //export to excel
-        public void ExpExcl()
-        {
-            var grid = new GridView();
-            grid.DataSource = db.Товар.AsNoTracking(); 
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachement; filename=Товары.xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            
-
-                HtmlTextWriter htw = new HtmlTextWriter(sw);
-                grid.RenderControl(htw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
-                sw.Close();
-                htw.Close();
-                grid.Dispose();
-            
-            
-        }
+               
 
         //a report about prices
         public ActionResult Price()
         {
-            ViewBag.a = "none";
-            return View(db.Товар);
+            return PartialView(db.Товар);
         }
 
         [HttpPost]
@@ -334,6 +304,7 @@ namespace D.Controllers
         [HttpPost]
         public ActionResult AddP(int id,int u,decimal? price=0)
         {
+            
             try
             {
                 p.ID_товара = id;

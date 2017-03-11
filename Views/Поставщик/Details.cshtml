@@ -77,10 +77,8 @@
                     <td>@Html.DisplayName(i.Товар.Единица_измерения)</td>
                     @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
                     <td>@Html.DisplayName(str)</td>
-                   
-                       
-                    @*<td><a href='@Url.Action("DeleteG", new { id = i.Товар.ID_товара, p = @ViewBag.p.УНП_поставщика })'><img src='\Content\png\error.png' /></a></td>}*@
-                    
+                                        
+                                       
                 </tr>
                         }
         </tbody>

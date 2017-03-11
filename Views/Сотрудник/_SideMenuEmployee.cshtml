@@ -9,12 +9,12 @@
 
 
 <div id="box" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
+    <img src="~/Content/loading.gif" id="load" />
     <div class="indoorBtnDiv search">
         @using (Ajax.BeginForm("Search", ajaxOptions))
         {
             <input id="indoorText" data-val="true" data-val-required="Введите текст" name="search" type="text" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Сотрудник")'/>
-            <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать">@*<img src='~/Content/png/search.png' />*@</button>
+            <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать"></button>
         }
     </div>
 </div>
@@ -38,7 +38,7 @@
             <div id="dd" class="dropdown" tabindex="1">
                 <a href="#" id="tog" class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
                 <ul class="dropdown-menu sidebar-menu">
-                    <li>@Html.ActionLink("Сотрудники старше 60 лет", "REmployee60", "Сотрудник")</li>
+                    <li>@Ajax.ActionLink("Сотрудники старше 60 лет", "REmployee60", ajaxOptions)</li>
                 </ul>
             </div>
         </li>
@@ -47,7 +47,7 @@
 
 
             
-                <a id="graph" class="glyphicon glyphicon-picture" ></a>
+                <a id="graph" class="glyphicon glyphicon-picture" onclick="graph()" ></a>
                 
            
         </li>
@@ -56,27 +56,14 @@
         </li>
 
         <li>
-            @Html.ActionLink(" ", "ExpExcl", null, new { @class = "glyphicon glyphicon-export" })
+            <a class="glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Сотрудник')"></a>
         </li>
     </ul>
 </div>
 
 
 
-<script>
-    $("#graph").click(function () { 
 
-        if ($("#chart").is(":hidden")) {
-            $("#chart").fadeIn("slow");
-            $("#graph").css("background", "#E81C2C");
-        }
-        else {
-            $("#chart").fadeOut("slow");
-            $("#graph").css("background","none");
-        }
-    
-    });
-</script>
 
 
 

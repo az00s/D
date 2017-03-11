@@ -8,7 +8,7 @@
 }
 
 <div id="box1" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load1" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
+    <img src="~/Content/loading.gif" id="load"  />
     <div class="reportDate">
         @using (Ajax.BeginForm("ROrders", new AjaxOptions {UpdateTargetId = "table",HttpMethod = "Post",LoadingElementId = "load1",LoadingElementDuration = 1000}))
         {
@@ -22,7 +22,7 @@
 </div>
 
 <div id="box" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
+    <img src="~/Content/loading.gif" id="load" />
     <div class="indoorBtnDiv search">
         @using (Ajax.BeginForm("Search", ajaxOptions))
         {
@@ -51,7 +51,7 @@
             <div id="dd" class="dropdown collapse in" tabindex="1">
                 <a href="#"  id="tog" class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
                 <ul class="dropdown-menu sidebar-menu collapse">
-                    <li><a id="toggler1" href="#">Отчет по заказам за период</a></li>
+                    <li><a id="toggler1">Отчет по заказам за период</a></li>
                 </ul>
             </div>
         </li>
@@ -61,31 +61,12 @@
         </li>
 
         <li>
-            @Html.ActionLink(" ", "ExpExcl", null, new { @class = "glyphicon glyphicon-export" })
+            <a class="glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Заказ')"></a>
         </li>
     </ul>
 </div>
 
-<script>
-    $(document).ready(function () {
 
-        function openbox(id, toggler) {
-            var div = document.getElementById(id);
-            if (div.style.display == 'block') {
-                div.style.display = 'none';
-                toggler.style.background = 'none';
-            }
-            else {
-                div.style.display = 'block';
-                toggler.style.background = '#BC0000';
-            }
-        }
-        document.getElementById('toggler1').onclick=function () {
-            openbox('box1', document.getElementById('tog'));
-            return false;
-        };
-    });
-</script>
 
 <script type="text/javascript">
     $(function () {

@@ -68,11 +68,6 @@
 </div>
 <div id="backgroundPopup" class="backgroundPopup"></div>
 
-
-@*<div>
-    @Html.ActionLink("<<", "Index")
-</div>*@
-
 @section Scripts {
     @Scripts.Render("~/bundles/popupCreateOrders")
 
@@ -83,33 +78,7 @@
 <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
 }
 
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            locale: 'ru',
-            pickTime: false,
-            format: 'DD.MM.YYYY',
-            useCurrent: false,
-            language: 'ru',
 
-        });
-
-    });
-
-
-    $.validator.addMethod('date',
-            function (value, element) {
-                var ok = true;
-                try {
-                    $.datepicker.parseDate('dd.mm.yy', value);
-                }
-                catch (err) {
-                    ok = false;
-                }
-                return ok;
-            });
-
-</script>
 
 
 

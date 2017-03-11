@@ -31,7 +31,7 @@ namespace D
                                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
-                        "~/Scripts/jquery-ui.js"
+                        "~/Scripts/jquery-ui.min.js"
                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/myScripts").Include(

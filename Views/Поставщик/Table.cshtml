@@ -1,0 +1,87 @@
+﻿@model IEnumerable<D.Models.Поставщик>
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+
+    };
+}
+
+<script>
+
+$(document).ready(function(){
+
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.УНП_поставщика']").val();
+                     $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+</script>
+<div class="test-border" >
+    <table class="table-bordered table-striped table-hover" id="Table">
+        <thead>
+        <tr>
+            <th>
+                @Ajax.ActionLink("УНП Поставщика", "Sorting", new { sort = ViewBag.UnpSortParm }, ajaxOptions, new { @class = "Theader" })
+            </th>
+            <th>
+                @Ajax.ActionLink("Название организации", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions,new { @class = "Theader" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Адрес)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Телефон)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Описание)
+            </th>
+            <th class="dontPrint"></th>
+        </tr>
+            </thead>
+        <tbody>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.УНП_поставщика)
+                    @Html.HiddenFor(modelItem => item.УНП_поставщика)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Название_организации)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Адрес)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Телефон)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Описание)
+                </td>
+                <td class="dontPrint">
+                    <a href='@Url.Action("Edit",new { id = item.УНП_поставщика })'><img src='~/Content/png/edit.png' /></a>
+                    <a href='@Url.Action("Delete",new { id = item.УНП_поставщика })'><img src='~/Content/png/error.png' /></a>
+                </td>
+            </tr>
+        }
+            </tbody>
+
+    </table>
+</div>
+
+
+
+
+
+

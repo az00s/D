@@ -10,6 +10,9 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
 using D.Interfaces;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Web.Hosting;
 
 namespace D.Controllers
 {
@@ -28,10 +31,22 @@ namespace D.Controllers
         }
         
       
-        public ActionResult Index(string sort)
+        public ActionResult Index()
         {
-            ViewBag.a = "none";
-            var заказ = db.Заказ.Include(з => з.Клиент).Include(з => з.Сотрудник);
+            ViewBag.NumSortParm = "num_desc";
+            ViewBag.DateSortParm = "date" ;
+            ViewBag.NameSortParm ="name";
+            ViewBag.AmountSortParm = "amount";
+            ViewBag.StatusSortParm = "statdistinus";
+            ViewBag.EmpSortParm= "emp" ;
+
+            return View(db.Заказ.Include(з => з.Клиент).Include(з => з.Сотрудник).AsNoTracking().OrderBy(p => p.ID_заказа));
+            
+        }
+
+        public ActionResult Sorting(string sort)
+        {
+            var заказ = db.Заказ.Include(з => з.Клиент).Include(з => з.Сотрудник).AsNoTracking();
 
             //sorting----------------------------------------------------------------------------
 
@@ -40,30 +55,28 @@ namespace D.Controllers
             ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
             ViewBag.AmountSortParm = sort == "amount_desc" ? "amount" : "amount_desc";
             ViewBag.StatusSortParm = sort == "status_desc" ? "statdistinus" : "status_desc";
-            ViewBag.EmpSortParm= sort == "emp_desc" ? "emp" : "emp_desc";
+            ViewBag.EmpSortParm = sort == "emp_desc" ? "emp" : "emp_desc";
 
             switch (sort)
             {
-                case "num": return View(заказ.AsNoTracking().OrderBy(p => p.ID_заказа));
-                case "num_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.ID_заказа));
-                case "date": return View(заказ.AsNoTracking().OrderBy(p => p.Дата_заказа));
-                case "date_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Дата_заказа));
+                case "num": return PartialView("Table",заказ.OrderBy(p => p.ID_заказа));
+                case "num_desc": return PartialView("Table", заказ.OrderByDescending(p => p.ID_заказа));
+                case "date": return PartialView("Table", заказ.OrderBy(p => p.Дата_заказа));
+                case "date_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Дата_заказа));
 
-                case "name": return View(заказ.AsNoTracking().OrderBy(p => p.Клиент.Название_организации));
-                case "name_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Клиент.Название_организации));
+                case "name": return PartialView("Table", заказ.OrderBy(p => p.Клиент.Название_организации));
+                case "name_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Клиент.Название_организации));
 
-                case "amount": return View(заказ.AsNoTracking().OrderBy(p => p.Сумма_заказа_с_НДС));
-                case "amount_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Сумма_заказа_с_НДС));
-                case "status": return View(заказ.AsNoTracking().OrderBy(p => p.Статус_заказа));
-                case "status_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Статус_заказа));
-                case "emp": return View(заказ.AsNoTracking().OrderBy(p => p.Сотрудник.Фамилия));
-                case "emp_desc": return View(заказ.AsNoTracking().OrderByDescending(p => p.Сотрудник.Фамилия));
+                case "amount": return PartialView("Table", заказ.OrderBy(p => p.Сумма_заказа_с_НДС));
+                case "amount_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Сумма_заказа_с_НДС));
+                case "status": return PartialView("Table", заказ.OrderBy(p => p.Статус_заказа));
+                case "status_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Статус_заказа));
+                case "emp": return PartialView("Table", заказ.OrderBy(p => p.Сотрудник.Фамилия));
+                case "emp_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Сотрудник.Фамилия));
 
 
-                default: return View(заказ.AsNoTracking().OrderBy(p => p.ID_заказа));
+                default: return PartialView("Table", заказ.OrderBy(p => p.ID_заказа));
             }
-            //-----------------------------------------------------------------------------------------------------------------
-            
         }
         
         public ActionResult Details(int? id)
@@ -86,47 +99,56 @@ namespace D.Controllers
                             of => of.ID_заказа,
                             (o, of) => new { amount = of.Sum(oa => oa.Количество * oa.Товар.Цена_с_НДС) })
                             .FirstOrDefault().amount.Value.ToString("0.00");
-                  
-            ViewBag.ID = заказ.ID_заказа;
-            ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
-            ViewBag.Client = заказ.Клиент.Название_организации;
-            ViewBag.Employee = заказ.Сотрудник.Фамилия;
 
-            
-            ViewBag.list = db.Оплата_заказа.AsNoTracking().Where(g=> g.ID_заказа == id).ToList();
+            ViewBag.Ord = заказ;
+                        
+            ViewBag.list = db.Оплата_заказа
+                .AsNoTracking()
+                .Where(g=> g.ID_заказа == id)
+                .ToList();
 
-            return View(db.Оформление_заказа.AsNoTracking().Where(d=>d.ID_заказа==id));
+            return View(db.Оформление_заказа
+                .AsNoTracking()
+                .Where(d=>d.ID_заказа==id));
         }
+
+        
         //getting an invoice for order---------------------------------------------------------------------
-        public ActionResult Invoice(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var заказ = db.Заказ.Find(id);
-            if (заказ == null)
-            {
-                return HttpNotFound();
-            }
+        //public ActionResult Invoice(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var заказ = db.Заказ.Find(id);
+        //    if (заказ == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-            var query = db.Оформление_заказа.AsNoTracking().Where(a=>a.ID_заказа==id).Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good=g   }  );
+        //    var query = db.Оформление_заказа
+        //        .AsNoTracking()
+        //        .Where(a=>a.ID_заказа==id)
+        //        .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good=g   }  );
 
-            ViewBag.Amount = query.Sum(obj=>obj.good.Цена_с_НДС*obj.oform.Количество).Value.ToString("0.00");
-            ViewBag.time = query.Max(obj=>obj.good.Срок_поставки);
-            ViewBag.ID = заказ.ID_заказа;
-            ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
-            ViewBag.Client = заказ.Клиент.Название_организации+", "+ "УНП: "+заказ.Клиент.УНП_Клиента+", "+ заказ.Клиент.Адрес+", "+ заказ.Клиент.Телефон+".";
-            ViewBag.Employee = заказ.Сотрудник.Фамилия;
+        //    ViewBag.Amount = query
+        //        .Sum(obj=>obj.good.Цена_с_НДС*obj.oform.Количество)
+        //        .Value.ToString("0.00");
+
+        //    ViewBag.time = query
+        //        .Max(obj=>obj.good.Срок_поставки);
+
+        //    ViewBag.ID = заказ.ID_заказа;
+        //    ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
+        //    ViewBag.Client = заказ.Клиент.Название_организации+", "+ "УНП: "+заказ.Клиент.УНП_Клиента+", "+ заказ.Клиент.Адрес+", "+ заказ.Клиент.Телефон+".";
+        //    ViewBag.Employee = заказ.Сотрудник.Фамилия;
           
-            return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
-        }     
+        //    return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
+        //}     
         //-----------------------------------------------------------------------------------------------------
        
         public ActionResult Create()
         {
-            
-            ViewBag.D = "none";
             ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации");
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия");
             return View();
@@ -134,15 +156,15 @@ namespace D.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(List<int> Количество, List<int> ID)
+        public ActionResult Create(List<int> Количество, List<int> ID,Заказ p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_заказа"]);
-                p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
-                p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_заказа"]);
+                //p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
+                //p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
                 p.AddtoTable(db, p);
                            
                 for (int i=0;i<Количество.Count;i++)
@@ -197,19 +219,19 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(List<int> Количество, List<int> ID)
+        public ActionResult Edit(List<int> Количество, List<int> ID,Заказ p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
-                p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
-                p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
+                //p.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
+                //p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
+                //p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
                 db.Entry(p).State = EntityState.Modified;
 
 
-                var Orderlist = db.Оформление_заказа.Where(o => o.ID_заказа == p.ID_заказа);
+                var Orderlist = db.Оформление_заказа.Where(o => o.ID_заказа == p.ID_заказа).ToList();
                 db.Оформление_заказа.RemoveRange(Orderlist);
 
                 for (int i = 0; i < Количество.Count; i++)
@@ -276,31 +298,14 @@ namespace D.Controllers
             return PartialView("AllGoods", db.Товар);
         }
         
-        //Export to excel---------------------------------------------------------------
-        public ActionResult ExpExcl()
-        {
-            var grid = new GridView();
-            var list = db.Заказ.Select(o => new {Номер=o.ID_заказа,Дата=o.Дата_заказа,Клиент=o.Клиент.Название_организации,Сумма=o.Сумма_заказа_с_НДС,Ответственный=o.Сотрудник.Фамилия });
-            grid.DataSource = list.ToList();
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachement; filename=Заказы.xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return View();
-        }
+        
 
         //deleting money from order
         [HttpPost]
         [Authorize(Roles = "admin")]
         public ActionResult DeleteP(int id, int p)
         {
-            db.Оплата_заказа.Remove(db.Оплата_заказа.Single(q=> q.ID_заказа == id && q.ID_поступления == p));
+            db.Оплата_заказа.Remove(db.Оплата_заказа.AsNoTracking().Single(q=> q.ID_заказа == id && q.ID_поступления == p));
             db.SaveChanges();
             return RedirectToAction("Details", new { id = id });
         }
@@ -320,7 +325,7 @@ namespace D.Controllers
         {
             var queryGoods = 
                 db.Заказ.AsNoTracking()
-                .Where(good => good.ID_заказа.ToString().Contains(search) || good.Клиент.Название_организации.Contains(search) || good.Клиент.Фамилия.Contains(search) || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search));
+                .Where(good => good.ID_заказа.ToString().Contains(search) || good.Клиент.Название_организации.Contains(search)  || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search));
                 
 
             if (queryGoods.Count() > 0)
@@ -335,7 +340,9 @@ namespace D.Controllers
         //a report for period----------------------------------------------------------------------
         public ActionResult ROrders(DateTime start, DateTime end)
         {
-            var queryGoods = db.Заказ.AsNoTracking().Where(good => good.Дата_заказа >= start && good.Дата_заказа <= end);
+            var queryGoods = db.Заказ
+                .AsNoTracking()
+                .Where(good => good.Дата_заказа >= start && good.Дата_заказа <= end);
                 
 
             if (queryGoods.Count() > 0)
@@ -345,7 +352,134 @@ namespace D.Controllers
 
             else return PartialView("NoResult");
         }
+        public ActionResult Invoice(int? id)
+        {
+            var заказ = db.Заказ.Find(id);
+            if (заказ == null)
+            {
+                return HttpNotFound();
+            }
 
-        
+            var query = db.Оформление_заказа
+                .AsNoTracking()
+                .Where(a => a.ID_заказа == id)
+                .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good = g });
+
+            ViewBag.Amount = query
+                .Sum(obj => obj.good.Цена_с_НДС * obj.oform.Количество)
+                .Value.ToString("0.00");
+
+            ViewBag.time = query
+                .Max(obj => obj.good.Срок_поставки);
+
+            ViewBag.ID = заказ.ID_заказа;
+            ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
+            ViewBag.Client = заказ.Клиент.Название_организации + ", " + "УНП: " + заказ.Клиент.УНП_Клиента + ", " + заказ.Клиент.Адрес + ", " + заказ.Клиент.Телефон + ".";
+            ViewBag.Employee = заказ.Сотрудник.Фамилия;
+
+            //    return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
+            return new PdfActionResult("Invoice",db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id),(writer, document) =>
+    {
+        FontFactory.Register("C:\\7454.ttf", "TimesNewRomanCyr");
+        });
+        }
+
+        public ActionResult SaveToAppData()
+        {
+            //var model = new PdfExample
+            //{
+            //    Heading = "Heading",
+            //    Items = new List<BasketItem>
+            //    {
+            //        new BasketItem
+            //        {
+            //            Id = 1,
+            //            Description = "Item 1",
+            //            Price = 1.99m
+            //        },
+            //        new BasketItem
+            //        {
+            //            Id = 2,
+            //            Description = "Item 2",
+            //            Price = 2.99m
+            //        }
+            //    }
+            //};
+
+            //byte[] pdfOutput = ControllerContext.GeneratePdf(model, "IndexWithAccessToDocumentAndWriter");
+            //string fullPath = Server.MapPath("~/App_Data/FreshlyMade.pdf");
+
+            //if (SysIO.File.Exists(fullPath))
+            //{
+            //    SysIO.File.Delete(fullPath);
+            //}
+            //SysIO.File.WriteAllBytes(fullPath, pdfOutput);
+
+            return View("SaveToAppData");
+        }
+
+        //public ActionResult IndexWithAccessToDocumentAndWriter()
+        //{
+            //var model = new PdfExample
+            //{
+            //    Heading = "Heading",
+            //    Items = new List<BasketItem>
+            //    {
+            //        new BasketItem
+            //        {
+            //            Id = 1,
+            //            Description = "Item 1",
+            //            Price = 1.99m
+            //        },
+            //        new BasketItem
+            //        {
+            //            Id = 2,
+            //            Description = "Item 2",
+            //            Price = 2.99m
+            //        }
+            //    }
+            //};
+
+            //return new PdfActionResult(model, (writer, document) =>
+            //{
+            //    document.SetPageSize(new Rectangle(500f, 500f, 90));
+            //    document.NewPage();
+            //});
+        //}
+
+        //public ActionResult IndexWithAccessToDocumentAndWriterDownloadFile()
+        //{
+        //    var model = new PdfExample
+        //    {
+        //        Heading = "Heading",
+        //        Items = new List<BasketItem>
+        //        {
+        //            new BasketItem
+        //            {
+        //                Id = 1,
+        //                Description = "Item 1",
+        //                Price = 1.99m
+        //            },
+        //            new BasketItem
+        //            {
+        //                Id = 2,
+        //                Description = "Item 2",
+        //                Price = 2.99m
+        //            }
+        //        }
+        //    };
+
+        //    return new PdfActionResult(model, (writer, document) =>
+        //    {
+        //        document.SetPageSize(new Rectangle(500f, 500f, 90));
+        //        document.NewPage();
+        //    })
+        //    {
+        //        FileDownloadName = "ElanWasHere.pdf"
+        //    };
+        //}
+
+
+
     }
 }

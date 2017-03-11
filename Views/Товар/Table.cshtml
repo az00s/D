@@ -1,0 +1,112 @@
+﻿@model IEnumerable<D.Models.Товар>
+    @{AjaxOptions ajaxOptions = new AjaxOptions
+        {
+            UpdateTargetId = "table",
+            HttpMethod = "Post",
+            
+        };
+    }
+<script>
+$(document).ready(function(){
+
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+
+            $.ajax({
+                method: "GET",
+                url: "@Url.Action("Details")/" + ID
+                    })
+                .done(function (data) {
+                                        $('.body-content').html(data);
+            });
+        });
+});
+</script>
+<div class="test-border">
+    <table class="table-bordered table-striped table-hover" id="Table">
+        <thead>
+            <tr>
+                <th>
+                    @Ajax.ActionLink("Обозначение", "Sorting", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })
+
+                </th>
+                <th>
+                    @Ajax.ActionLink("Наименование", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Краткое_описание)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Остаток", "Sorting", new { sort = ViewBag.OstSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Поставка, дней", "Sorting", new { sort = ViewBag.DaySortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Вес, г", "Sorting", new { sort = ViewBag.WeightSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Цена", "Sorting", new { sort = ViewBag.PriceSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Цена с НДС", "Sorting", new { sort = ViewBag.PriceVatSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.Обозначение)
+                        @Html.HiddenFor(modelItem => item.ID_товара)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Наименование)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Краткое_описание)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Единица_измерения)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Срок_поставки)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Вес)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_товара }  )'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+    </div>
+

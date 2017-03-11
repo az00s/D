@@ -1,49 +1,70 @@
 ﻿@model IEnumerable<D.Models.Денежное_поступление>
-<div class="test-border" style="display:@ViewBag.b">
-    <table class="table-bordered table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID_поступления)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Дата_поступления)
-            </th>
-            <th>@Html.DisplayNameFor(model => model.Клиент.УНП_Клиента)</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Клиент.Название_организации)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Сумма)
-            </th>
+<script>
 
-            <th class="dontPrint"></th>
-        </tr>
+$(document).ready(function(){
 
-        @foreach (var item in Model)
-            {
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.ID_поступления']").val();
+                    $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+</script>
+<div class="test-border">
+    <table class="table-bordered table-striped table-hover" id="Table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID_поступления)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Дата_поступления)
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Клиент.УНП_Клиента)</td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Клиент.Название_организации)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Сумма)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID_поступления)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Дата_поступления)
+                </th>
+                <th>@Html.DisplayNameFor(model => model.Клиент.УНП_Клиента)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Клиент.Название_организации)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Сумма)
+                </th>
 
-                <td class="dontPrint">
-                    <a href='@Url.Action("Edit",new { id = item.ID_поступления })'><img src='~/Content/png/edit.png' /></a>
-                    <a href='@Url.Action("Delete",new { id = item.ID_поступления })'><img src='~/Content/png/error.png' /></a>
-                    <a href='@Url.Action("Details",new { id = item.ID_поступления })'><img src='~/Content/png/more-1.png' /></a>
-                </td>
+                <th class="dontPrint"></th>
             </tr>
-        }
+        </thead>
+        <tbody>
 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID_поступления)
+                        @Html.HiddenFor(modelItem => item.ID_поступления)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Дата_поступления)
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Клиент.УНП_Клиента)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Клиент.Название_организации)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Сумма)
+                    </td>
+
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_поступления })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_поступления })'><img src='~/Content/png/error.png' /></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
 

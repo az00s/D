@@ -65,7 +65,6 @@
 <div id="popupContact" class="popupContact">
             <a id="popupContactClose" class="popupContactClose">x</a>
 
-            @*@Html.Action("AllProviders")*@
     <table class="table-bordered table-striped" id="tbGoods">
         @foreach (Поставщик item in Model)
         {
@@ -89,12 +88,6 @@
         </div>
         <div id="backgroundPopup" class="backgroundPopup"></div>
         <input type="button" class="sideButton" value="+" />
-
-@*<div>
-    @Html.ActionLink("<<", "Index")
-
-
-</div>*@
 
 
 @section Scripts {

@@ -22,8 +22,8 @@ $(document).ready(function(){
 
 
 </script>
-<div class="test-border" style="display:@ViewBag.b">
-    <table class="table-bordered table-striped table-hover">
+<div class="test-border" >
+    <table class="table-bordered table-striped table-hover" id="Table">
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.ID_заказа)</th>
@@ -82,7 +82,6 @@ $(document).ready(function(){
                         <a href='@Url.Action("Edit",new { id = item.ID_заказа })'><img src='~/Content/png/edit.png' /></a>
                         <a href='@Url.Action("Delete",new { id = item.ID_заказа })'><img src='~/Content/png/error.png' /></a>
                         <a href='@Url.Action("Invoice",new { id = item.ID_заказа })'><img src='~/Content/png/file.png' /></a>
-                        <a href='@Url.Action("Details",new { id = item.ID_заказа })'><img src='~/Content/png/more-1.png' /></a>
 
 
                     </td>

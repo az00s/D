@@ -1,4 +1,21 @@
-﻿.navbar-fixed-top {
+﻿.dontPrint img {
+width:20px;
+height:20px;
+}
+
+#box {
+
+display: none;
+}
+
+#load {
+vertical-align: top;
+top:17px; left:-20px; 
+position:absolute; 
+display:none;
+}
+
+.navbar-fixed-top {
 border-radius:5px;
 top:1%;
 right:1%;

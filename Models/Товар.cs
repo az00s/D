@@ -53,6 +53,14 @@ namespace D.Models
         [Column(TypeName = "money")]
         public decimal? Цена { get; set; }
 
+        
+
+
+        [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = " Дата регистрации")]
+        [Column(TypeName = "date")]
+        public DateTime? RegistrationDate { get; set; }
 
 
 

@@ -8,7 +8,7 @@
 }
 
 <div id="box" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
+    <img src="~/Content/loading.gif" id="load"  />
     <div class="indoorBtnDiv search">
         @using (Ajax.BeginForm("Search", ajaxOptions))
         {
@@ -37,7 +37,7 @@
             <div id="dd" class="dropdown" tabindex="1">
                 <a href='' class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
                 <ul class="dropdown-menu sidebar-menu">
-                    <li>@Html.ActionLink("Клиенты из города Могилева", "CMogilev", "Клиент")</li>
+                    <li>@Ajax.ActionLink("Клиенты из города Могилева", "CMogilev", ajaxOptions)</li>
                 </ul>
             </div>
         </li>
@@ -46,7 +46,7 @@
         </li>
 
         <li>
-            @Html.ActionLink(" ", "ExpExcl", null, new { @class = "glyphicon glyphicon-export" })
+            <a class="glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Клиент')"></a>
         </li>
     </ul>
 </div>

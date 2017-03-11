@@ -28,9 +28,19 @@ namespace D.Models
         }
         public ActionResult Index(string sort)
         {
-            ViewBag.a = "none";
-            //sorting----------------------------------------------------------------------------
+            
+            ViewBag.UnpSortParm = "unp";
+            ViewBag.NameSortParm = "name";
+            ViewBag.LastSortParm = "last";
+            ViewBag.FirstSortParm = "first";
+            ViewBag.PatSortParm = "pat";
+            ViewBag.NumSortParm = "num";
 
+           return View(db.Клиент.AsNoTracking().OrderBy(p => p.ID_клиента));       
+         }
+
+        public ActionResult Sorting(string sort)
+        {
             ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
             ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
             ViewBag.LastSortParm = sort == "last_desc" ? "last" : "last_desc";
@@ -40,30 +50,19 @@ namespace D.Models
 
             switch (sort)
             {
-                case "unp": return View(db.Клиент.ToList().OrderBy(p => p.УНП_Клиента));
-                case "unp_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.УНП_Клиента));
-                case "name": return View(db.Клиент.ToList().OrderBy(p => p.Название_организации));
-                case "name_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.Название_организации));
-                case "last": return View(db.Клиент.ToList().OrderBy(p => p.Фамилия));
-                case "last_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.Фамилия));
-                case "first": return View(db.Клиент.ToList().OrderBy(p => p.Имя));
-                case "first_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.Имя));
-                case "pat": return View(db.Клиент.ToList().OrderBy(p => p.Отчество));
-                case "pat_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.Отчество));
-                case "num": return View(db.Клиент.ToList().OrderBy(p => p.Номер_паспорта));
-                case "num_desc": return View(db.Клиент.ToList().OrderByDescending(p => p.Номер_паспорта));
+                case "unp": return PartialView("Table",db.Клиент.AsNoTracking().OrderBy(p => p.УНП_Клиента));
+                case "unp_desc": return PartialView("Table", db.Клиент.AsNoTracking().OrderByDescending(p => p.УНП_Клиента));
+                case "name": return PartialView("Table", db.Клиент.AsNoTracking().OrderBy(p => p.Название_организации));
+                case "name_desc": return PartialView("Table", db.Клиент.AsNoTracking().OrderByDescending(p => p.Название_организации));
 
 
-                default: return View(db.Клиент.ToList().OrderBy(p => p.ID_клиента));
+                default: return PartialView("Table", db.Клиент.AsNoTracking().OrderBy(p => p.ID_клиента));
             }
-            //-------------------------------------------------------------------------------------------------------
-           
         }
 
         
         public ActionResult Details(int? id)
         {
-            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,19 +84,19 @@ namespace D.Models
         
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed(/*[Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] Клиент клиент*/)
+        public ActionResult CreateConfirmed([Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] Клиент p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                p.Номер_паспорта = Request.Form["Номер_паспорта"];
-                p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
-                p.Название_организации = Request.Form["Название_организации"];
-                p.Телефон = Request.Form["Телефон"];
-                p.Адрес = Request.Form["Адрес"];
-                p.Фамилия = Request.Form["Фамилия"];
-                p.Имя = Request.Form["Имя"];
-                p.Отчество = Request.Form["Отчество"];
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.Номер_паспорта = Request.Form["Номер_паспорта"];
+                //p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
+                //p.Название_организации = Request.Form["Название_организации"];
+                //p.Телефон = Request.Form["Телефон"];
+                //p.Адрес = Request.Form["Адрес"];
+                //p.Фамилия = Request.Form["Фамилия"];
+                //p.Имя = Request.Form["Имя"];
+                //p.Отчество = Request.Form["Отчество"];
                 
                 p.AddtoTable(db, p);
                 
@@ -127,19 +126,19 @@ namespace D.Models
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(/*[Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] Клиент клиент*/)
+        public ActionResult Edit([Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] Клиент p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                p.Номер_паспорта = Request.Form["Номер_паспорта"];
-                p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
-                p.Название_организации = Request.Form["Название_организации"];
-                p.Телефон = Request.Form["Телефон"];
-                p.Адрес = Request.Form["Адрес"];
-                p.Фамилия = Request.Form["Фамилия"];
-                p.Имя = Request.Form["Имя"];
-                p.Отчество = Request.Form["Отчество"];
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.Номер_паспорта = Request.Form["Номер_паспорта"];
+                //p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
+                //p.Название_организации = Request.Form["Название_организации"];
+                //p.Телефон = Request.Form["Телефон"];
+                //p.Адрес = Request.Form["Адрес"];
+                //p.Фамилия = Request.Form["Фамилия"];
+                //p.Имя = Request.Form["Имя"];
+                //p.Отчество = Request.Form["Отчество"];
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -169,8 +168,7 @@ namespace D.Models
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var клиент = db.Клиент.Find(id);
-            db.Клиент.Remove(клиент);
+            db.Клиент.Remove(db.Клиент.Find(id));
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -186,63 +184,32 @@ namespace D.Models
 
         //a report about clients from Mogilev
         public ActionResult CMogilev()
-        {
-            var queryGoods = from good in db.Клиент
-                             where good.Адрес.Contains("могил")
-                             select good;
-
-            if (queryGoods.Count() == 0)
-            {
-                ViewBag.a = "normal";
-                ViewBag.b = "none";
-            }
-            else
-            {
-                ViewBag.a = "none";
-                ViewBag.b = "normal";
-            }
-            return View("Index", queryGoods.ToList());
+        {   
+            return PartialView("Table", db.Клиент.AsNoTracking().Where(cl=>cl.Адрес.Contains("могил")));
         }
         //-----------------------------------------------------------------------------
         
-            
-        //Export to excel
-        public ActionResult ExpExcl()
-        {
-            var grid = new GridView();
-            grid.DataSource = db.Клиент.ToList();
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachement; filename=Клиенты.xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return View();
-        }
-
         //autocomplete function for search field----------------------------------------
         public ActionResult AutocompleteSearch(string term)
-        {
-            var result = from N in db.Клиент
-                         where N.Название_организации.Contains(term)
-                         select new { value = N.Название_организации };
-            return Json(result, JsonRequestBehavior.AllowGet);
+        {           
+            return Json(db.Клиент
+                .AsNoTracking()
+                .Where(cl=>cl.Название_организации.Contains(term))
+                .Select(c=>new { value=c.Название_организации})
+                , JsonRequestBehavior.AllowGet);
         }
         //----------------------------------------------------------------------------------
 
         public ActionResult Search(string search)
         {
-            var queryGoods = from good in db.Клиент
-                             where good.Название_организации.Contains(search) || good.УНП_Клиента.ToString().Contains(search)
-                             select good;
+            var query = db.Клиент
+                .AsNoTracking()
+                .Where(c => c.Название_организации.Contains(search) || c.УНП_Клиента.ToString().Contains(search));
+                             
 
-            if (queryGoods.Count() > 0)
+            if (query.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(query);
             }
 
             else return PartialView("NoResult");

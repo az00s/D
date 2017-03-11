@@ -75,40 +75,6 @@
         </div>
     </div>
 }
-
-@*<div>
-    @Html.ActionLink("<<", "Index")
-</div>*@
-
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            locale: 'ru',
-            pickTime: false,
-            format: 'DD.MM.YYYY',
-            useCurrent: false,
-            language: 'ru',
-
-        });
-
-    });
-
-
-    $.validator.addMethod('date',
-            function (value, element) {
-                var ok = true;
-                try {
-                    $.datepicker.parseDate('dd.mm.yy', value);
-                }
-                catch (err) {
-                    ok = false;
-                }
-                return ok;
-            });
-
-</script>
-
-
 @section scripts{
 
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>

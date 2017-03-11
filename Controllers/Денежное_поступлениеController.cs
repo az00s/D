@@ -17,24 +17,33 @@ namespace D.Controllers
     [Authorize(Roles = "accountant,manager,admin")]
     public class Денежное_поступлениеController : Controller
     {
-
-
-
+        
         private IdbInterface db;//dataContext
         private IДенежное_поступлениеInterface p;
         private IОплата_заказаInterface o;
         public Денежное_поступлениеController(IdbInterface dbParam, IДенежное_поступлениеInterface pParam, IОплата_заказаInterface oParam)//dependency injection via constructor
         {
-
             db = dbParam;
             p = pParam;
             o = oParam;
-
         }
         public ActionResult Index(string sort)
         {
-            ViewBag.a = "none";
-            var денежное_поступление = db.Денежное_поступление.Include(д => д.Клиент).ToList();
+            
+            ViewBag.NumSortParm =  "num_desc";
+            ViewBag.DateSortParm = "date" ;
+            ViewBag.UnpSortParm ="unp" ;
+            ViewBag.NameSortParm = "name";
+            ViewBag.AmountSortParm ="amount";
+            
+             return View(db.Денежное_поступление.Include(д => д.Клиент).AsNoTracking().OrderBy(p => p.ID_поступления));
+           
+        }
+
+        public ActionResult Sorting(string sort)
+        {
+
+            var денежное_поступление = db.Денежное_поступление.Include(д => д.Клиент);
             ViewBag.NumSortParm = sort == "num_desc" ? "num" : "num_desc";
             ViewBag.DateSortParm = sort == "date_desc" ? "date" : "date_desc";
             ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
@@ -45,21 +54,19 @@ namespace D.Controllers
 
             switch (sort)
             {
-                case "num": return View(денежное_поступление.ToList().OrderBy(p => p.ID_поступления));
-                case "num_desc": return View(денежное_поступление.ToList().OrderByDescending(p => p.ID_поступления));
-                case "date": return View(денежное_поступление.ToList().OrderBy(p => p.Дата_поступления));
-                case "date_desc": return View(денежное_поступление.ToList().OrderByDescending(p => p.Дата_поступления));
-                case "unp": return View(денежное_поступление.ToList().OrderBy(p => p.Клиент.УНП_Клиента));
-                case "unp_desc": return View(денежное_поступление.ToList().OrderByDescending(p => p.Клиент.УНП_Клиента));
-                case "name": return View(денежное_поступление.ToList().OrderBy(p => p.Клиент.Название_организации));
-                case "name_desc": return View(денежное_поступление.ToList().OrderByDescending(p => p.Клиент.Название_организации));
-                case "amount": return View(денежное_поступление.ToList().OrderBy(p => p.Сумма));
-                case "amount_desc": return View(денежное_поступление.ToList().OrderByDescending(p => p.Сумма));
+                case "num": return PartialView("Table",денежное_поступление.AsNoTracking().OrderBy(p => p.ID_поступления));
+                case "num_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.ID_поступления));
+                case "date": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Дата_поступления));
+                case "date_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Дата_поступления));
+                case "unp": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Клиент.УНП_Клиента));
+                case "unp_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Клиент.УНП_Клиента));
+                case "name": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Клиент.Название_организации));
+                case "name_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Клиент.Название_организации));
+                case "amount": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Сумма));
+                case "amount_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Сумма));
 
-                default: return View(денежное_поступление.ToList().OrderBy(p => p.ID_поступления));
+                default: return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.ID_поступления));
             }
-
-            
         }
 
         
@@ -69,41 +76,33 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var денежное_поступление = db.Денежное_поступление.Find(id);
-            if (денежное_поступление == null)
+            ViewBag.p = db.Денежное_поступление.Find(id);
+
+            if (ViewBag.p == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.p = денежное_поступление;
-
-            var query = from g in db.Оплата_заказа.Include("Заказ")
-                        where g.ID_поступления == id
-                        select g;
-
-            //query.Distinct();
-            
-            return View(query.ToList());
+            return View(db.Оплата_заказа.Include("Заказ").AsNoTracking().Where(pay=>pay.ID_поступления==id));
         }
 
         
         public ActionResult Create()
         {
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации");
             return View();
         }
 
         
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed(/*[Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление денежное_поступление*/)
+        public ActionResult CreateConfirmed([Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
-                p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
-                p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
+                //p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
+                //p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
                 
                 p.AddtoTable(db, p);
                 
@@ -111,8 +110,7 @@ namespace D.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Номер_паспорта", p.ID_клиента);
-            return View(p);
+            return View("Create",p);
         }
 
       
@@ -127,7 +125,6 @@ namespace D.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации", денежное_поступление.ID_клиента);
             return View(денежное_поступление);
         }
 
@@ -135,19 +132,18 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(/*[Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление денежное_поступление*/)
+        public ActionResult Edit([Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление p)
         {
             if (ModelState.IsValid)
             {
-                p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
-                p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
-                p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
-                p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
+                //p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
+                //p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
+                //p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
+                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Номер_паспорта", p.ID_клиента);
             return View(p);
         }
 
@@ -165,8 +161,8 @@ namespace D.Controllers
             }
             return View(денежное_поступление);
         }
+
         [Authorize(Roles = "admin")]
-        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -186,56 +182,32 @@ namespace D.Controllers
             base.Dispose(disposing);
         }
 
-
         [ChildActionOnly]
         public ActionResult AllClients()
         {
-            return PartialView("AllClients", db.Клиент.ToList());
+            return PartialView("AllClients", db.Клиент.AsNoTracking());
             
         }
-
-        public ActionResult ExpExcl()
-        {
-
-            var grid = new GridView();
-            var list = db.Денежное_поступление.Select(d=>new {Номер=d.ID_поступления, Дата=d.Дата_поступления, Сумма=d.Сумма,Клиент=d.Клиент.Название_организации });
-            
-            grid.DataSource = list.ToList();
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachement; filename=Поступления.xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return View();
-        }
-
         public ActionResult AddM(int id)
         {
-            var queryGoods = from good in db.Денежное_поступление
-                             where good.ID_поступления == id
-                             select good;
-
-
-            ViewBag.d = (queryGoods.First());
+           ViewBag.d = db.Денежное_поступление
+                .AsNoTracking()
+                .Single(m => m.ID_поступления == id);
             
-            var query = from s in db.Заказ
-                        where s.Статус_заказа== "Оплачен"
-                        select s;
-            var p = db.Заказ.Except(query);
             
-            return View(p);
+            
+            var query = db.Заказ
+                .AsNoTracking()
+                .Where(o => o.Статус_заказа != "Оплачен");
+            
+            return View(query);
         }
         
         [HttpPost]
-        public ActionResult AddM(decimal Сумма)
+        public ActionResult AddM(decimal Сумма,Оплата_заказа o)
         {
-            o.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
-            o.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
+            //o.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
+            //o.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
             o.Сумма = Сумма;
             o.AddtoTable(db,o);
             db.SaveChanges();
@@ -247,20 +219,19 @@ namespace D.Controllers
         }
 
         public ActionResult AutocompleteSearch(string term)
-        {
-            
-            var result = from N in db.Денежное_поступление
-                         where N.Клиент.Название_организации.Contains(term)
-                         select new { value = N.Клиент.Название_организации };
-            return Json(result, JsonRequestBehavior.AllowGet);
+        {            
+          return Json(db.Денежное_поступление
+                .AsNoTracking()
+                .Where(mo=>mo.Клиент.Название_организации.Contains(term))
+                .Select(s=>new { value = s.Клиент.Название_организации })
+                , JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Search(string search)
         {
-            var queryGoods = from good in db.Денежное_поступление
-                             where good.Клиент.Название_организации.Contains(search) || good.Клиент.УНП_Клиента.ToString().Contains(search) || good.Сумма.ToString().Contains(search) || good.ID_поступления.ToString().Contains(search)
-                             select good;
-
+            var queryGoods = db.Денежное_поступление
+                .AsNoTracking()
+                .Where(mo => mo.Клиент.Название_организации.Contains(search) || mo.Клиент.УНП_Клиента.ToString().Contains(search) || mo.Сумма.ToString().Contains(search) || mo.ID_поступления.ToString().Contains(search));
             if (queryGoods.Count() > 0)
             {
                 return PartialView(queryGoods.ToList());
@@ -271,13 +242,10 @@ namespace D.Controllers
 
         public ActionResult ROrders(DateTime start, DateTime end)
         {
-            var queryGoods = from good in db.Денежное_поступление
-                             where good.Дата_поступления >= start && good.Дата_поступления <= end
-                             select good;
-
-            if (queryGoods.Count() > 0)
+            var query = db.Денежное_поступление.AsNoTracking().Where(mo=>mo.Дата_поступления >= start && mo.Дата_поступления <= end);
+            if (query.Count() > 0)
             {
-                return PartialView(queryGoods.ToList());
+                return PartialView(query.AsNoTracking());
             }
 
             else return PartialView("NoResult");
