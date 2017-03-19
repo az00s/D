@@ -134,7 +134,7 @@ namespace D.Controllers
                         //}
                         Session["sessionid"] = Session.SessionID;
                         IdbInterface db = new db();
-                        AspNetUser login = db.AspNetUsers.Where(i => i.Email == model.Email).First();
+                        AspNetUsers login = db.AspNetUsers.Where(i => i.Email == model.Email).First();
                          
                         //login.Email = model.Email;
                         login.SessionId = Session.SessionID; 

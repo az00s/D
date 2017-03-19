@@ -19,7 +19,7 @@ namespace D.Interfaces
 
         string Статус_заказа { get; set; }
 
-         Клиент Клиент { get; set; }
+        CustomerEnt CustomerEnt { get; set; }
 
          Сотрудник Сотрудник { get; set; }
 

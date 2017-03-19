@@ -57,9 +57,9 @@ $(document).ready(function(){
                     <td>
                         @Html.DisplayFor(modelItem => item.Дата_поступления)
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Клиент.УНП_Клиента)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerEnt.УНП_Клиента)</td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Клиент.Название_организации)
+                        @Html.DisplayFor(modelItem => item.CustomerEnt.Название_организации)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Сумма)

@@ -61,7 +61,7 @@ namespace D.Infrastructure
         {
             db context=new db();
 
-            IEnumerable<AspNetUser> logins = (from i in context.AspNetUsers
+            IEnumerable<AspNetUsers> logins = (from i in context.AspNetUsers
                                           where i.LoggedIn == true && i.Email == userId && i.SessionId == sid
                                           select i).AsEnumerable();
             return logins.Any();
@@ -71,7 +71,7 @@ namespace D.Infrastructure
         {
             db context = new db();
 
-            IEnumerable<AspNetUser> logins = (from i in context.AspNetUsers
+            IEnumerable<AspNetUsers> logins = (from i in context.AspNetUsers
                                               where i.LoggedIn == true && i.Email == userId && i.SessionId != sid
                                           select i).AsEnumerable();
             return logins.Any();
@@ -81,11 +81,11 @@ namespace D.Infrastructure
         {
             db context = new db();
 
-            IEnumerable<AspNetUser> logins = (from i in context.AspNetUsers
+            IEnumerable<AspNetUsers> logins = (from i in context.AspNetUsers
                                               where i.LoggedIn == true && i.Email == userId && i.SessionId != sid // need to filter by user ID
                                           select i).AsEnumerable();
 
-            foreach (AspNetUser item in logins)
+            foreach (AspNetUsers item in logins)
             {
                 item.LoggedIn = false;
             }

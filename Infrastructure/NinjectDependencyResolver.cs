@@ -37,7 +37,7 @@ namespace D.Infrastructure
             kernel.Bind<IТоварInterface>().To<Товар>();
             kernel.Bind<IСотрудникInterface>().To<Сотрудник>();
             kernel.Bind<IПоставщикInterface>().To<Поставщик>();
-            kernel.Bind<IКлиентInterface>().To<Клиент>();
+            kernel.Bind<IКлиентInterface>().To<CustomerEnt>();
             kernel.Bind<IЗаказInterface>().To<Заказ>();
             kernel.Bind<IДенежное_поступлениеInterface>().To<Денежное_поступление>();
             kernel.Bind<IОплата_заказаInterface>().To<Оплата_заказа>();

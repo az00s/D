@@ -40,13 +40,13 @@ namespace D.Controllers
             ViewBag.StatusSortParm = "statdistinus";
             ViewBag.EmpSortParm= "emp" ;
 
-            return View(db.Заказ.Include(з => з.Клиент).Include(з => з.Сотрудник).AsNoTracking().OrderBy(p => p.ID_заказа));
+            return View(db.Заказ.Include(з => з.CustomerEnt).Include(з => з.Сотрудник).AsNoTracking().OrderBy(p => p.ID_заказа));
             
         }
 
         public ActionResult Sorting(string sort)
         {
-            var заказ = db.Заказ.Include(з => з.Клиент).Include(з => з.Сотрудник).AsNoTracking();
+            var заказ = db.Заказ.Include(з => з.CustomerEnt).Include(з => з.Сотрудник).AsNoTracking();
 
             //sorting----------------------------------------------------------------------------
 
@@ -64,8 +64,8 @@ namespace D.Controllers
                 case "date": return PartialView("Table", заказ.OrderBy(p => p.Дата_заказа));
                 case "date_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Дата_заказа));
 
-                case "name": return PartialView("Table", заказ.OrderBy(p => p.Клиент.Название_организации));
-                case "name_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Клиент.Название_организации));
+                case "name": return PartialView("Table", заказ.OrderBy(p => p.CustomerEnt.Название_организации));
+                case "name_desc": return PartialView("Table", заказ.OrderByDescending(p => p.CustomerEnt.Название_организации));
 
                 case "amount": return PartialView("Table", заказ.OrderBy(p => p.Сумма_заказа_с_НДС));
                 case "amount_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Сумма_заказа_с_НДС));
@@ -149,7 +149,7 @@ namespace D.Controllers
        
         public ActionResult Create()
         {
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации");
+            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации");
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия");
             return View();
         }
@@ -180,7 +180,7 @@ namespace D.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации", p.ID_клиента);
+            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации", p.ID_клиента);
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", p.Табельный_номер);
             return View(p);
         }
@@ -210,7 +210,7 @@ namespace D.Controllers
                                                                                                     } );
            
             
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Название_организации", заказ.ID_клиента);
+            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации", заказ.ID_клиента);
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", заказ.Табельный_номер);
 
             return View(заказ);
@@ -246,7 +246,7 @@ namespace D.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID_клиента = new SelectList(db.Клиент, "ID_клиента", "Номер_паспорта", p.ID_клиента);
+            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Номер_паспорта", p.ID_клиента);
             ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", p.Табельный_номер);
             return View(p);
         }
@@ -289,7 +289,7 @@ namespace D.Controllers
         [ChildActionOnly]
         public ActionResult AllClients()
         {
-            return PartialView("AllClients", db.Клиент);
+            return PartialView("AllClients", db.CustomerEnt);
         }
         //getting list of all goods--------------------------------------------
         [ChildActionOnly]
@@ -317,15 +317,15 @@ namespace D.Controllers
         { 
             return Json(
                 db.Заказ.AsNoTracking()
-                .Where(N=> N.Клиент.Название_организации.Contains(term))
-                .Select(N=> N.Клиент.Название_организации ), JsonRequestBehavior.AllowGet);
+                .Where(N=> N.CustomerEnt.Название_организации.Contains(term))
+                .Select(N=> N.CustomerEnt.Название_организации ), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Search(string search)
         {
             var queryGoods = 
                 db.Заказ.AsNoTracking()
-                .Where(good => good.ID_заказа.ToString().Contains(search) || good.Клиент.Название_организации.Contains(search)  || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search));
+                .Where(good => good.ID_заказа.ToString().Contains(search) || good.CustomerEnt.Название_организации.Contains(search)  || good.Сотрудник.Фамилия.Contains(search) || good.Сумма_заказа_с_НДС.Value.ToString().Contains(search));
                 
 
             if (queryGoods.Count() > 0)
@@ -374,7 +374,7 @@ namespace D.Controllers
 
             ViewBag.ID = заказ.ID_заказа;
             ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
-            ViewBag.Client = заказ.Клиент.Название_организации + ", " + "УНП: " + заказ.Клиент.УНП_Клиента + ", " + заказ.Клиент.Адрес + ", " + заказ.Клиент.Телефон + ".";
+            ViewBag.Client = заказ.CustomerEnt.Название_организации + ", " + "УНП: " + заказ.CustomerEnt.УНП_Клиента + ", " + заказ.CustomerEnt.Адрес + ", " + заказ.CustomerEnt.Телефон + ".";
             ViewBag.Employee = заказ.Сотрудник.Фамилия;
 
             //    return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));

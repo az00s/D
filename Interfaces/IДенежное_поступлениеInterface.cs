@@ -16,7 +16,7 @@ namespace D.Interfaces
 
           ICollection<Оплата_заказа> Оплата_заказа { get; set; }
 
-         Клиент Клиент { get; set; }
+        CustomerEnt CustomerEnt { get; set; }
         void AddtoTable(IdbInterface db, IДенежное_поступлениеInterface p);
     }
 }

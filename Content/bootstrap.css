@@ -104,7 +104,7 @@ hr {
     color: #E81C2C; /* ÷вет линии дл€ остальных браузеров */
     background-color: #E81C2C; /* ÷вет линии дл€ браузера Firefox и Opera */
     height: 2px;
-    
+    margin-bottom:1px!important;
 }
 
 mark {

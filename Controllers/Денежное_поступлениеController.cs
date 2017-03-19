@@ -36,14 +36,14 @@ namespace D.Controllers
             ViewBag.NameSortParm = "name";
             ViewBag.AmountSortParm ="amount";
             
-             return View(db.Денежное_поступление.Include(д => д.Клиент).AsNoTracking().OrderBy(p => p.ID_поступления));
+             return View(db.Денежное_поступление.Include(д => д.CustomerEnt).AsNoTracking().OrderBy(p => p.ID_поступления));
            
         }
 
         public ActionResult Sorting(string sort)
         {
 
-            var денежное_поступление = db.Денежное_поступление.Include(д => д.Клиент);
+            var денежное_поступление = db.Денежное_поступление.Include(д => д.CustomerEnt);
             ViewBag.NumSortParm = sort == "num_desc" ? "num" : "num_desc";
             ViewBag.DateSortParm = sort == "date_desc" ? "date" : "date_desc";
             ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
@@ -58,10 +58,10 @@ namespace D.Controllers
                 case "num_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.ID_поступления));
                 case "date": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Дата_поступления));
                 case "date_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Дата_поступления));
-                case "unp": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Клиент.УНП_Клиента));
-                case "unp_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Клиент.УНП_Клиента));
-                case "name": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Клиент.Название_организации));
-                case "name_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Клиент.Название_организации));
+                case "unp": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.CustomerEnt.УНП_Клиента));
+                case "unp_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.CustomerEnt.УНП_Клиента));
+                case "name": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.CustomerEnt.Название_организации));
+                case "name_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.CustomerEnt.Название_организации));
                 case "amount": return PartialView("Table", денежное_поступление.AsNoTracking().OrderBy(p => p.Сумма));
                 case "amount_desc": return PartialView("Table", денежное_поступление.AsNoTracking().OrderByDescending(p => p.Сумма));
 
@@ -185,7 +185,7 @@ namespace D.Controllers
         [ChildActionOnly]
         public ActionResult AllClients()
         {
-            return PartialView("AllClients", db.Клиент.AsNoTracking());
+            return PartialView("AllClients", db.CustomerEnt.AsNoTracking());
             
         }
         public ActionResult AddM(int id)
@@ -222,8 +222,8 @@ namespace D.Controllers
         {            
           return Json(db.Денежное_поступление
                 .AsNoTracking()
-                .Where(mo=>mo.Клиент.Название_организации.Contains(term))
-                .Select(s=>new { value = s.Клиент.Название_организации })
+                .Where(mo=>mo.CustomerEnt.Название_организации.Contains(term))
+                .Select(s=>new { value = s.CustomerEnt.Название_организации })
                 , JsonRequestBehavior.AllowGet);
         }
 
@@ -231,7 +231,7 @@ namespace D.Controllers
         {
             var queryGoods = db.Денежное_поступление
                 .AsNoTracking()
-                .Where(mo => mo.Клиент.Название_организации.Contains(search) || mo.Клиент.УНП_Клиента.ToString().Contains(search) || mo.Сумма.ToString().Contains(search) || mo.ID_поступления.ToString().Contains(search));
+                .Where(mo => mo.CustomerEnt.Название_организации.Contains(search) || mo.CustomerEnt.УНП_Клиента.ToString().Contains(search) || mo.Сумма.ToString().Contains(search) || mo.ID_поступления.ToString().Contains(search));
             if (queryGoods.Count() > 0)
             {
                 return PartialView(queryGoods.ToList());

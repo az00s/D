@@ -107,12 +107,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
@@ -228,6 +228,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AuthorizeAttribute .cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerIndController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -241,6 +242,7 @@
     </Compile>
     <Compile Include="Infrastructure\CustomAuthAttribute.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Interfaces\ICustomerIndInterface.cs" />
     <Compile Include="Interfaces\IДенежное_поступлениеInterface.cs" />
     <Compile Include="Interfaces\IЗаказInterface.cs" />
     <Compile Include="Interfaces\IКлиентInterface.cs" />
@@ -251,13 +253,16 @@
     <Compile Include="Interfaces\IТоварInterface.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs" />
+    <Compile Include="Models\AspNetRoles.cs" />
     <Compile Include="Models\AspNetUser.cs" />
-    <Compile Include="Models\AspNetUserClaim.cs" />
-    <Compile Include="Models\AspNetUserLogin.cs" />
+    <Compile Include="Models\AspNetUsers.cs" />
+    <Compile Include="Models\CustomerEnt.cs" />
+    <Compile Include="Models\CustomerInd.cs" />
     <Compile Include="Models\C__MigrationHistory.cs" />
     <Compile Include="Models\db.cs" />
     <Compile Include="Models\deleted_client.cs" />
     <Compile Include="Interfaces\IdbInterface.cs" />
+    <Compile Include="Models\EntityFramework.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\inserted_goods.cs" />
     <Compile Include="Interfaces\IОформление_заказаInterface.cs" />
@@ -268,10 +273,8 @@
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\Денежное_поступление.cs" />
     <Compile Include="Models\Заказ.cs" />
-    <Compile Include="Models\Клиент.cs" />
     <Compile Include="Models\Оплата_заказа.cs" />
     <Compile Include="Models\Оформление_заказа.cs" />
-    <Compile Include="Models\Пользователь.cs" />
     <Compile Include="Models\Поставщик.cs" />
     <Compile Include="Models\Поставщик_цена.cs" />
     <Compile Include="Models\Сотрудник.cs" />
@@ -432,7 +435,6 @@
     <Content Include="Views\Денежное_поступление\_SideMenuMoney.cshtml" />
     <Content Include="Views\Сотрудник\_SideMenuEmployee.cshtml" />
     <Content Include="Views\Shared\ErrorGoods.cshtml" />
-    <Content Include="Views\Shared\AllClients.cshtml" />
     <Content Include="Views\Shared\ErrorClients.cshtml" />
     <Content Include="Views\Shared\ErrorProviders.cshtml" />
     <Content Include="Views\Shared\ErrorEmployee.cshtml" />
@@ -459,6 +461,15 @@
     <Content Include="Views\Заказ\Table.cshtml" />
     <Content Include="Views\Shared\_PdfLayout.cshtml" />
     <Content Include="Views\Денежное_поступление\Table.cshtml" />
+    <Content Include="Views\Shared\AllClients.cshtml" />
+    <Content Include="Views\CustomerInd\Table.cshtml" />
+    <Content Include="Views\CustomerInd\Index.cshtml" />
+    <Content Include="Views\CustomerInd\_SideMenuCustomerInd.cshtml" />
+    <Content Include="Views\CustomerInd\Create.cshtml" />
+    <Content Include="Views\CustomerInd\Delete.cshtml" />
+    <Content Include="Views\CustomerInd\Details.cshtml" />
+    <Content Include="Views\CustomerInd\Edit.cshtml" />
+    <Content Include="Views\CustomerInd\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

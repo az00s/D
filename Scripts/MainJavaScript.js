@@ -176,27 +176,27 @@ var tableToExcel = (function() {
 })()
 
 
-        //$(function () {
-        //    // при нажатии на кнопку scrollup
-        //    $('.scrollup').click(function () {
-        //        // переместиться в верхнюю часть страницы
-        //        $("html, body").animate({
-        //            scrollTop: 0
-        //        }, 500);
-        //    })
-        //})
-        //// при прокрутке окна (window)
-        //$(window).scroll(function () {
-        //    // если пользователь прокрутил страницу более чем на 200px
-        //    if ($(this).scrollTop() > 200) {
-        //        // то сделать кнопку scrollup видимой
-        //        $('.scrollup').fadeIn();
-        //    }
-        //        // иначе скрыть кнопку scrollup
-        //    else {
-        //        $('.scrollup').fadeOut();
-        //    }
-        //});
+        $(function () {
+            // при нажатии на кнопку scrollup
+            $('.scrollup').click(function () {
+                // переместиться в верхнюю часть страницы
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 500);
+            })
+        })
+        // при прокрутке окна (window)
+        $(window).scroll(function () {
+            // если пользователь прокрутил страницу более чем на 200px
+            if ($(this).scrollTop() > 200) {
+                // то сделать кнопку scrollup видимой
+                $('.scrollup').fadeIn();
+            }
+                // иначе скрыть кнопку scrollup
+            else {
+                $('.scrollup').fadeOut();
+            }
+        });
     
         
                 $(function () {
@@ -222,7 +222,7 @@ var tableToExcel = (function() {
     };
 
     window.onload = function () {
-
+        
         document.getElementById('toggler').onclick = function () {
             openbox('box', this);
             return false;
@@ -273,6 +273,20 @@ var tableToExcel = (function() {
     };
 
     
+    
+                
+    $('.dropdown').on('click', '#drop1', function () {
+
+
+
+        if ($(".customer").css('display') == 'block')
+
+        { $(".customer").css('display', 'none'); }
+
+        else $(".customer").css('display', 'block');
+            });
+
+       
 
     
 

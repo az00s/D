@@ -6,12 +6,12 @@ namespace D.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class AspNetUser
+    public partial class AspNetUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetUser()
+        public AspNetUsers()
         {
-            AspNetRoles = new HashSet<AspNetRole>();
+            AspNetRoles = new HashSet<AspNetRoles>();
         }
 
         public string Id { get; set; }
@@ -25,7 +25,7 @@ namespace D.Models
 
         public string SecurityStamp { get; set; }
 
-        public string SessionId  { get; set; }
+        public string PhoneNumber { get; set; }
 
         public bool PhoneNumberConfirmed { get; set; }
 
@@ -36,17 +36,16 @@ namespace D.Models
         public bool LockoutEnabled { get; set; }
 
         public int AccessFailedCount { get; set; }
-        public bool? LoggedIn { get; set; }
-        public string PhoneNumber { get; set; }
-        
-
 
         [Required]
         [StringLength(256)]
         public string UserName { get; set; }
 
+        public bool? LoggedIn { get; set; }
+
+        public string SessionId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
     }
 }

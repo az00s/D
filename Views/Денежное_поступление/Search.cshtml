@@ -27,9 +27,9 @@ $(document).ready(function(){
                 <th>
                     @Html.DisplayNameFor(model => model.Дата_поступления)
                 </th>
-                <th>@Html.DisplayNameFor(model => model.Клиент.УНП_Клиента)</th>
+                <th>@Html.DisplayNameFor(model => model.CustomerEnt.УНП_Клиента)</th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Клиент.Название_организации)
+                    @Html.DisplayNameFor(model => model.CustomerEnt.Название_организации)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Сумма)
@@ -50,9 +50,9 @@ $(document).ready(function(){
                     <td>
                         @Html.DisplayFor(modelItem => item.Дата_поступления)
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Клиент.УНП_Клиента)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerEnt.УНП_Клиента)</td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Клиент.Название_организации)
+                        @Html.DisplayFor(modelItem => item.CustomerEnt.Название_организации)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Сумма)

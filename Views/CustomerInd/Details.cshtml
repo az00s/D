@@ -1,0 +1,72 @@
+﻿@model D.Models.CustomerInd
+
+@{
+    ViewBag.Title = "Детали";
+}
+
+
+<div>
+
+    <div class="pencildiv">
+        <a class="glyphicon glyphicon-pencil" href="@Url.Action("Edit", new { id = Model.CustomerIndId })"></a><div class="CustomerName"><p>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.Patronymic)</p></div>
+
+    </div>
+    <div>
+        <hr />
+        <div class="regDate">
+            @Html.DisplayFor(model => model.RegisteredDate)
+        </div>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassportId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirstDate)
+        </dt>
+
+        <dd>
+            @Html.ValueFor(model => model.BirstDate, "{0:dd'.'MM'.'yyyy}")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adress)
+        </dt>
+
+        <dd>
+            <div>@Html.DisplayFor(model => model.Adress)</div>
+        </dd>
+
+    </dl>
+    <fieldset>
+        <legend>@Html.DisplayNameFor(model => model.Description)</legend>
+        @Html.DisplayFor(model => model.Description)
+    </fieldset>
+</div>
+@section scripts{
+
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+}
