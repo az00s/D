@@ -1,22 +1,70 @@
 ﻿@model IEnumerable<D.Models.Товар>
+    @{
+
+            AjaxOptions ajaxOptions = new AjaxOptions
+            {
+                UpdateTargetId = "table",
+                HttpMethod = "Post",
+            };
+        }
+
+
 <script>
 $(document).ready(function(){
 
     $(".table-hover tbody tr td:not(.dontPrint)").click(
         function ()
         {
-            var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+                var ID = $(this).parent().find("input[name='item.ID_товара']").val();
 
             $.ajax({
-                method: "GET",
+                    method: "GET",
                 url: "@Url.Action("Details")/" + ID
                     })
                 .done(function (data) {
                                         $('.body-content').html(data);
+                });
             });
         });
-});
 </script>
+<div id="header" class="test-border1">
+    <table class="table-bordered table-striped table-hover" id="TableHeader">
+
+        <thead>
+            <tr>
+                <th>
+                    @Ajax.ActionLink("Обозначение", "Sorting", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })
+
+                </th>
+                <th>
+                    @Ajax.ActionLink("Наименование", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Остаток", "Sorting", new { sort = ViewBag.OstSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Поставка, дней", "Sorting", new { sort = ViewBag.DaySortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Вес, г", "Sorting", new { sort = ViewBag.WeightSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Цена", "Sorting", new { sort = ViewBag.PriceSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Цена с НДС", "Sorting", new { sort = ViewBag.PriceVatSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
 <div class="test-border" >
     <table class="table-bordered table-striped table-hover" id="Table">
         <thead>
@@ -27,9 +75,7 @@ $(document).ready(function(){
                 <th>
                     @Html.DisplayNameFor(model => model.Наименование)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Краткое_описание)
-                </th>
+                
                 <th>
                     @Html.DisplayNameFor(model => model.Единица_измерения)
                 </th>
@@ -64,9 +110,7 @@ $(document).ready(function(){
                     <td>
                         @Html.DisplayFor(modelItem => item.Наименование)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Краткое_описание)
-                    </td>
+                    
                     <td>
                         @Html.DisplayFor(modelItem => item.Единица_измерения)
                     </td>

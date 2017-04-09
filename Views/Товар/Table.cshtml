@@ -1,66 +1,115 @@
 ﻿@model IEnumerable<D.Models.Товар>
-    @{AjaxOptions ajaxOptions = new AjaxOptions
-        {
-            UpdateTargetId = "table",
-            HttpMethod = "Post",
-            
-        };
-    }
+@{AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+
+
+    };
+}
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-    $(".table-hover tbody tr td:not(.dontPrint)").click(
-        function ()
-        {
-            var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+        $(".table-hover tbody tr td:not(.dontPrint)").click(
+            function () {
+                var ID = $(this).parent().find("input[name='item.ID_товара']").val();
 
-            $.ajax({
-                method: "GET",
-                url: "@Url.Action("Details")/" + ID
-                    })
-                .done(function (data) {
-                                        $('.body-content').html(data);
+                $.ajax({
+                    method: "GET",
+                    url: "@Url.Action("Details")/" + ID
+                })
+                    .done(function (data) {
+                        $('.body-content').html(data);
+                    });
             });
+
+        $('#moreButtons').click(function () {
+
+            if ($(".moreButtons").css('display') == 'block')
+
+            { $(".moreButtons").css('display', 'none'); }
+
+            else $(".moreButtons").css('display', 'block');
         });
-});
+
+    });
 </script>
-<div class="test-border">
-    <table class="table-bordered table-striped table-hover" id="Table">
+<div id="header" class="test-border1">
+    <table class="table-bordered table-striped table-hover" id="TableHeader">
+
         <thead>
             <tr>
                 <th>
-                    @Ajax.ActionLink("Обозначение", "Sorting", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Обозначение", "Table", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Num)
 
                 </th>
                 <th>
-                    @Ajax.ActionLink("Наименование", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Наименование", "Table", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Name)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Краткое_описание)
-                </th>
+
                 <th>
                     @Html.DisplayNameFor(model => model.Единица_измерения)
                 </th>
 
                 <th>
-                    @Ajax.ActionLink("Остаток", "Sorting", new { sort = ViewBag.OstSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Остаток", "Table", new { sort = ViewBag.OstSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Ost)
                 </th>
                 <th>
-                    @Ajax.ActionLink("Поставка, дней", "Sorting", new { sort = ViewBag.DaySortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Поставка, дней", "Table", new { sort = ViewBag.DaySortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Day)
                 </th>
                 <th>
-                    @Ajax.ActionLink("Вес, г", "Sorting", new { sort = ViewBag.WeightSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Вес, г", "Table", new { sort = ViewBag.WeightSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Weight)
                 </th>
                 <th>
-                    @Ajax.ActionLink("Цена", "Sorting", new { sort = ViewBag.PriceSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Цена", "Table", new { sort = ViewBag.PriceSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Price)
                 </th>
 
                 <th>
-                    @Ajax.ActionLink("Цена с НДС", "Sorting", new { sort = ViewBag.PriceVatSortParm }, ajaxOptions, new { @class = "Theader" })
+                    @Ajax.ActionLink("Цена с НДС", "Table", new { sort = ViewBag.PriceVatSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.PriceVat)
                 </th>
                 <th class="dontPrint"></th>
             </tr>
         </thead>
+    </table>
+</div>
+<div class="test-border">
+    <table class="table-bordered table-striped table-hover" id="Table">
+
+        <thead>
+            <tr>
+                <th>
+                    
+                    @Ajax.ActionLink("Обозначение ", "Table", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Num)
+
+                </th>
+                <th>
+                    @Ajax.ActionLink("Наименование", "Table", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Остаток", "Table", new { sort = ViewBag.OstSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Ost)
+                </th>
+                <th>
+                    @Ajax.ActionLink("Поставка, дней", "Table", new { sort = ViewBag.DaySortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Day)
+                </th>
+                <th>
+                    @Ajax.ActionLink("Вес, г", "Table", new { sort = ViewBag.WeightSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Weight)
+                </th>
+                <th>
+                    @Ajax.ActionLink("Цена", "Table", new { sort = ViewBag.PriceSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.Price)
+                </th>
+
+                <th>
+                    @Ajax.ActionLink("Цена с НДС", "Table", new { sort = ViewBag.PriceVatSortParm }, ajaxOptions, new { @class = "Theader" })@Html.Raw(ViewBag.PriceVat)
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+
         <tbody>
 
             @foreach (var item in Model)
@@ -73,9 +122,7 @@ $(document).ready(function(){
                     <td>
                         @Html.DisplayFor(modelItem => item.Наименование)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Краткое_описание)
-                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Единица_измерения)
                     </td>
@@ -108,5 +155,66 @@ $(document).ready(function(){
 
 
     </table>
-    </div>
+</div>
 
+<div class="btn-group buttons">
+    
+    @{
+
+
+        @Ajax.ActionLink("<", "Table", new { page = ViewBag.CurrentPage - 1 == 0 ? 1 : ViewBag.CurrentPage - 1,sort= ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-default pageBtn" })
+
+        if (ViewBag.count < 11)
+        {
+            for (long i = 1; i <= ViewBag.count; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-primary selected" }) }
+
+                else {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-default pageBtn" })}
+            }
+        }
+
+        else
+        {
+            for (int i = 1; i <= 7; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-primary selected" }) }
+
+                else
+                {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-default pageBtn" })}
+            } 
+            <a href="#" class="glyphicon glyphicon-circle-arrow-down btn btn-default pageBtn" id="moreButtons"></a>
+            <div class="moreButtons">
+               
+                    @{
+                        for (long i = 8; i <= ViewBag.count - 7; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn-sm btn-primary" }) }
+
+                            else
+                            {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn-sm btn-default pageBtn" })}
+                        }
+                    }
+                    
+                   
+               
+            </div>
+
+
+                        for (long i = ViewBag.count - 6; i <= ViewBag.count; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-primary selected" }) }
+
+                            else
+                            {@Ajax.ActionLink(i.ToString(), "Table", new { page = i, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-default pageBtn" })}
+                            }
+                        }
+        @Ajax.ActionLink(">", "Table", new { page = ViewBag.CurrentPage + 1 > ViewBag.count ? ViewBag.CurrentPage : ViewBag.CurrentPage + 1, sort = ViewBag.SortParam }, ajaxOptions, new { @class = "btn btn-default pageBtn" })
+    }
+
+
+</div>

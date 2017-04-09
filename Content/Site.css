@@ -1,4 +1,71 @@
-﻿.nameEdit {
+﻿.btn-sm {
+
+border:0.1px solid #BABDC1!important;
+top:10px;
+
+border-radius:0px;
+}
+.btn-sm + .btn-primary {
+
+top:10px;
+position:relative;
+}
+
+.buttons .btn-primary {
+
+background-color:#BABDC1!important;
+border-color:#BABDC1!important;
+} 
+
+.pageBtn {
+
+background-color:#D2D5DA!important;
+position:relative;
+}
+
+.moreButtons {
+position:absolute;
+z-index:1;
+display:none;
+top:40px;
+max-width:700px;
+min-height:60px;
+max-height:200px;
+overflow-x:auto;
+}
+
+.buttons {
+
+top:20px;
+}
+
+.test-border1 {
+border: 2px solid #BCC1C9;
+    border-radius: 5px 5px;
+    /*box-shadow: 0 8px 15px;*/
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+    /* max-width: 90%; */
+    /* margin-left: 5%; */
+}
+
+#header {
+    position:fixed;
+display:none;
+top:50px!important;
+background:#DADDE2;
+}
+
+#Table td{
+    word-break:break-word;
+word-wrap: break-word!important;
+word-break: break-all;
+}
+
+
+
+.nameEdit {
     height: 7%;
     width: auto;
     position: relative;
@@ -201,6 +268,7 @@ z-index:2;
 .Theader {
 text-decoration:none !important;
 color:black;
+
 }
 
 #chart {

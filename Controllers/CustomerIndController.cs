@@ -148,19 +148,19 @@ namespace D.Controllers
         }
 
 
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var клиент = db.CustomerEnt.Find(id);
-            if (клиент == null)
-            {
-                return HttpNotFound();
-            }
-            return View(клиент);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var клиент = db.CustomerEnt.Find(id);
+        //    if (клиент == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(клиент);
+        //}
 
 
         [Authorize(Roles = "admin")]
@@ -169,7 +169,7 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            db.CustomerEnt.Remove(db.CustomerEnt.Find(id));
+            db.CustomerInd.Remove(db.CustomerInd.Find(id));
             db.SaveChanges();
             return RedirectToAction("Index");
         }

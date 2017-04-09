@@ -228,9 +228,12 @@ var tableToExcel = (function() {
             return false;
         };
 
-        document.getElementById('toggler1').onclick=function () {
-            openboxO('box1', 'tog');
-            return false;
+        if (document.getElementById('toggler1'))
+            {
+            document.getElementById('toggler1').onclick = function () {
+                openboxO('box1', 'tog');
+                return false;
+            }
         };
 
 
@@ -286,8 +289,37 @@ var tableToExcel = (function() {
         else $(".customer").css('display', 'block');
             });
 
-       
 
+
+    
+
+    $(window).scroll(function () {
+
+        if ($(this).scrollTop() > 30)
+        {
+           
+            $('#TableHeader thead tr th').each(function(indx){ 
+
+                $(this).css('width', $('#Table thead tr th').eq(indx).css('width'));
+            
+            });
+           
+            $("#header").fadeIn();
+        }
+        else $("#header").fadeOut();
+
+    });
+
+    $('#table').on('click', '#moreButtons', function () {
+
+
+        
+        if ($(".moreButtons").css('display') == 'block')
+
+        { $(".moreButtons").css('display', 'none'); }
+
+        else $(".moreButtons").css('display', 'block');
+    });
     
 
     

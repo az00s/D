@@ -77,6 +77,7 @@ namespace D.Models
         //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         //public decimal? Получено { get; set; }
 
+        public virtual CustomerInd CustomerInd { get; set; }
         public virtual CustomerEnt CustomerEnt { get; set; }
 
         public virtual Сотрудник Сотрудник { get; set; }
@@ -387,6 +388,7 @@ namespace D.Models
 
     public partial class CustomerInd
     {
+        
         [Required]
         [StringLength(100)]
         public string PassportId { get; set; }
@@ -426,5 +428,13 @@ namespace D.Models
         public string Description { get; set; }
 
         public int CustomerIndId { get; set; }
+
+        public virtual ICollection<Заказ> Заказ { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustomerInd()
+        {
+            Заказ = new HashSet<Заказ>();
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<D.Models.Товар>
-
+@using D.Models
 @{
     ViewBag.Title = "Товары";
 
@@ -13,8 +13,11 @@
 @Html.Partial("_SideMenuGoods")
 
 <div id="table">
-    @Html.Partial("Table",Model)
+    @Html.Partial("Table", Model)
 </div>
+
+
+
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>

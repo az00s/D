@@ -144,6 +144,11 @@
                 .HasMany(e => e.Оформление_заказа)
                 .WithRequired(e => e.Товар)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<CustomerInd>()
+                .HasMany(e => e.Заказ)
+                .WithRequired(e => e.CustomerInd)
+                .WillCascadeOnDelete(false);
         }
     }
 }

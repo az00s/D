@@ -1677,6 +1677,7 @@ th,td {
         max-height:500px;
         /*word-break:break-word;*/
        text-wrap:normal;
+       width:auto;
     }
 
     .table-bordered > thead > tr > th,

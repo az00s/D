@@ -302,6 +302,8 @@
     <Content Include="Content\png\error.png" />
     <Content Include="Content\png\file.png" />
     <Content Include="Content\png\more-1.png" />
+    <Content Include="Content\png\sort-bt.gif" />
+    <Content Include="Content\png\sort-up.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

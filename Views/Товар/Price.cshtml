@@ -3,8 +3,30 @@
 @{
     ViewBag.Title = "Прайс-лист";
 }
+<div id="header" class="test-border1">
+    <table class="table-bordered table-striped table-hover" id="TableHeader">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Обозначение)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Наименование)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Единица_измерения)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Цена_с_НДС)
+                </th>
+            </tr>
+            </thead>
+</table>
+</div>
 <div class="test-border">
     <table class="table-bordered table-striped" id="Table">
+        <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Обозначение)
@@ -20,7 +42,7 @@
                 @Html.DisplayNameFor(model => model.Цена_с_НДС)
             </th>
         </tr>
-
+            </thead>
         @foreach (var item in Model)
         {
             <tr>

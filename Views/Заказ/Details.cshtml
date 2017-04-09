@@ -1,4 +1,4 @@
-﻿@model IEnumerable< D.Models.Оформление_заказа>
+﻿@model IEnumerable<D.Models.Оформление_заказа>
 @using D.Models
 @{
     ViewBag.Title = "Детали заказа";
@@ -116,7 +116,7 @@
                 <tr>
                     <td>@Html.DisplayName(i.ID_поступления.ToString())</td>
                     <td>@i.Денежное_поступление.Дата_поступления.Value.ToShortDateString()</td>
-                    <td>@Html.DisplayName(i.Денежное_поступление.Клиент.Название_организации)</td>
+                    @*<td>@Html.DisplayName(i.Денежное_поступление)</td>*@
                     <td>@Html.DisplayName(i.Сумма.Value.ToString("0.00"))</td>
                     
                    

@@ -65,8 +65,8 @@ namespace D.Controllers
                 .Sum(g=>g.Остаток_на_складе*g.Цена);
 
             ViewBag.w= db.Товар
-                .AsNoTracking()
-                .Sum(g => g.Остаток_на_складе * g.Вес)/1000;
+                .AsNoTracking().AsEnumerable()
+                .Sum(g => (decimal)(g.Остаток_на_складе)* g.Вес) / 1000;
 
 
             ViewBag.o1mY = db.Заказ
