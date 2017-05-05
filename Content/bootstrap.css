@@ -1672,9 +1672,10 @@ th,td {
         border-left: 1px solid #BCC1C9;
         max-width:400px;
         min-width:95px;
-        height:40px;
+        height:55px;
         min-height:50px;
         max-height:500px;
+        
         /*word-break:break-word;*/
        text-wrap:normal;
        width:auto;

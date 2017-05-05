@@ -35,24 +35,24 @@ namespace D.Controllers
            
         }
         public ActionResult Index(int pagesize = 10)
-        {
-            ViewBag.CurrentPage = 1;
-            ViewBag.count = db.Товар.AsNoTracking().LongCount()% pagesize == 0 ? db.Товар.AsNoTracking().LongCount()/ pagesize : (db.Товар.AsNoTracking().LongCount()/ pagesize) +1;
-            ViewBag.NumSortParm ="number_desc";
-            ViewBag.NameSortParm ="name" ;
-            ViewBag.OstSortParm =  "ost";
-            ViewBag.DaySortParm = "day";
-            ViewBag.WeightSortParm =  "weight";
-            ViewBag.PriceSortParm = "price";
-            ViewBag.PriceVatSortParm = "pricevat";
-           
-            return View(db.Товар.AsNoTracking().OrderBy(p => p.ID_товара).Take(pagesize));
+        { 
+            return RedirectToAction("Table");
         }
 
        
-        public ActionResult Table(string sort,int page = 1, int pagesize = 10)
+        public ActionResult Table(string sort,int page = 1, int pagesize = 10,string search=null)
         {
+            IQueryable<Товар> request = db.Товар.AsNoTracking();
 
+            //searching----------------------------------------------------------------------------------------------
+            if (search != null)
+            {
+                request = db.Товар.AsNoTracking().Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
+                if (request.LongCount() <1)
+                { return PartialView("NoResult"); }
+            }
+
+            ViewBag.SearhRequest = search;
             //sorting----------------------------------------------------------------------------------------------
 
             ViewBag.SortParam = sort;
@@ -63,83 +63,89 @@ namespace D.Controllers
             ViewBag.WeightSortParm = sort == "weight_desc" ? "weight" : "weight_desc";
             ViewBag.PriceSortParm = sort == "price_desc" ? "price" : "price_desc";
             ViewBag.PriceVatSortParm = sort == "pricevat_desc" ? "pricevat" : "pricevat_desc";
-
+            //Paging--------------------------------------------------------------------------------------------------
             ViewBag.CurrentPage = page;
-            ViewBag.count = db.Товар.AsNoTracking().LongCount() % pagesize == 0 ? db.Товар.AsNoTracking().LongCount() / pagesize : (db.Товар.AsNoTracking().LongCount() / pagesize) + 1;
+            ViewBag.PageCount = request.LongCount() % pagesize == 0 ?
+                                        request.LongCount() / pagesize : 
+                                       (request.LongCount() / pagesize) + 1;
+
+            ViewBag.PageCountResult = ViewBag.PageCount < 11 ? ViewBag.PageCount : 7;
+            //----------------------------------------------------------------------------------------------------------
+
 
             switch (sort)
             {
                 case "number_desc":
                     {
                         ViewBag.Num = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Обозначение).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Обозначение).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "number":
                     {
                         ViewBag.Num = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Обозначение).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Обозначение).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "name":
                     {
                         ViewBag.Name = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Наименование).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Наименование).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "name_desc":
                     {
                         ViewBag.Name = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Наименование).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Наименование).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "ost":
                     {
                         ViewBag.Ost= "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Остаток_на_складе).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Остаток_на_складе).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "ost_desc":
                     {
                         ViewBag.Ost = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Остаток_на_складе).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Остаток_на_складе).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "day":
                     {
                         ViewBag.Day = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Срок_поставки).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Срок_поставки).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "day_desc":
                     {
                         ViewBag.Day = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Срок_поставки).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Срок_поставки).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "weight":
                     {
                         ViewBag.Weight = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Вес).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Вес).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "weight_desc":
                     {
                         ViewBag.Weight = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Вес).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Вес).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "price":
                     {
                         ViewBag.Price = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Цена).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Цена).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "price_desc":
                     {
                         ViewBag.Price = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Цена).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Цена).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "pricevat":
                     {
                         ViewBag.PriceVat = "&#9650;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.Цена_с_НДС).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderBy(p => p.Цена_с_НДС).Skip((page - 1) * pagesize).Take(pagesize));
                     }
                 case "pricevat_desc":
                     {
                         ViewBag.PriceVat = "&#9660;";
-                        return PartialView("Table", db.Товар.AsNoTracking().OrderByDescending(p => p.Цена_с_НДС).Skip((page - 1) * pagesize).Take(pagesize));
+                        return View("Table", request.OrderByDescending(p => p.Цена_с_НДС).Skip((page - 1) * pagesize).Take(pagesize));
                     }
-                default: return PartialView("Table", db.Товар.AsNoTracking().OrderBy(p => p.ID_товара).Skip((page - 1) * pagesize).Take(pagesize));
+                default: return View("Table", request.OrderBy(p => p.ID_товара).Skip((page - 1) * pagesize).Take(pagesize));
             }
 
         }
@@ -315,24 +321,55 @@ namespace D.Controllers
         }
 
         //report about goods,which quantity equals 0       
-        public ActionResult ROst_0()
-        {                  
-            return PartialView("Search", db.Товар.AsNoTracking().Where(s => s.Остаток_на_складе == 0));
+        public ActionResult ROst_0(int page = 1, int pagesize = 10)
+
+        {
+            var request = db.Товар.AsNoTracking().Where(s => s.Остаток_на_складе == 0);
+            //Paging--------------------------------------------------------------------------------------------------
+            ViewBag.CurrentPage = page;
+            ViewBag.PageCount = request.LongCount() % pagesize == 0 ?
+                                        request.LongCount() / pagesize :
+                                       (request.LongCount() / pagesize) + 1;
+
+            ViewBag.PageCountResult = ViewBag.PageCount < 11 ? ViewBag.PageCount : 7;
+
+            return View(request.OrderBy(p => p.ID_товара).Skip((page - 1) * pagesize).Take(pagesize));
         }
 
         //a report about quantities of goods
-            public ActionResult ROst()
-        {           
-                
-            return PartialView("ROst", db.Товар);
+            public ActionResult ROst(int page = 1, int pagesize = 10)
+        {
+            var request = db.Товар.AsNoTracking();
+            //Paging--------------------------------------------------------------------------------------------------
+            ViewBag.CurrentPage = page;
+            ViewBag.PageCount = request.LongCount() % pagesize == 0 ?
+                                        request.LongCount() / pagesize :
+                                       (request.LongCount() / pagesize) + 1;
+
+            ViewBag.PageCountResult = ViewBag.PageCount < 11 ? ViewBag.PageCount : 7;
+
+            return View(request.OrderBy(p => p.ID_товара).Skip((page - 1) * pagesize).Take(pagesize));
+
+            
         }
 
                
 
         //a report about prices
-        public ActionResult Price()
+        public ActionResult Price(int page = 1, int pagesize = 10)
         {
-            return PartialView(db.Товар);
+            var request = db.Товар.AsNoTracking();
+            //Paging--------------------------------------------------------------------------------------------------
+            ViewBag.CurrentPage = page;
+            ViewBag.PageCount = request.LongCount() % pagesize == 0 ?
+                                        request.LongCount() / pagesize :
+                                       (request.LongCount() / pagesize) + 1;
+
+            ViewBag.PageCountResult = ViewBag.PageCount < 11 ? ViewBag.PageCount : 7;
+
+            return View(request.OrderBy(p => p.ID_товара).Skip((page - 1) * pagesize).Take(pagesize));
+        
+            
         }
 
         [HttpPost]
@@ -385,17 +422,26 @@ namespace D.Controllers
         //-------------------------------------------------------------------------------------------------
 
         
-        public ActionResult Search(string search)
-        {
-            var queryGoods = db.Товар.AsNoTracking().Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
+        //public ActionResult Search(string search, int page = 1, int pagesize = 10)
+        //{
+        //    var queryGoods = db.Товар.AsNoTracking().Where(s => s.Наименование.Contains(search) || s.Обозначение.Contains(search));
+        //    ViewBag.SearhRequest = search;
+        //    if (queryGoods.LongCount() > 0)
+        //    {
+        //        ViewBag.CurrentPage = page;
+        //        ViewBag.PageCount = queryGoods.LongCount() % pagesize == 0 ?
+        //                                    queryGoods.LongCount() / pagesize :
+        //                                   (queryGoods.LongCount() / pagesize) + 1;
 
-            if (queryGoods.Count() > 0)
-            {
-                return PartialView(queryGoods);
-            }
+        //        ViewBag.PageCountResult = ViewBag.PageCount < 11 ? ViewBag.PageCount : 7;
+        //        return              View(queryGoods
+        //                                .OrderBy(p => p.ID_товара)
+        //                                .Skip((page - 1) * pagesize)
+        //                                .Take(pagesize));
+        //    }
 
-            else return PartialView("NoResult");
-        }
+        //    else return PartialView("NoResult");
+        //}
 
         
 

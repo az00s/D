@@ -1,4 +1,9 @@
-﻿.btn-sm {
+﻿#table-container {
+
+height:625px;
+}
+
+.btn-sm {
 
 border:0.1px solid #BABDC1!important;
 top:10px;

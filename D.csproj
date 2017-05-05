@@ -447,7 +447,7 @@
     <Content Include="Views\Shared\ErrorMoney.cshtml" />
     <Content Include="Views\Shared\ErrorOrders.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-    <Content Include="Views\Товар\Search.cshtml" />
+    <Content Include="Views\Товар\Rost_0.cshtml" />
     <Content Include="Views\Shared\NoResult.cshtml" />
     <Content Include="Views\Сотрудник\Search.cshtml" />
     <Content Include="Views\Поставщик\Search.cshtml" />

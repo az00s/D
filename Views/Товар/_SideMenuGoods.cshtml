@@ -11,7 +11,7 @@
 <div id="box" class="dontPrint">
     <img src="~/Content/loading.gif" id="load" />
     <div class="indoorBtnDiv search">
-        @using (Ajax.BeginForm("Search", ajaxOptions))
+        @using (Html.BeginForm("Table","Товар"))
         {
             <input id="indoorText" data-val="true" data-val-required="Введите текст" name="search" type="text" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Товар")' />
             <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать"></button>
@@ -39,9 +39,9 @@
             <div id="dd" class="dropdown" tabindex="1">
                 <a href='' class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
                 <ul class="dropdown-menu sidebar-menu">
-                    <li>@Ajax.ActionLink("Товары с остатком '0'", "ROst_0", "Товар",ajaxOptions)</li>
-                    <li>@Ajax.ActionLink("Ведомость остатков", "ROst",  ajaxOptions)</li>
-                    <li>@Ajax.ActionLink("Прайс-лист", "Price",  ajaxOptions)</li>
+                    <li>@Html.ActionLink("Товары с остатком '0'", "ROst_0", "Товар")</li>
+                    <li>@Html.ActionLink("Ведомость остатков", "ROst")</li>
+                    <li>@Html.ActionLink("Прайс-лист", "Price")</li>
                 </ul>
             </div>
         </li>
