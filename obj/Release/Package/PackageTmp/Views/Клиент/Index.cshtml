@@ -1,159 +1,23 @@
-﻿@model IEnumerable<D.Models.Клиент>
+﻿@model IEnumerable<D.Models.CustomerEnt>
 
 @{
-    ViewBag.Title = "Клиенты";
+    ViewBag.Title = "Юридические лица";
 }
 
 
 @Html.Partial("_SideMenuClients")
 
-@*<div style="display:@ViewBag.a !important;margin-top:10px">Ничего не найдено.</div>*@
 <div id="table">
-    <div class="test-border" style="display:@ViewBag.b">
-        <table class="table-bordered table-striped">
-            <thead>
-                <tr>
+    @Html.Partial("Table")
+</div>
 
-                    <th>
-                        @Html.ActionLink("УНП клиента", "Index", new { sort = ViewBag.UnpSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Название организации", "Index", new { sort = ViewBag.NameSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Телефон)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Адрес)
-                    </th>
-                    <th>
-                        @Html.ActionLink("Фамилия", "Index", new { sort = ViewBag.LastSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Имя", "Index", new { sort = ViewBag.FirstSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Отчество", "Index", new { sort = ViewBag.PatSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Номер паспорта", "Index", new { sort = ViewBag.NumSortParm }, new { @class = "Theader" })
-                    </th>
-                    <th class="dontPrint"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-            {
-                    <tr>
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.УНП_Клиента)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Название_организации)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Телефон)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Адрес)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Фамилия)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Имя)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Отчество)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Номер_паспорта)
-                        </td>
-                        <td class="dontPrint">
-                            <a href='@Url.Action("Edit",new { id = item.ID_клиента })'><img src='~/Content/png/edit.png' /></a>
-                            <a href='@Url.Action("Delete",new { id = item.ID_клиента })'><img src='~/Content/png/error.png' /></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    </div>
-        <div class="scrollup">
-            <!-- Иконка fa-chevron-up (Font Awesome) -->
-            <i class="glyphicon glyphicon-chevron-up"></i>
-        </div>
+        
+        
 
-        <script>
-            $(function () {
-                // при нажатии на кнопку scrollup
-                $('.scrollup').click(function () {
-                    // переместиться в верхнюю часть страницы
-                    $("html, body").animate({
-                        scrollTop: 0
-                    }, 500);
-                })
-            })
-            // при прокрутке окна (window)
-            $(window).scroll(function () {
-                // если пользователь прокрутил страницу более чем на 200px
-                if ($(this).scrollTop() > 200) {
-                    // то сделать кнопку scrollup видимой
-                    $('.scrollup').fadeIn();
-                }
-                    // иначе скрыть кнопку scrollup
-                else {
-                    $('.scrollup').fadeOut();
-                }
-            });
-        </script>
-        <script>
-
-            window.onload = function () {
-
-                document.getElementById('toggler').onclick = function () {
-                    openbox('box', this);
-
-                    return false;
-
-                };
-
-
-
-                function openbox(id, toggler) {
-
-                    var div = document.getElementById(id);
-
-                    if (div.style.display == 'block') {
-
-                        div.style.display = 'none';
-
-                        toggler.style.background = 'none';
-
-                    }
-
-                    else {
-
-                        div.style.display = 'block';
-
-                        toggler.style.background = '#BC0000';
-
-                    }
-
-                }
-
-
-            };
-        </script>
-
-        <script type="text/javascript">
-            $(function () {
-                $("[data-autocomplete-source]").each(function () {
-                    var target = $(this);
-                    target.autocomplete({ source: target.attr("data-autocomplete-source") });
-                });
-            });
-        </script>
+        
 
 

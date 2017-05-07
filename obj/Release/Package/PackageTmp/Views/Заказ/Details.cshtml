@@ -1,4 +1,4 @@
-﻿@model IEnumerable< D.Models.Оформление_заказа>
+﻿@model IEnumerable<D.Models.Оформление_заказа>
 @using D.Models
 @{
     ViewBag.Title = "Детали заказа";
@@ -6,7 +6,7 @@
 
 
 <div>
-    <h2>Заказ №@ViewBag.ID</h2>
+    <h2>Заказ №@ViewBag.Ord.ID_заказа</h2>
     <hr />
 
     <dl class="dl-horizontal">
@@ -17,7 +17,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Date
+            @ViewBag.Ord.Дата_заказа.ToString("dd'.'MM'.'yyyy")
         </dd>
 
         <dt>
@@ -25,7 +25,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Client
+            @ViewBag.Ord.Клиент.Название_организации
         </dd>
 
         <dt>
@@ -33,7 +33,7 @@
         </dt>
 
         <dd>
-            @ViewBag.Employee
+            @ViewBag.Ord.Сотрудник.Фамилия
         </dd>
 
         
@@ -87,7 +87,7 @@
 
     </div>
 
-            @Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.ID }, new { @class = "btn btn-info dontPrint", @style="margin-top:20px;margin-left:170px;" }) 
+            @Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.Ord.ID_заказа }, new { @class = "btn btn-info dontPrint", @style="margin-top:20px;margin-left:170px;" }) 
     <br />
 
     @Html.ActionLink("Назад", "Index",null, new { @class = "dontPrint"})
@@ -116,7 +116,7 @@
                 <tr>
                     <td>@Html.DisplayName(i.ID_поступления.ToString())</td>
                     <td>@i.Денежное_поступление.Дата_поступления.Value.ToShortDateString()</td>
-                    <td>@Html.DisplayName(i.Денежное_поступление.Клиент.Название_организации)</td>
+                    @*<td>@Html.DisplayName(i.Денежное_поступление)</td>*@
                     <td>@Html.DisplayName(i.Сумма.Value.ToString("0.00"))</td>
                     
                    

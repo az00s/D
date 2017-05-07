@@ -199,6 +199,7 @@ function loadPopup(id) {
 	})
 
 	$("#btnAddClient").click(function () {
+	   
 	    centerPopup('popupClients', 'sidebtnC');
 	    loadPopup('popupClients');
 

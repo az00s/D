@@ -3,118 +3,174 @@
 @{
     ViewBag.Title = "Ведомость остатков";
 }
-<div class="dontPrint">@Html.Partial("_SideMenuGoods")</div>
-
-<div style="display:@ViewBag.a !important;margin-top:10px" class="dontPrint">Ничего не найдено.</div>
-<div class="test-border" style="display:@ViewBag.b">
-    <table class="table-bordered table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Обозначение)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Наименование)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Единица_измерения)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Остаток_на_складе)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td class="text-left">
-                    @Html.DisplayFor(modelItem => item.Обозначение)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Наименование)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Единица_измерения)
-                </td>
-
-                <td style="font-weight:bold">
-                    @Html.DisplayFor(modelItem => item.Остаток_на_складе)
-                </td>
-            </tr>
-        }
-
-    </table>
-
-   
-    
-</div>
-
-<div class="scrollup">
-    <!-- Иконка fa-chevron-up (Font Awesome) -->
-    <i class="glyphicon glyphicon-chevron-up"></i>
-</div>
-
+@Html.Partial("_SideMenuGoods")
 <script>
-$(function() {
-  // при нажатии на кнопку scrollup
-  $('.scrollup').click(function() {
-    // переместиться в верхнюю часть страницы
-    $("html, body").animate({
-      scrollTop:0
-    },500);
-  })
-})
-// при прокрутке окна (window)
-$(window).scroll(function() {
-  // если пользователь прокрутил страницу более чем на 200px
-  if ($(this).scrollTop()>200) {
-    // то сделать кнопку scrollup видимой
-    $('.scrollup').fadeIn();
-  }
-  // иначе скрыть кнопку scrollup
-  else {
-    $('.scrollup').fadeOut();
-  }
-});
+    $(document).ready(function () {
+
+
+
+        $(".table-hover tbody tr td:not(.dontPrint)").click(
+
+            function () {
+
+
+
+                var ID = $(this).parent().find("input[name='item.ID_товара']").val();
+                var url = "@Url.Action("Details")/" + ID;
+
+                document.location.href = url;
+                //.done(function (data) {
+                //    $('.body-content').html(data);
+                //});
+
+            });
+
+        $('#moreButtons').click(function () {
+
+            if ($(".moreButtons").css('display') == 'block')
+
+            { $(".moreButtons").css('display', 'none'); }
+
+            else $(".moreButtons").css('display', 'block');
+        });
+
+    });
 </script>
-<script>
+<div id="table">
+    <div id="header" class="test-border1">
+        <table class="table-bordered table-striped table-hover" id="TableHeader">
 
-    window.onload = function () {
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Обозначение)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Наименование)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Единица_измерения)
+                    </th>
 
-        document.getElementById('toggler').onclick = function () {
-            openbox('box', this);
+                    <th>
+                        @Html.DisplayNameFor(model => model.Остаток_на_складе)
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="table-container">
+        <div class="test-border">
+            <table class="table-bordered table-striped table-hover" id="Table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Обозначение)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Наименование)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Единица_измерения)
+                        </th>
 
-            return false;
+                        <th>
+                            @Html.DisplayNameFor(model => model.Остаток_на_складе)
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td class="text-left">
+                            @Html.DisplayFor(modelItem => item.Обозначение)
+                            @Html.HiddenFor(modelItem => item.ID_товара)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Наименование)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Единица_измерения)
+                        </td>
 
-        };
+                        <td style="font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.Остаток_на_складе)
+                        </td>
+                    </tr>
+                }
+
+            </table>
 
 
 
-        function openbox(id, toggler) {
+        </div>
+        </div>
 
-            var div = document.getElementById(id);
+        <div class="btn-group buttons">
 
-            if (div.style.display == 'block') {
+            @{
 
-                div.style.display = 'none';
+                if (ViewBag.PageCount > 10)
+                {
+                    @Html.ActionLink("<", "ROst", new { page = ViewBag.CurrentPage - 1 == 0 ? 1 : ViewBag.CurrentPage - 1 }, new { @class = "btn btn-default pageBtn" })
+                }
 
-                toggler.style.background = 'none';
+                for (long i = 1; i <= ViewBag.PageCountResult; i++)
+                {
+                    if (i == ViewBag.CurrentPage)
+                    {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn btn-primary selected" }) }
+
+                else
+                {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn btn-default pageBtn" })}
+            }
+
+
+
+            if (ViewBag.PageCount > 10)
+            {
+                    <a href="#" class="glyphicon glyphicon-circle-arrow-down btn btn-default pageBtn" id="moreButtons"></a>
+                    <div class="moreButtons">
+
+                        @{
+                            for (long i = 8; i <= ViewBag.PageCount - 7; i++)
+                            {
+                                if (i == ViewBag.CurrentPage)
+                                {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn-sm btn-primary" }) }
+
+                                else
+                                {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn-sm btn-default pageBtn" })}
+                            }
+                        }
+
+
+
+                    </div>
+
+
+                            for (long i = ViewBag.PageCount - 6; i <= ViewBag.PageCount; i++)
+                            {
+                                if (i == ViewBag.CurrentPage)
+                                {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn btn-primary selected" }) }
+
+                                else
+                                {@Html.ActionLink(i.ToString(), "ROst", new { page = i }, new { @class = "btn btn-default pageBtn" })  }
+                            }
+                            @Html.ActionLink(">", "ROst", new { page = ViewBag.CurrentPage + 1 > ViewBag.PageCount ? ViewBag.CurrentPage : ViewBag.CurrentPage + 1 }, new { @class = "btn btn-default pageBtn" })
+                            }
 
             }
 
-            else {
 
-                div.style.display = 'block';
+        </div>
 
-                toggler.style.background = '#E81C2C';
+    </div>
 
-            }
+    <div class="scrollup">
+        <i class="glyphicon glyphicon-chevron-up"></i>
+    </div>
 
-        }
 
 
-    };
-</script>
 
 
 

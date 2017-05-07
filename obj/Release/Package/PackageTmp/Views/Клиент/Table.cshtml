@@ -1,0 +1,57 @@
+﻿@model IEnumerable<D.Models.CustomerEnt>
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+
+    };
+}
+<div class="test-border" >
+    <table class="table-bordered table-striped" id="Table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Ajax.ActionLink("УНП клиента", "Sorting", new { sort = ViewBag.UnpSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Название организации", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Телефон)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Адрес)
+                </th>
+              
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.УНП_Клиента)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Название_организации)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Телефон)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Адрес)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.ID_клиента })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.ID_клиента })'><img src='~/Content/png/error.png' /></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

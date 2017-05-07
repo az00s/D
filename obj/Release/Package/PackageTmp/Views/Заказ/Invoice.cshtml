@@ -2,11 +2,12 @@
 @using D.Models
 @{
     ViewBag.Title = "Счет";
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
 }
 
 
 <div>
-    <h4>Счет №@ViewBag.ID от @ViewBag.Date</h4>
+    <h4 >Счет №@ViewBag.ID от @ViewBag.Date</h4>
     <hr />
 
     <dl class="dl-horizontal">
@@ -16,7 +17,7 @@
             Поставщик:
         </dt>
 
-        <dd>
+        <dd >
             «Торговый дом» ОАО «МАЗ» (Могилевский филиал), УНН:100320487,ОКПО:288321402000
             220075, г. Минск, пер. Промышленный, 7, Р/с 3012200191010 в "Беларусбанк" ОАО ЦБУ 200 г.Минск,
             код 153001749, тел/факс:(8 0222) 72-86-25, 72-89-63, 72-89-13
@@ -29,17 +30,6 @@
         <dd>
             @ViewBag.Client
         </dd>
-
-        @*<dt>
-            Ответственный:
-        </dt>
-
-        <dd>
-            @ViewBag.Employee
-        </dd>*@
-
-
-
     </dl>
     <div class="test-border" >
         <table class="table-bordered table-striped">
@@ -90,7 +80,6 @@
     </div>
 <br />
 <p>Счет действителен в течении 10 банковских дней</p>
-            @*@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.ID }, new { @class = "btn btn-default dontPrint", @style="margin-top:20px;margin-left:170px;" })*@ 
 
     
 <p><strong>Условия поставки:</strong> EXW г.Могилев</p> 
@@ -100,7 +89,6 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;М.П.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;М.П.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
     <br />
 
-    @*@Html.ActionLink("<<", "Index", null, new { @class = "dontPrint" })*@
 
     <a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
 

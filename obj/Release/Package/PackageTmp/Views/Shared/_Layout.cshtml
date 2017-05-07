@@ -6,16 +6,16 @@
     <title>@ViewBag.Title </title>
     
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery-ui")
-    @Scripts.Render("~/bundles/myScripts")
+    @Scripts.Render("~/bundles/myScripts")*@
 
-    @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <script src="~/Scripts/MainJavaScript.js"></script>
     
 
     <meta name="description" content="Автоматизированная система учета автозапчастей" />
@@ -42,7 +42,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Товары", "Index", "Товар")</li>
-                    <li>@Html.ActionLink("Клиенты", "Index", "Клиент")</li>
+                    <li class="dropdown">
+                        <a id="drop1" class="dropdown-toggle sidebar-menu" data-toggle="dropdown">
+                            Клиенты
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu sidebar-menu customer">
+                            <li>
+                               @Html.ActionLink("Юридические лица", "Index", "Клиент" )
+                            </li>
+                            @*<li class="divider"></li>*@
+                            <li>@Html.ActionLink("Физические лица", "Index", "CustomerInd")</li>
+
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Заказы", "Index", "Заказ")</li>
                     <li>@Html.ActionLink("Поставщики", "Index", "Поставщик")</li>
                     <li>@Html.ActionLink("Денежные поступления", "Index", "Денежное_поступление")</li>
@@ -52,20 +65,20 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @*<div class="wrapper">*@
+    <div class="container body-content" id="body">
+       
         @RenderBody()
-        @*</div>*@
+       
 
         <div class="container footer dontPrint">
             <hr />
             <footer>
-                <p>&copy; К. Ю. Зинькевич, @DateTime.Now.Year @*Зинькевич Константин*@</p>
+                <p>&copy; К. Ю. Зинькевич, @DateTime.Now.Year </p>
             </footer>
         </div>
     </div>
 
 
-    @*@RenderSection("scripts", required: false)*@
+  
 </body>
 </html>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<D.Models.CustomerInd>
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "table",
+        HttpMethod = "Post",
+
+    };
+}
+
+<script>
+
+$(document).ready(function(){
+
+    $(".table-hover tbody tr td:not(.dontPrint)").click(
+        function ()
+        {
+            var ID = $(this).parent().find("input[name='item.CustomerIndId']").val();
+                     $.ajax({
+                method: "GET",url: "@Url.Action("Details")/"+ID}).done( function (data) {
+                $('.body-content').html(data);
+            });
+        });
+
+
+});
+
+</script>
+<div class="test-border" >
+    <table class="table-bordered table-striped table-hover" id="Table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Ajax.ActionLink("Фамилия", "Sorting", new { sort = ViewBag.LastNameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Имя", "Sorting", new { sort = ViewBag.NameSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Отчество", "Sorting", new { sort = ViewBag.PatronimycSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Дата рождения", "Sorting", new { sort = ViewBag.BirstDateSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telephone)
+                </th>
+              
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.HiddenFor(modelItem => item.CustomerIndId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patronymic)
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.BirstDate, "{0:dd'.'MM'.'yyyy}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telephone)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.CustomerIndId })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.CustomerIndId })'><img src='~/Content/png/error.png' /></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

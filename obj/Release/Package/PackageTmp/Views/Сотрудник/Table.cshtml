@@ -1,0 +1,81 @@
+﻿@model IEnumerable<D.Models.Сотрудник>
+
+@{
+        AjaxOptions ajaxOptions = new AjaxOptions
+        {
+            UpdateTargetId = "table",
+            HttpMethod = "Post",
+
+        };
+    }
+
+
+    <table class="table-bordered table-striped" id="Table">
+        <thead>
+            <tr>
+                <th>
+                    @Ajax.ActionLink("Табельный номер", "Sorting", new { sort = ViewBag.NumSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Фамилия", "Sorting", new { sort = ViewBag.LastSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Имя", "Sorting", new { sort = ViewBag.FirstSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Отчество", "Sorting", new { sort = ViewBag.PatSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Ajax.ActionLink("Должность", "Sorting", new { sort = ViewBag.PosSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Телефон)
+                </th>
+                <th>
+                    @Ajax.ActionLink("Дата рождения", "Sorting", new { sort = ViewBag.BirthSortParm }, ajaxOptions, new { @class = "Theader" })
+                </th>
+                <th class="dontPrint"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Табельный_номер)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Фамилия)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Имя)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Отчество)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Должность)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Телефон)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Дата_рождения)
+                    </td>
+                    <td class="dontPrint">
+                        <a href='@Url.Action("Edit",new { id = item.Табельный_номер })'><img src='~/Content/png/edit.png' /></a>
+                        <a href='@Url.Action("Delete",new { id = item.Табельный_номер })'><img src='~/Content/png/error.png' /></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+
+
+

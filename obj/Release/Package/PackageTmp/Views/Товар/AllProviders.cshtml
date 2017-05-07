@@ -3,9 +3,7 @@
 
 <table class="table-bordered table-striped" id="tbGoods">
     @foreach (Поставщик item in Model)
-    {
-        
-
+    { 
             <tr>
                 <td>
                     <strong>@Html.HiddenFor(modelItem =>item.УНП_поставщика) @Html.DisplayTextFor(modelItem => item.УНП_поставщика)</strong>
@@ -13,10 +11,5 @@
                 <td><strong>@Html.DisplayTextFor(modelItem => item.Название_организации)</strong></td>
 
             </tr>
-
-
-
-
-       
     }
 </table>

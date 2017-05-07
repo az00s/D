@@ -1,4 +1,221 @@
-﻿.navbar-fixed-top {
+﻿#table-container {
+
+height:625px;
+}
+
+.btn-sm {
+
+border:0.1px solid #BABDC1!important;
+top:10px;
+
+border-radius:0px;
+}
+.btn-sm + .btn-primary {
+
+top:10px;
+position:relative;
+}
+
+.buttons .btn-primary {
+
+background-color:#BABDC1!important;
+border-color:#BABDC1!important;
+} 
+
+.pageBtn {
+
+background-color:#D2D5DA!important;
+position:relative;
+}
+
+.moreButtons {
+position:absolute;
+z-index:1;
+display:none;
+top:40px;
+max-width:700px;
+min-height:60px;
+max-height:200px;
+overflow-x:auto;
+}
+
+.buttons {
+
+top:20px;
+}
+
+.test-border1 {
+border: 2px solid #BCC1C9;
+    border-radius: 5px 5px;
+    /*box-shadow: 0 8px 15px;*/
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+    /* max-width: 90%; */
+    /* margin-left: 5%; */
+}
+
+#header {
+    position:fixed;
+display:none;
+top:50px!important;
+background:#DADDE2;
+}
+
+#Table td{
+    word-break:break-word;
+word-wrap: break-word!important;
+word-break: break-all;
+}
+
+
+
+.nameEdit {
+    height: 7%;
+    width: auto;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+
+    font-weight: 600;
+    font-family: inherit;
+    font-style: normal;
+    left: 2%;
+    font-size: xx-large;
+    padding: 6px 12px;
+    color:#A01D1D!important;
+    line-height: 1.428571429;
+    
+    /* vertical-align: middle; */
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.textarea {
+    min-width:100px!important;
+    width:1100px;
+max-width:1600px!important;
+
+
+}
+
+
+.dl-horizontal dt {
+margin-bottom:1.7%;
+width: 120px!important;
+    
+    text-align: left!important;
+        color: transparent;
+        background-color: #666666;
+    -webkit-background-clip: text;
+}
+
+.dl-horizontal dd {
+word-wrap: break-word;
+margin-left: 140px!important;
+    color: #353535;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-family: monospace;
+}
+
+
+fieldset {
+    border: black 1.9px dotted!important;
+    padding: 0px 7px 7px 9px!important;
+        color: #353535;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-family: monospace;
+}
+
+
+     
+
+legend {
+    
+    width: auto!important;
+    
+    margin-bottom: 5px!important;
+    font-size: 14px!important;
+    line-height: inherit;
+    
+    border: 0!important;
+    border-bottom: 0!important;
+    margin-left: 1%;
+    font-weight: bold;
+    color: transparent!important;
+        background-color: #666666;
+    -webkit-background-clip: text;
+}
+
+.CustomerName {
+    height: 7%;
+    width: 100%;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    text-shadow: 0px 1px 2px black;
+    /* background-color: #6d3340; */
+    font-weight: 600;
+    font-family: inherit;
+    font-style: normal;
+    left: 2%;
+    font-size: xx-large;
+    color: #A01D1D;
+}
+
+.pencildiv {
+    
+margin-top:3%;
+height:7%;
+width:90%;
+}
+
+.pencildiv a{
+top:40px;
+}
+
+.regDate {
+
+width:6%;
+height:1%;
+font-size:10px;
+vertical-align: top;
+position:relative; 
+top:1px; left:95%; 
+
+
+
+}
+
+.dontPrint img {
+width:20px;
+height:20px;
+}
+
+#box {
+
+display: none;
+}
+
+#load {
+vertical-align: top;
+top:17px; left:-20px; 
+position:absolute; 
+display:none;
+}
+
+.navbar-fixed-top {
 border-radius:5px;
 top:1%;
 right:1%;
@@ -27,6 +244,9 @@ div.scrollup:hover {
 #datetimepicker1 input[type="text"] {
 max-width:239px;
 }
+.dl-horizontal #datetimepicker1 {
+
+padding-left:0px!important;}
 
 #left-collapse-button {
     float:left!important;
@@ -53,6 +273,7 @@ z-index:2;
 .Theader {
 text-decoration:none !important;
 color:black;
+
 }
 
 #chart {
@@ -140,7 +361,7 @@ align-self:auto;
 }
 
 .search {
-    border: solid 2px #BCC1C9 !important;
+    /*border: solid 2px #BCC1C9 !important;*/
 border-radius:6px 6px;
 margin-top:15px;
 width: 280px !important;

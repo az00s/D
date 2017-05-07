@@ -320,13 +320,7 @@
     </Content>
     <None Include="bundleconfig.json" />
     <Content Include="fonts\7454.ttf" />
-    <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
-    <None Include="Properties\PublishProfiles\maz - FTP %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\maz - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\maz - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\maz - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\o.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-ui.js" />

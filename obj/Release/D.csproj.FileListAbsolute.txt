@@ -90,3 +90,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninj
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.Web.Common.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.Web.Mvc.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Release\D.csprojResolveAssemblyReference.cache
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.dll
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.xmlworker.dll
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.xml
