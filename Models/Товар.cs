@@ -4,7 +4,6 @@ namespace D.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class Товар
     {
@@ -19,7 +18,7 @@ namespace D.Models
         //public int ID_товара { get; set; }
 
         //[Required]
-        //[StringLength(120)]
+        //[StringLength(50)]
         //public string Наименование { get; set; }
 
         //[StringLength(300)]

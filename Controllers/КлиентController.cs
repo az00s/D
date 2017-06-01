@@ -28,41 +28,18 @@ namespace D.Models
         }
         public ActionResult Index()
         {
-            
-            ViewBag.UnpSortParm = "unp";
-            ViewBag.NameSortParm = "name";
-            ViewBag.LastSortParm = "last";
-            ViewBag.FirstSortParm = "first";
-            ViewBag.PatSortParm = "pat";
-            ViewBag.NumSortParm = "num";
-
-           return View(db.CustomerEnt.AsNoTracking().OrderBy(p => p.ID_клиента));       
+            return RedirectToAction("Table");
+                               
          }
 
         
 
-        public ActionResult Sorting(string sort)
+        public ActionResult Table()
         {
-            ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
-            ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
-            ViewBag.LastSortParm = sort == "last_desc" ? "last" : "last_desc";
-            ViewBag.FirstSortParm = sort == "first_desc" ? "first" : "first_desc";
-            ViewBag.PatSortParm = sort == "pat_desc" ? "pat" : "pat_desc";
-            ViewBag.NumSortParm = sort == "num_desc" ? "num" : "num_desc";
-
-            switch (sort)
-            {
-                case "unp": return PartialView("Table",db.CustomerEnt.AsNoTracking().OrderBy(p => p.УНП_Клиента));
-                case "unp_desc": return PartialView("Table", db.CustomerEnt.AsNoTracking().OrderByDescending(p => p.УНП_Клиента));
-                case "name": return PartialView("Table", db.CustomerEnt.AsNoTracking().OrderBy(p => p.Название_организации));
-                case "name_desc": return PartialView("Table", db.CustomerEnt.AsNoTracking().OrderByDescending(p => p.Название_организации));
-
-
-                default: return PartialView("Table", db.CustomerEnt.AsNoTracking().OrderBy(p => p.ID_клиента));
-            }
+            return View("Table",db.CustomerEnt.AsNoTracking().OrderBy(o=>o.ID_клиента));
         }
 
-        
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -77,16 +54,16 @@ namespace D.Models
             return View(клиент);
         }
 
-        
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
+
+
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed([Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] CustomerEnt p)
+        public ActionResult CreateConfirmed([Bind(Include = "ID_клиента,УНП_Клиента,Название_организации,Телефон,Адрес")] CustomerEnt p)
         {
             if (ModelState.IsValid)
             {
@@ -103,32 +80,32 @@ namespace D.Models
                 p.AddtoTable(db, p);
                 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Table");
             }
 
-            return View(p);
+            return View("Error");
         }
 
        
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var клиент = db.CustomerEnt.Find(id);
-            if (клиент == null)
-            {
-                return HttpNotFound();
-            }
-            return View(клиент);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var клиент = db.CustomerEnt.Find(id);
+        //    if (клиент == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(клиент);
+        //}
 
         
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_клиента,Номер_паспорта,УНП_Клиента,Название_организации,Телефон,Адрес,Фамилия,Имя,Отчество")] CustomerEnt p)
+        public ActionResult Edit([Bind(Include = "ID_клиента,УНП_Клиента,Название_организации,Телефон,Адрес")] CustomerEnt p)
         {
             if (ModelState.IsValid)
             {
@@ -143,36 +120,36 @@ namespace D.Models
                 //p.Отчество = Request.Form["Отчество"];
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",new { id=p.ID_клиента});
             }
             return View(p);
         }
 
       
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var клиент = db.CustomerEnt.Find(id);
-            if (клиент == null)
-            {
-                return HttpNotFound();
-            }
-            return View(клиент);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var клиент = db.CustomerEnt.Find(id);
+        //    if (клиент == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(клиент);
+        //}
 
 
         [Authorize(Roles = "admin")]
-        [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
+        //[HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             db.CustomerEnt.Remove(db.CustomerEnt.Find(id));
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Table");
         }
 
         protected override void Dispose(bool disposing)
@@ -187,35 +164,35 @@ namespace D.Models
         //a report about clients from Mogilev
         public ActionResult CMogilev()
         {   
-            return PartialView("Table", db.CustomerEnt.AsNoTracking().Where(cl=>cl.Адрес.Contains("могил")));
+            return View("Table", db.CustomerEnt.AsNoTracking().Where(cl=>cl.Адрес.Contains("могил")));
         }
         //-----------------------------------------------------------------------------
         
         //autocomplete function for search field----------------------------------------
-        public ActionResult AutocompleteSearch(string term)
-        {           
-            return Json(db.CustomerEnt
-                .AsNoTracking()
-                .Where(cl=>cl.Название_организации.Contains(term))
-                .Select(c=>new { value=c.Название_организации})
-                , JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult AutocompleteSearch(string term)
+        //{           
+        //    return Json(db.CustomerEnt
+        //        .AsNoTracking()
+        //        .Where(cl=>cl.Название_организации.Contains(term))
+        //        .Select(c=>new { value=c.Название_организации})
+        //        , JsonRequestBehavior.AllowGet);
+        //}
         //----------------------------------------------------------------------------------
 
-        public ActionResult Search(string search)
-        {
-            var query = db.CustomerEnt
-                .AsNoTracking()
-                .Where(c => c.Название_организации.Contains(search) || c.УНП_Клиента.ToString().Contains(search));
-                             
+        //    public ActionResult Search(string search)
+        //    {
+        //        var query = db.CustomerEnt
+        //            .AsNoTracking()
+        //            .Where(c => c.Название_организации.Contains(search) || c.УНП_Клиента.ToString().Contains(search));
 
-            if (query.Count() > 0)
-            {
-                return PartialView(query);
-            }
 
-            else return PartialView("NoResult");
-        }
+        //        if (query.Count() > 0)
+        //        {
+        //            return PartialView(query);
+        //        }
+
+        //        else return PartialView("NoResult");
+        //    }
 
     }
 }

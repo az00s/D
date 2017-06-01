@@ -1,74 +1,45 @@
-﻿@{ AjaxOptions ajaxOptions = new AjaxOptions
-    {
-        UpdateTargetId = "table",
-        HttpMethod = "Post",
-        LoadingElementId = "load",
-        LoadingElementDuration = 1000
-    };
-}
+﻿<div class="sideMenu">
+    <a href="#mdNewOrder" data-toggle="modal" class="list-group-item"> <span class="glyphicon glyphicon-plus"></span> Добавить запись    </a>
 
-<div id="box1" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load"  />
-    <div class="reportDate">
-        @using (Ajax.BeginForm("ROrders", new AjaxOptions {UpdateTargetId = "table",HttpMethod = "Post",LoadingElementId = "load1",LoadingElementDuration = 1000}))
-        {
-            <p>
-                Период с&nbsp;<input  type="text" class="datepicker" id="datetimepicker1" name="start" required/>&nbsp;по&nbsp;<input  type="text" class="datepicker" id="datetimepicker2" name="end" required/>&nbsp;<button type="submit" class="reportOrderBtn glyphicon glyphicon-chevron-right" @*id="button"*@ value="">
-
-                </button>
-            </p>
-        }
+    <div class="dropdown" tabindex="1">
+        <a href='' class="dropdown-toggle  list-group-item" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> Отчет<span class="caret"></span><span class="badge">1</span></a>
+        <ul class="dropdown-menu">
+            <li><a id="lkOrderPeriod">Заказы за период</a></li>
+        </ul>
     </div>
-</div>
-
-<div id="box" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load" />
-    <div class="indoorBtnDiv search">
-        @using (Ajax.BeginForm("Search", ajaxOptions))
-        {
-            <input id="indoorText" data-val="true" data-val-required="Введите текст" name="search" type="text" data-provide="typeahead" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Заказ")'/>
-            <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать">@*<img src='~/Content/png/search.png' />*@</button>
-        }
-    </div>
-</div>
-
-<div id="sidebar-menu" class="sidebar-menu dontPrint navbar-collapse collapse" >
-    <ul>
-        <li class="fa fa-user collapse in">
-            <a href=@Url.Action("Create") class="glyphicon glyphicon-plus">
-                
+    <div class="" id="dvPeriodSearch">
+        @*@using (Ajax.BeginForm("ROrders", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "LoadData" }, new { @class = "form-horizontal" }))
+            {*@
+        
+            @*<legend>Заказы за период</legend>*@
+            <div class="form-group">
+                @*<label class="col-lg-2">C</label>*@
+                <div class="col-lg-10">
 
 
-            </a>
-        </li>
+                    <input type="text" name="start" id="dtpStart" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="Период с..." />
 
-        <li class="fa fa-cog collapse in">
-            <a id="toggler" href="#" class="glyphicon glyphicon-search"></a>
-        </li>
-        <li class="fa fa-life-ring collapse in">
-
-
-            <div id="dd" class="dropdown collapse in" tabindex="1">
-                <a href="#"  id="tog" class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
-                <ul class="dropdown-menu sidebar-menu collapse">
-                    <li><a id="toggler1">Отчет по заказам за период</a></li>
-                </ul>
+                </div>
             </div>
-        </li>
+            <div class="form-group">
+                @*<label class="col-lg-2">По</label>*@
+                <div class="col-lg-10">
+                    <input type="text" name="end" id="dtpEnd" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="по..." />
+                </div>
+            </div>
+            @*<label>
+                    <button type = "submit" class="btn btn-sm" id="btPeriodSearch">ok</button>
+                </label>*@
+        
+        @*}*@
 
-        <li>
-            <a class="print dontPrint glyphicon glyphicon-print"></a>
-        </li>
 
-        <li>
-            <a class="glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Заказ')"></a>
-        </li>
-    </ul>
+    </div>
 </div>
 
 
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker({
             locale: 'ru',
@@ -106,5 +77,5 @@
                 return ok;
             });
 
-</script>
+</script>*@
 

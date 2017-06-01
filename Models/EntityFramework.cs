@@ -73,9 +73,9 @@ namespace D.Models
         [StringLength(30)]
         public string Статус_заказа { get; set; }
 
-        //[Column(TypeName = "money")]
-        //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
-        //public decimal? Получено { get; set; }
+        [Column(TypeName = "money")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
+        public decimal? Получено { get; set; }
 
         public virtual CustomerInd CustomerInd { get; set; }
         public virtual CustomerEnt CustomerEnt { get; set; }
@@ -87,6 +87,7 @@ namespace D.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Оформление_заказа> Оформление_заказа { get; set; }
+        
 
         public void AddtoTable(IdbInterface db, IЗаказInterface p)
         {
@@ -386,24 +387,24 @@ namespace D.Models
 
     }
 
-    public partial class CustomerInd
+    public partial class CustomerInd : ICustomerIndInterface
     {
-        
+        [Display(Name ="Идентификационный номер")]
         [Required]
         [StringLength(100)]
         public string PassportId { get; set; }
-
+        [Display(Name = "Имя")]
         [Required]
         [StringLength(100)]
         public string FirstName { get; set; }
-
+        [Display(Name = "Отчество")]
         [StringLength(100)]
         public string Patronymic { get; set; }
-
+        [Display(Name = "Фамилия")]
         [Required]
         [StringLength(100)]
         public string LastName { get; set; }
-
+        [Display(Name = "Адрес")]
         [Required]
         [StringLength(250)]
         public string Adress { get; set; }
@@ -417,13 +418,17 @@ namespace D.Models
         [StringLength(150)]
         public string Email { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
-        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = " Дата рождения")]
+        [Column(TypeName = "date")]
+        public DateTime? BirstDate { get; set; }
+
+        //public string Birst { get; set; }
+        //[Column(TypeName = "datetime")]
         
-        public DateTime BirstDate { get; set; }
-
         public DateTime RegisteredDate { get; set; }
-
+        [Display(Name = "Примечание")]
         [StringLength(300)]
         public string Description { get; set; }
 
@@ -436,5 +441,9 @@ namespace D.Models
             Заказ = new HashSet<Заказ>();
         }
 
+        public void AddtoTable(IdbInterface db, ICustomerIndInterface p)
+        {
+            db.CustomerInd.Add(p as CustomerInd);
+        }
     }
 }

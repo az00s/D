@@ -8,7 +8,7 @@
     };
 }
 
-<div id="box" class="dontPrint">
+@*<div id="box" class="dontPrint">
     <img src="~/Content/loading.gif" id="load" />
     <div class="indoorBtnDiv search">
         @using (Html.BeginForm("Table","Товар"))
@@ -20,39 +20,36 @@
 
         
         </div>
-</div>
+</div>*@
 
-<div id="sidebar-menu" class="sidebar-menu dontPrint navbar-collapse collapse">
-    <ul>
-        <li class="fa fa-user">
-            <a href=@Url.Action("Create") class="glyphicon glyphicon-plus"></a>
-
-        </li>
+<div class="sideMenu">
+    
+            <a  href="#mdNewGood" data-toggle="modal" class="list-group-item"> <span class="glyphicon glyphicon-plus"></span> Добавить запись    </a>
+        
 
 
-        <li class="fa fa-cog">
+        @*<li class="list-group-item">
             <a id="toggler"  class="glyphicon glyphicon-search"></a>
-        </li>
-        <li class="fa fa-life-ring">
+        </li>*@
+       
 
 
-            <div id="dd" class="dropdown" tabindex="1">
-                <a href='' class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
-                <ul class="dropdown-menu sidebar-menu">
+            <div  class="dropdown" tabindex="1">
+                <a href='' class="dropdown-toggle  list-group-item" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> Отчет<span class="caret"></span><span class="badge">3</span></a>
+                <ul class="dropdown-menu">
                     <li>@Html.ActionLink("Товары с остатком '0'", "ROst_0", "Товар")</li>
                     <li>@Html.ActionLink("Ведомость остатков", "ROst")</li>
                     <li>@Html.ActionLink("Прайс-лист", "Price")</li>
                 </ul>
             </div>
-        </li>
+        
 
-        <li>
-            <a class="print dontPrint glyphicon glyphicon-print"></a>
-        </li>
+        
+            @*<a class="print dontPrint  list-group-item"><span class="glyphicon glyphicon-print"></span> Печать</a>
+        
 
-        <li>
-            <a class = "glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Товар')"></a>
-        </li>
+        
+            <a class = "list-group-item" onclick="tableToExcel('Table', 'Товар')"><span class="glyphicon glyphicon-export"></span> Экспорт в Excel</a>*@
+        
 
-    </ul>
-</div>
+    </div>

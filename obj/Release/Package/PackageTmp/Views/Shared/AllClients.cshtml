@@ -3,21 +3,17 @@
 
 @using D.Models
 
-<div class="ab">
-    <table class="table-bordered table-striped" id="tbClients">
+
         @foreach (CustomerEnt p in Model)
         {
             <tr>
-                <td>
+                <td class="text-center">
                     <strong>@Html.HiddenFor(modelItem => p.ID_клиента) @Html.DisplayTextFor(modelItem => p.УНП_Клиента)</strong>
                 </td>
-                <td><strong>@Html.DisplayTextFor(modelItem => p.Название_организации)</strong></td>
+                <td class="text-center"><strong name="client">@Html.DisplayTextFor(modelItem => p.Название_организации)</strong></td>
 
             </tr>
 
         }
-    </table>
-
-
-</div>
+    
 

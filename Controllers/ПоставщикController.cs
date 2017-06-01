@@ -26,26 +26,13 @@ namespace D.Controllers
         }      
         public ActionResult Index(string sort)
         {
-            ViewBag.UnpSortParm = "unp_desc";
-            ViewBag.NameSortParm = "name";
-
-            return View(db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
+            return RedirectToAction("Table");
         }
 
-        public ActionResult Sorting(string sort)
+        public ActionResult Table()
         {
-            ViewBag.UnpSortParm = sort == "unp_desc" ? "unp" : "unp_desc";
-            ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
+            return View("Table",db.Поставщик.AsNoTracking().OrderBy(o=>o.УНП_поставщика));
             
-            switch (sort)
-            {
-                case "unp": return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
-                case "unp_desc": return PartialView("Table", db.Поставщик.AsNoTracking().OrderByDescending(p => p.УНП_поставщика));
-                case "name": return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.Название_организации));
-                case "name_desc": return PartialView("Table", db.Поставщик.AsNoTracking().OrderByDescending(p => p.Название_организации));
-
-                default: return PartialView("Table", db.Поставщик.AsNoTracking().OrderBy(p => p.УНП_поставщика));
-            }
             //---------------------------------------------------------------------------------------------------------------}
         }
 
@@ -62,18 +49,18 @@ namespace D.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.p = поставщик;
-            
-            return View(db.Поставщик_цена.AsNoTracking().Where(pro=>pro.УНП_поставщика==id));
+            ViewBag.List = db.Поставщик_цена.AsNoTracking().Where(pro => pro.УНП_поставщика == id);
+
+            return View(поставщик);
         }
 
-        
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
+
+
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
         public ActionResult CreateConfirmed([Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик p)
@@ -91,23 +78,23 @@ namespace D.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(p);
+            return View("Error");
         }
 
         
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var поставщик = db.Поставщик.Find(id);
-            if (поставщик == null)
-            {
-                return HttpNotFound();
-            }
-            return View(поставщик);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var поставщик = db.Поставщик.Find(id);
+        //    if (поставщик == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(поставщик);
+        //}
 
         
         [Authorize(Roles = "admin")]
@@ -125,25 +112,25 @@ namespace D.Controllers
               
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",new { id=p.УНП_поставщика});
             }
-            return View(p);
+            return View("Error");
         }
 
         
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var поставщик = db.Поставщик.Find(id);
-            if (поставщик == null)
-            {
-                return HttpNotFound();
-            }
-            return View(поставщик);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var поставщик = db.Поставщик.Find(id);
+        //    if (поставщик == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(поставщик);
+        //}
 
         
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorProviders")]
@@ -171,32 +158,32 @@ namespace D.Controllers
         public ActionResult PMinsk()
         {
             
-            return View("Index",db.Поставщик.AsNoTracking().Where(pro=> pro.Адрес.Contains("минск")));
+            return View("Table",db.Поставщик.AsNoTracking().Where(pro=> pro.Адрес.Contains("минск")));
         }
 
-         public ActionResult AutocompleteSearch(string term)
-        {
+        // public ActionResult AutocompleteSearch(string term)
+        //{
             
-            return Json(db.Поставщик
-                .AsNoTracking()
-                .Where(pro=>pro.Название_организации.Contains(term))
-                .Select(p => new { value = p.Название_организации })
-                , JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(db.Поставщик
+        //        .AsNoTracking()
+        //        .Where(pro=>pro.Название_организации.Contains(term))
+        //        .Select(p => new { value = p.Название_организации })
+        //        , JsonRequestBehavior.AllowGet);
+        //}
         //--------------------------------------------------------------------------------
 
-        public ActionResult Search(string search)
-        {
-            var query = db.Поставщик
-                .AsNoTracking()
-                .Where(pro => pro.Название_организации.Contains(search) || pro.УНП_поставщика.ToString().Contains(search) || pro.Описание.Contains(search));
+        //public ActionResult Search(string search)
+        //{
+        //    var query = db.Поставщик
+        //        .AsNoTracking()
+        //        .Where(pro => pro.Название_организации.Contains(search) || pro.УНП_поставщика.ToString().Contains(search) || pro.Описание.Contains(search));
 
-            if (query.Count() > 0)
-            {
-                return PartialView(query);
-            }
+        //    if (query.Count() > 0)
+        //    {
+        //        return PartialView(query);
+        //    }
 
-            else return PartialView("NoResult");
-        }
+        //    else return PartialView("NoResult");
+        //}
     }
 }

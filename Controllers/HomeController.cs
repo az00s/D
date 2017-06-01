@@ -112,24 +112,24 @@ namespace D.Controllers
 
             ViewBag.o1m1= db.Денежное_поступление
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month-1)
+                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month-1 && o.Дата_поступления.Value.Year == DateTime.Now.Year)
                 .Select(o => o.Сумма).Sum();
 
             
             ViewBag.o11 = db.Денежное_поступление
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month - 1)
+                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month - 1 && o.Дата_поступления.Value.Year == DateTime.Now.Year)
                 .Count();
 
 
             ViewBag.o2m1= db.Денежное_поступление
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month )
+                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month && o.Дата_поступления.Value.Year == DateTime.Now.Year)
                 .Select(o => o.Сумма).Sum();
 
             ViewBag.o21= db.Денежное_поступление
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month)
+                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month && o.Дата_поступления.Value.Year == DateTime.Now.Year)
                 .Count();
 
 

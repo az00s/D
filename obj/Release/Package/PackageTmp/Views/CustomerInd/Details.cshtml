@@ -1,72 +1,309 @@
 ﻿@model D.Models.CustomerInd
 
 @{
-    ViewBag.Title = "Детали";
+    ViewBag.Title = "О клиенте";
 }
 
 
-<div>
+<div class="container">
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
 
-    <div class="pencildiv">
-        <a class="glyphicon glyphicon-pencil" href="@Url.Action("Edit", new { id = Model.CustomerIndId })"></a><div class="CustomerName"><p>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.Patronymic)</p></div>
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Карточка клиента  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
 
-    </div>
-    <div>
-        <hr />
-        <div class="regDate">
-            @Html.DisplayFor(model => model.RegisteredDate)
+
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PassportId)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.PassportId)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Telephone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Telephone)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BirstDate)
+                            </dt>
+
+                            <dd>
+                                @Html.ValueFor(model => model.BirstDate,"{0:dd'.'MM'.'yyyy}")
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Adress)
+                            </dt>
+
+                            <dd>
+                                <div>@Html.DisplayFor(model => model.Adress)</div>
+                            </dd>
+
+                        </dl>
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+
         </div>
     </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PassportId)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PassportId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Telephone)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BirstDate)
-        </dt>
-
-        <dd>
-            @Html.ValueFor(model => model.BirstDate, "{0:dd'.'MM'.'yyyy}")
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Adress)
-        </dt>
-
-        <dd>
-            <div>@Html.DisplayFor(model => model.Adress)</div>
-        </dd>
-
-    </dl>
-    <fieldset>
-        <legend>@Html.DisplayNameFor(model => model.Description)</legend>
-        @Html.DisplayFor(model => model.Description)
-    </fieldset>
 </div>
-@section scripts{
 
-    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
-    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этого клиента?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Patronymic)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Patronymic)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PassportId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PassportId)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Telephone)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Telephone)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Adress)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Adress)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BirstDate)
+                    </dt>
+
+                    <dd>
+                        @Html.ValueFor(model => model.BirstDate, "{0:dd'.'MM'.'yyyy}")
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                </dl>
+            </div>
+
+
+
+
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "CustomerInd", new { id = Model.CustomerIndId }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+       
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование клиента</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "CustomerInd", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+                                       
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.CustomerIndId)
+
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Patronymic, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PassportId, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.PassportId, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PassportId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Adress, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Adress, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Adress, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.BirstDate, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7 input-group date" id="datetimepicker1" >
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                @Html.TextBox("BirstDate", Model.BirstDate.Value.ToString("dd.MM.yyyy"),new { @class = "form-control",@Value= Model.BirstDate.Value.ToShortDateString() } )
+                                                
+                                                @Html.ValidationMessageFor(model => model.BirstDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                          $(function () {
+                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+                                          });
+                                                </script>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+<script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+    
 }

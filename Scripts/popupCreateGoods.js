@@ -30,15 +30,15 @@ function centerPopup(){
 	var popupWidth = $("#popupContact").width();
 	$("#popupContact").css({
 	    "position": "absolute",
-	    "top": "30px",
-	    "left": windowWidth / 3 - popupWidth/2,
+	    "top": "50px",
+	    "left": windowWidth / 5,
 	    
 	});
 
 	$(".sideButton").css({
 	    
 	    "position": "absolute",
-	    "left": (windowWidth / 3 - popupWidth / 2)-50,
+	    "left": windowWidth / 5,
 	});
 	
 	$("#backgroundPopup").css({

@@ -1,89 +1,269 @@
-﻿@model IEnumerable< D.Models.Поставщик_цена>
+﻿@model  D.Models.Поставщик
     @using D.Models
 
 @{
-    ViewBag.Title = "Данные о поставщике";
+    ViewBag.Title = "О поставщике";
 }
 
-<h3>Данные о поставщике</h3>
 
-<div>
-    
-    <hr />
-    
-    <dl class="dl-horizontal">
-        <dt>
-            Название организации:
-        </dt>
+<div class="container">
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-8">
 
-        <dd>
-            @ViewBag.p.Название_организации
-        </dd>
-
-        <dt>
-            Адрес:
-        </dt>
-
-        <dd>
-            @ViewBag.p.Адрес
-        </dd>
-
-        <dt>
-            Телефон:
-        </dt>
-
-        <dd>
-           @ViewBag.p.Телефон
-        </dd>
-
-        <dt>
-            Описание:
-        </dt>
-
-        <dd>
-            @ViewBag.p.Описание
-        </dd>
-    </dl>
-
-</div>
-<p>
-<p>@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.p.УНП_поставщика }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" })</p> @*@Html.ActionLink("Добавить поставляемый товар", "AddG", new { id = @ViewBag.p.УНП_поставщика }, new { @class = "btn btn-default dontPrint", @style = "margin-top:0px;margin-left:170px;" })*@ <br />
-
-@Html.ActionLink("Назад", "Index", null, new { @class = "dontPrint" })
-@{ if (Model.Count() > 0)
-    {
-<div class="test-border tprovider">
-    <table class="table-bordered table-striped det">
-        <thead>
-            <tr><th colspan="4">Поставляемые товары</th></tr>
-            <tr>
-                <th>Обозначение</th>
-                <th>Наименование</th>
-                <th>Ед.Изм.</th>
-                
-                <th>Цена без НДС</th>
-                
-            </tr>
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Информация о поставщике  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
 
 
-        </thead>
-        <tbody>
-            @foreach (Поставщик_цена i in Model)
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.УНП_поставщика)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.УНП_поставщика)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Название_организации)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Название_организации)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Телефон)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Телефон)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Адрес)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Адрес)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Описание)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Описание)
+                            </dd>
+                        </dl>
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+
+                    <table class="table-bordered table-striped" id="LinkedProvider">
+                        <col width="35%">
+                        <col width="35%">
+                        <thead>
+                            <tr><th class="text-center" colspan="3" style="border:none;">Поставляемые товары</th></tr>
+                            <tr>
+                                <th class="text-center">Обозначение</th>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Цена без НДС</th>
+                            </tr>
+
+
+                        </thead>
+                        <tbody>
+                            @foreach (Поставщик_цена i in (ViewBag.List as IQueryable<Поставщик_цена>))
             {
-                <tr>
-                    <td>@Html.DisplayName(i.Товар.Обозначение.ToString())</td>
-                    <td>@Html.DisplayName(i.Товар.Наименование)</td>
-                    
-                    <td>@Html.DisplayName(i.Товар.Единица_измерения)</td>
-                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
-                    <td>@Html.DisplayName(str)</td>
-                                        
-                                       
-                </tr>
-                        }
-        </tbody>
-    </table>
-</div>
-                        }}
+                                <tr>
+                                    <td class="text-center">@Html.DisplayName(i.Товар.Обозначение)</td>
+                                    <td class="text-center">@Html.DisplayName(i.Товар.Наименование)</td>
+                                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                                    <td class="text-center">@Html.DisplayName(str)</td>
 
-<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этого поставщика?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.УНП_поставщика)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.УНП_поставщика)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Название_организации)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Название_организации)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Телефон)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Телефон)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Адрес)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Адрес)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Описание)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Описание)
+                    </dd>
+                </dl>
+            </div>
+
+
+
+
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Поставщик", new { id = Model.УНП_поставщика }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование поставщика</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Поставщик", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.УНП_поставщика)
+
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Название_организации, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Название_организации, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Название_организации, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Адрес, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Адрес, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Описание, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.TextAreaFor(model => model.Описание, 2, 34, new { htmlAttributes = new { @class = "form-control" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,135 +1,553 @@
-﻿@model IEnumerable< D.Models.Поставщик_цена>
-    @using D.Models
+﻿@model D.Models.Товар
+@using D.Models
 
 @{
     ViewBag.Title = "Карточка товара";
 
-    Поставщик_цена p = @Model.First();
 }
+<div class="container">
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-7">
 
-<h3>Карточка товара</h3>
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Информация о товаре  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li  ><a  href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#mdAddProv" data-toggle="modal">Добавить поставщика</a></li>
+                                </ul>
+                            </li>
+                        </ul></legend>
 
-<div>
-   
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Обозначение:        </dt>
 
-        <dd>
-           @p.Товар.Обозначение
-        </dd>
-        <dt>
-            Наименование:
-        </dt>
+                    <div>
 
-        <dd>
-            @Html.DisplayName(p.Товар.Наименование)
-        </dd>
-        <dt>Краткое описание:</dt>
-        <dd>@p.Товар.Краткое_описание</dd>
-        
 
-        
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Обозначение:
+                            </dt>
 
-        
+                            <dd>
+                                @Model.Обозначение
+                            </dd>
+                            <dt>
+                                Наименование:
+                            </dt>
 
-        <dt>
-            Единица измерения:
-        </dt>
+                            <dd>
+                                @Html.DisplayName(Model.Наименование)
+                            </dd>
+                            <dt>Краткое описание:</dt>
+                            <dd>@Model.Краткое_описание</dd>
 
-        <dd>
-            @Html.DisplayName(p.Товар.Единица_измерения)
-        </dd>
+                            <dt>
+                                Единица измерения:
+                            </dt>
 
-        <dt>
-           Остаток:
-        </dt>
+                            <dd>
+                                @Html.DisplayName(Model.Единица_измерения)
+                            </dd>
 
-        <dd>
-            @Html.DisplayName(p.Товар.Остаток_на_складе.ToString())
-        </dd>
+                            <dt>
+                                Остаток:
+                            </dt>
 
-        <dt>
-            Срок поставки:
-        </dt>
+                            <dd>
+                                @Html.DisplayName(Model.Остаток_на_складе.ToString())
+                            </dd>
 
-        <dd>
-            @p.Товар.Срок_поставки
-        </dd>
+                            <dt>
+                                Срок поставки:
+                            </dt>
 
-        <dt>
-            Вес:
-        </dt>
+                            <dd>
+                                @Model.Срок_поставки
+                            </dd>
 
-        <dd>
-            @p.Товар.Вес
-        </dd>
+                            <dt>
+                                Вес:
+                            </dt>
 
-        <dt>
-            Цена:
-        </dt>
+                            <dd>
+                                @Model.Вес
+                            </dd>
 
-        <dd>@{string price = p.Товар.Цена.Value.ToString("0.00") ?? "";}
-            @price
-        </dd>
+                            <dt>
+                                Цена:
+                            </dt>
 
-        <dt>
-            Цена с НДС:
-        </dt>
+                            <dd>
+                                @{string price = Model.Цена.Value.ToString("0.00") ?? "";}
+                                @price
+                            </dd>
 
-        <dd>
-           @{ string t=p.Товар.Цена_с_НДС!= null ? @p.Товар.Цена_с_НДС.Value.ToString("0.00") : "";}
-            @t
-        </dd>
+                            <dt>
+                                Цена с НДС:
+                            </dt>
 
-    </dl>
-    
-   
-</div>
+                            <dd>
+                                @{ string t = Model.Цена_с_НДС != null ? Model.Цена_с_НДС.Value.ToString("0.00") : "";}
+                                @t
+                            </dd>
 
-    <p>@Html.ActionLink("Редактировать", "Edit", new { id = p.ID_товара }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" }) @Html.ActionLink("Добавить поставщика", "AddP", new { id = p.ID_товара }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:20px;" }) </p>
-    <br />
+                        </dl>
 
-<div class="test-border tprovider">
-    <table class="table-bordered table-striped">
-        <thead>
-            <tr><th colspan="4">Связанные поставщики</th></tr>
-            <tr>
-                <th>УНП</th>
-                <th>Поставщик</th>
-                <th>Цена без НДС</th>
-@{ if (Model.Count() > 1)
-    {<th></th>}
-    }
-            </tr>
-            
 
-        </thead>
-        <tbody>
-            @foreach (Поставщик_цена i in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayName(i.Поставщик.УНП_поставщика.ToString())</td>
-                    <td>@Html.DisplayName(i.Поставщик.Название_организации)</td>
-                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
-                    <td>@Html.DisplayName(str)</td>
+                    </div>
 
-                    @{ if (Model.Count() > 1)
-                        {
-                            <td>
-                                @using (Html.BeginForm("DeleteP", "Товар", new { id = p.ID_товара, p = i.УНП_поставщика }, FormMethod.Post))
-                                {
-                                <input type="image" src="~/Content/png/error.png" />
+                    
+                    
+                </fieldset>
+            </div>
+
+            <div class="col-xs-12 col-lg-5">
+
+                <div class="test-border tprovider">
+                    <table class="table-bordered table-striped" id="LinkedProvider">
+                        <col width="35%">
+                        <col width="35%">
+                        <thead>
+                            <tr><th class="text-center" colspan="3" style="border:none;">Связанные поставщики</th></tr>
+                            <tr>
+                                <th class="text-center">УНП</th>
+                                <th class="text-center">Поставщик</th>
+                                <th class="text-center">Цена</th>
+                                @{ if ((ViewBag.ProvPrice as IQueryable<Поставщик_цена>).Count() > 1)
+                                    {
+                                        <th class="text-center"></th>}
                                 }
-                            </td>
-                        }
-                    }
-                            
-                </tr>
-                        }
-        </tbody>
-    </table>
+                            </tr>
+
+
+                        </thead>
+                        <tbody>
+                            @foreach (Поставщик_цена i in (ViewBag.ProvPrice as IQueryable<Поставщик_цена>))
+            {
+                                <tr>
+                                    <td class="text-center">@Html.DisplayName(i.Поставщик.УНП_поставщика.ToString())</td>
+                                    <td class="text-center">@Html.DisplayName(i.Поставщик.Название_организации)</td>
+                                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                                    <td class="text-center">@Html.DisplayName(str)</td>
+
+                                    @{ if ((ViewBag.ProvPrice as IQueryable<Поставщик_цена>).Count() > 1)
+                                        {
+                                            <td class="text-center">
+                                                @using (Html.BeginForm("DeleteP", "Товар", new { id = Model.ID_товара, p = i.УНП_поставщика }, FormMethod.Post))
+                                                {
+                                                    <input type="image" src="~/Content/png/error.png" />
+                                                }
+                                            </td>
+                                        }
+                                    }
+
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+            
+</div>
+    
+<script>
+$(document).ready(function(){
+
+    $('#LinkedProvider').DataTable({
+
+        "processing": true,
+        "order": [],
+        fixedHeader: true,
+        "autoWidth": false,
+        "language": {
+            "lengthMenu": "Показывать _MENU_ записей",
+            "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
+            "infoFiltered": " (Найдено из _MAX_ записей)",
+            "emptyTable": "Нет данных для отображения",
+            "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
+            "infoPostFix":    "",
+            "thousands":      ",",
+            "loadingRecords": "Загрузка...",
+            "processing":     "Обработка...",
+            "search":         "Поиск:",
+            "zeroRecords":    "Ничего не найдено",
+            "paginate": {
+                "first":      "Первая",
+                "last":       "Последняя",
+                "next":       "Следующая",
+                "previous":   "Предыдущая"
+            }
+        },
+
+        "dom": "t",
+        "columnDefs": [
+    { "width": "25%", "targets": 0 },
+    { "width": "25%", "targets": 1 }
+        ],
+        fixedHeader: true
+        //"pagingType": "full_numbers"
+        });
+
+
+
+});
+</script>
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этот товар?</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+               
+
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Наименование)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Наименование)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Краткое_описание)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Краткое_описание)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Цена)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Цена)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Остаток_на_складе)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Остаток_на_складе)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Единица_измерения)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Единица_измерения)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Срок_поставки)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Срок_поставки)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Вес)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Вес)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Цена_с_НДС)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Цена_с_НДС)
+                        </dd>
+
+                        
+
+                </dl>
+
+
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Товар", new { id = Model.ID_товара }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                <button type="submit" @*a href='@Url.Action("Delete",new { id = Model.ID_товара })'*@ class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+            </div>
+            <!-- Футер модального окна -->
+        
+
+        </div>
+    </div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование товара</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                                <fieldset>
+                                    @using (Html.BeginForm("Edit", "Товар", FormMethod.Post, new { @class = "form-horizontal" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.ID_товара)
+
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Обозначение, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Обозначение, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Обозначение, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Наименование, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Наименование, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Наименование, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Краткое_описание, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.TextAreaFor(model => model.Краткое_описание, 2, 46, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Краткое_описание, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Единица_измерения, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.DropDownListFor(model => model.Единица_измерения, new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Единица_измерения, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Остаток_на_складе, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Остаток_на_складе, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
+                                                    @Html.ValidationMessageFor(model => model.Остаток_на_складе, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Срок_поставки, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Срок_поставки, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
+                                                    @Html.ValidationMessageFor(model => model.Срок_поставки, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Вес, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Вес, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
+                                                    @Html.ValidationMessageFor(model => model.Вес, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Цена, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.EditorFor(model => model.Цена, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
+                                                    @Html.ValidationMessageFor(model => model.Цена, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                                <button type="submit" class="btn btn-success">Сохранить</button>
+                                            </div>
+
+                                            @*<div class="form-group">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <input type="submit" value="Сохранить" class="btn btn-success" />
+                                                </div>
+                                            </div>*@
+                                        </div>
+                                    }
+                                </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+<div id="mdAddProv" class="modal modal-lg faden" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Добавление поставщика для товара</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                                <fieldset>
+                                   
+                                    @using (Html.BeginForm("AddP", "Товар"))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+
+
+                                            <div class="form-group">
+                                                @Html.Label("Обозначение", htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.Hidden("id", "", new { @value =Model.ID_товара })
+                                                    @Html.TextBox("Обозначение", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Обозначение })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.Label("Наименование", htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.TextBox("Наименование", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Наименование })
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Поставщик</label>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input id="hidNameProv" type="hidden" value="" name="u" />
+                                                        <input id="indoorText" class="form-control"  name="tbxNameProv" type="text" value="" readonly />
+                                                        <div class="input-group-btn">
+                                                            <a href="#ChoiceProv" class="btn btn-default" data-toggle="modal">+</a>
+                                                        </div>
+                                                    </div>
+                                                    
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.Label("Цена", htmlAttributes: new { @class = "control-label col-md-3" })
+                                                <div class="col-md-7">
+                                                    @Html.Editor("price", "", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                                <button type="submit" class="btn btn-success">Добавить</button>
+                                            </div>
+                                            
+                                        </div>
+                                    }
+                                </fieldset>
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ChoiceProv" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Выберите поставщика</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table-bordered table-striped" id="tbProviders">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="10%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th class="text-center">УНП</th>
+                            <th class="text-center">Поставщик</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        
+                        @foreach (Поставщик item in (ViewBag.Providers as IQueryable<Поставщик>))
+            {
+
+
+                            <tr class="text-center">
+                                <td>
+                                    <strong>@Html.HiddenFor(modelItem => item.УНП_поставщика) @Html.DisplayTextFor(modelItem => item.УНП_поставщика)</strong>
+                                </td>
+                                <td><strong>@Html.DisplayTextFor(modelItem => item.Название_организации)</strong></td>
+
+                            </tr>
+
+
+
+
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="btChoiceProv" disabled>Выбрать</button>
+            </div>
+        </div>
+    </div>
+</div>

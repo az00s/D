@@ -33,50 +33,13 @@ namespace D.Controllers
       
         public ActionResult Index()
         {
-            ViewBag.NumSortParm = "num_desc";
-            ViewBag.DateSortParm = "date" ;
-            ViewBag.NameSortParm ="name";
-            ViewBag.AmountSortParm = "amount";
-            ViewBag.StatusSortParm = "statdistinus";
-            ViewBag.EmpSortParm= "emp" ;
-
-            return View(db.Заказ.Include(з => з.CustomerEnt).Include(з => з.Сотрудник).AsNoTracking().OrderBy(p => p.ID_заказа));
+            return RedirectToAction("Table");
             
         }
 
-        public ActionResult Sorting(string sort)
+        public ActionResult Table()
         {
-            var заказ = db.Заказ.Include(з => з.CustomerEnt).Include(з => з.Сотрудник).AsNoTracking();
-
-            //sorting----------------------------------------------------------------------------
-
-            ViewBag.NumSortParm = sort == "num_desc" ? "num" : "num_desc";
-            ViewBag.DateSortParm = sort == "date_desc" ? "date" : "date_desc";
-            ViewBag.NameSortParm = sort == "name_desc" ? "name" : "name_desc";
-            ViewBag.AmountSortParm = sort == "amount_desc" ? "amount" : "amount_desc";
-            ViewBag.StatusSortParm = sort == "status_desc" ? "statdistinus" : "status_desc";
-            ViewBag.EmpSortParm = sort == "emp_desc" ? "emp" : "emp_desc";
-
-            switch (sort)
-            {
-                case "num": return PartialView("Table",заказ.OrderBy(p => p.ID_заказа));
-                case "num_desc": return PartialView("Table", заказ.OrderByDescending(p => p.ID_заказа));
-                case "date": return PartialView("Table", заказ.OrderBy(p => p.Дата_заказа));
-                case "date_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Дата_заказа));
-
-                case "name": return PartialView("Table", заказ.OrderBy(p => p.CustomerEnt.Название_организации));
-                case "name_desc": return PartialView("Table", заказ.OrderByDescending(p => p.CustomerEnt.Название_организации));
-
-                case "amount": return PartialView("Table", заказ.OrderBy(p => p.Сумма_заказа_с_НДС));
-                case "amount_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Сумма_заказа_с_НДС));
-                case "status": return PartialView("Table", заказ.OrderBy(p => p.Статус_заказа));
-                case "status_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Статус_заказа));
-                case "emp": return PartialView("Table", заказ.OrderBy(p => p.Сотрудник.Фамилия));
-                case "emp_desc": return PartialView("Table", заказ.OrderByDescending(p => p.Сотрудник.Фамилия));
-
-
-                default: return PartialView("Table", заказ.OrderBy(p => p.ID_заказа));
-            }
+            return View("Table",db.Заказ.AsNoTracking().OrderBy(o=>o.ID_заказа));
         }
         
         public ActionResult Details(int? id)
@@ -102,14 +65,14 @@ namespace D.Controllers
 
             ViewBag.Ord = заказ;
                         
-            ViewBag.list = db.Оплата_заказа
+            ViewBag.Paylist = db.Оплата_заказа
                 .AsNoTracking()
-                .Where(g=> g.ID_заказа == id)
-                .ToList();
+                .Where(g=> g.ID_заказа == id);
+            ViewBag.OfList = db.Оформление_заказа
+                .AsNoTracking()
+                .Where(d => d.ID_заказа == id);
 
-            return View(db.Оформление_заказа
-                .AsNoTracking()
-                .Where(d=>d.ID_заказа==id));
+            return View(заказ);
         }
 
         
@@ -147,108 +110,72 @@ namespace D.Controllers
         //}     
         //-----------------------------------------------------------------------------------------------------
        
-        public ActionResult Create()
-        {
-            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации");
-            ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия");
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации");
+        //    ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия");
+        //    return View();
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(List<int> Количество, List<int> ID,Заказ p)
+        public ActionResult Create(Заказ p)
         {
-            if (ModelState.IsValid)
-            {
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_заказа"]);
-                //p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
-                //p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                //p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
-                p.AddtoTable(db, p);
-                           
-                for (int i=0;i<Количество.Count;i++)
-                {
-                    Оформление_заказа o = new Оформление_заказа();
-                    o.ID_заказа = p.ID_заказа;
-                    o.ID_товара = ID[i];
-                    o.Количество = Количество[i];
-                    o.AddtoTable(db,o);
-                }
-
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации", p.ID_клиента);
-            ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", p.Табельный_номер);
-            return View(p);
-        }
-        
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var заказ = db.Заказ.Find(id);
-            if (заказ == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.List = db.Оформление_заказа.AsNoTracking()
-                           .Where(p => p.ID_заказа == id)
-                           .AsEnumerable()
-                           .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new Товар{
-                                                                                                        ID_товара = g.ID_товара,
-                                                                                                        Обозначение = g.Обозначение,
-                                                                                                        Наименование =g.Наименование,
-                                                                                                        Цена =g.Цена,
-                                                                                                        Цена_с_НДС =g.Цена_с_НДС,
-                                                                                                        Остаток_на_складе =of.Количество
-                                                                                                    } );
-           
             
-            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации", заказ.ID_клиента);
-            ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", заказ.Табельный_номер);
+                p.AddtoTable(db, p);
+                db.SaveChanges();             
 
-            return View(заказ);
+            
+            return RedirectToAction("Details",new { id=p.ID_заказа});
         }
-        
+
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var заказ = db.Заказ.Find(id);
+        //    if (заказ == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    ViewBag.List = db.Оформление_заказа.AsNoTracking()
+        //                   .Where(p => p.ID_заказа == id)
+        //                   .AsEnumerable()
+        //                   .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new Товар{
+        //                                                                                                ID_товара = g.ID_товара,
+        //                                                                                                Обозначение = g.Обозначение,
+        //                                                                                                Наименование =g.Наименование,
+        //                                                                                                Цена =g.Цена,
+        //                                                                                                Цена_с_НДС =g.Цена_с_НДС,
+        //                                                                                                Остаток_на_складе =of.Количество
+        //                                                                                            } );
+
+
+        //    ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Название_организации", заказ.ID_клиента);
+        //    ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", заказ.Табельный_номер);
+
+        //    return View(заказ);
+        //}
+
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(List<int> Количество, List<int> ID,Заказ p)
+        public ActionResult Edit(ICollection<Оформление_заказа> listOf, [Bind(Exclude = "Оформление_заказа")]Заказ p)
         {
-            if (ModelState.IsValid)
-            {
-                //p.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
-                //p.Дата_заказа = Convert.ToDateTime(Request.Form["Дата_заказа"]);
-                //p.Сумма_заказа_с_НДС = Convert.ToDecimal(Request.Form["Сумма_заказа_с_НДС"]);
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                //p.Табельный_номер = Convert.ToInt32(Request.Form["Табельный_номер"]);
-                db.Entry(p).State = EntityState.Modified;
+            //if (ModelState.IsValid)
+            //{
+            db.Оформление_заказа.RemoveRange(db.Оформление_заказа.Where(o=>o.ID_заказа==p.ID_заказа));
+            
+            
+            db.Entry(p).State = EntityState.Modified;
+            db.Оформление_заказа.AddRange(listOf);
+            db.SaveChanges();
 
-
-                var Orderlist = db.Оформление_заказа.Where(o => o.ID_заказа == p.ID_заказа).ToList();
-                db.Оформление_заказа.RemoveRange(Orderlist);
-
-                for (int i = 0; i < Количество.Count; i++)
-                {
-                    Оформление_заказа of = new Оформление_заказа();
-                    of.ID_заказа = p.ID_заказа;
-                    of.ID_товара = ID[i];
-                    of.Количество = Количество[i];
-                    db.Оформление_заказа.Add(of);
-                }
-                                
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ID_клиента = new SelectList(db.CustomerEnt, "ID_клиента", "Номер_паспорта", p.ID_клиента);
-            ViewBag.Табельный_номер = new SelectList(db.Сотрудник, "Табельный_номер", "Фамилия", p.Табельный_номер);
-            return View(p);
+            //}
+            return RedirectToAction("Details", new { id = p.ID_заказа });
         }
         
         public ActionResult Delete(int? id)
@@ -289,16 +216,21 @@ namespace D.Controllers
         [ChildActionOnly]
         public ActionResult AllClients()
         {
-            return PartialView("AllClients", db.CustomerEnt);
+            return PartialView("AllClients", db.CustomerEnt.AsNoTracking().OrderBy(o=>o.УНП_Клиента));
         }
         //getting list of all goods--------------------------------------------
-        [ChildActionOnly]
+        //[ChildActionOnly]
         public ActionResult AllGoods()
         {
-            return PartialView("AllGoods", db.Товар);
+
+            return PartialView("AllGoods", db.Товар.AsNoTracking().OrderBy(o=>o.ID_товара));
         }
-        
-        
+        [ChildActionOnly]
+        public ActionResult AllEmployee()
+        {
+            return PartialView("AllEmployee", db.Сотрудник.AsNoTracking().OrderBy(o=>o.Фамилия));
+        }
+
 
         //deleting money from order
         [HttpPost]
@@ -338,51 +270,61 @@ namespace D.Controllers
 
 
         //a report for period----------------------------------------------------------------------
-        public ActionResult ROrders(DateTime start, DateTime end)
+        public ActionResult ROrders(DateTime? start, DateTime? end)
         {
+            // = DateTime.Parse(Request.Form["start"].ToString());
+            //= DateTime.Parse(Request.Form["end"].ToString());
+            end = DateTime.Parse("30.05.2017");
+            start = DateTime.Parse("01.12.2016");
             var queryGoods = db.Заказ
                 .AsNoTracking()
                 .Where(good => good.Дата_заказа >= start && good.Дата_заказа <= end);
-                
 
-            if (queryGoods.Count() > 0)
-            {
-                return PartialView(queryGoods);
-            }
+            
+            //if (queryGoods.Count() > 0)
+            //{
+            //    return PartialView(queryGoods);
+            //}
 
-            else return PartialView("NoResult");
+            return Json( queryGoods.Select(o=>new { ID_заказа =o.ID_заказа.ToString(),
+                Дата_заказа =o.Дата_заказа.ToString(),
+                Название_организации =o.CustomerEnt.Название_организации,
+                Сумма_заказа_с_НДС=o.Сумма_заказа_с_НДС.Value.ToString(),
+                Статус_заказа=o.Статус_заказа,
+                Сотрудник=o.Сотрудник.Фамилия
+            }) , JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Invoice(int? id)
-        {
-            var заказ = db.Заказ.Find(id);
-            if (заказ == null)
-            {
-                return HttpNotFound();
-            }
+    //    public ActionResult Invoice(int? id)
+    //    {
+    //        var заказ = db.Заказ.Find(id);
+    //        if (заказ == null)
+    //        {
+    //            return HttpNotFound();
+    //        }
 
-            var query = db.Оформление_заказа
-                .AsNoTracking()
-                .Where(a => a.ID_заказа == id)
-                .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good = g });
+    //        var query = db.Оформление_заказа
+    //            .AsNoTracking()
+    //            .Where(a => a.ID_заказа == id)
+    //            .Join(db.Товар, of => of.ID_товара, g => g.ID_товара, (of, g) => new { oform = of, good = g });
 
-            ViewBag.Amount = query
-                .Sum(obj => obj.good.Цена_с_НДС * obj.oform.Количество)
-                .Value.ToString("0.00");
+    //        ViewBag.Amount = query
+    //            .Sum(obj => obj.good.Цена_с_НДС * obj.oform.Количество)
+    //            .Value.ToString("0.00");
 
-            ViewBag.time = query
-                .Max(obj => obj.good.Срок_поставки);
+    //        ViewBag.time = query
+    //            .Max(obj => obj.good.Срок_поставки);
 
-            ViewBag.ID = заказ.ID_заказа;
-            ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
-            ViewBag.Client = заказ.CustomerEnt.Название_организации + ", " + "УНП: " + заказ.CustomerEnt.УНП_Клиента + ", " + заказ.CustomerEnt.Адрес + ", " + заказ.CustomerEnt.Телефон + ".";
-            ViewBag.Employee = заказ.Сотрудник.Фамилия;
+    //        ViewBag.ID = заказ.ID_заказа;
+    //        ViewBag.Date = заказ.Дата_заказа.Value.ToShortDateString();
+    //        ViewBag.Client = заказ.CustomerEnt.Название_организации + ", " + "УНП: " + заказ.CustomerEnt.УНП_Клиента + ", " + заказ.CustomerEnt.Адрес + ", " + заказ.CustomerEnt.Телефон + ".";
+    //        ViewBag.Employee = заказ.Сотрудник.Фамилия;
 
-            //    return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
-            return new PdfActionResult("Invoice",db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id),(writer, document) =>
-    {
-        FontFactory.Register("C:\\7454.ttf", "TimesNewRomanCyr");
-        });
-        }
+    //        //    return View(db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id));
+    //        return new PdfActionResult("Invoice",db.Оформление_заказа.AsNoTracking().Where(a => a.ID_заказа == id),(writer, document) =>
+    //{
+    //    FontFactory.Register("C:\\7454.ttf", "TimesNewRomanCyr");
+    //    });
+    //    }
 
         public ActionResult SaveToAppData()
         {

@@ -1,6 +1,82 @@
-﻿#table-container {
+﻿.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+    background-color: #989DA5;
+    cursor: pointer;
+}
 
-height:625px;
+.table-bordered > thead > tr > th,
+    .table-bordered > tbody > tr > th,
+    .table-bordered > tfoot > tr > th,
+    .table-bordered > thead > tr > td,
+    .table-bordered > tbody > tr > td,
+    .table-bordered > tfoot > tr > td {
+        border-bottom: 1px solid #BCC1C9;
+        border-left: 1px solid #BCC1C9;
+        max-width:400px;
+        min-width:95px;
+        height:55px;
+        min-height:50px;
+        max-height:500px;
+        
+        /*word-break:break-word;*/
+       text-wrap:normal;
+       width:auto;
+    }
+
+.table-bordered th {
+        vertical-align:middle;
+        text-align:center;
+        
+
+    }
+
+
+
+    .table-bordered td {
+        vertical-align:middle;
+        text-align:center;
+        
+
+    }
+
+.test-border {
+border:2px solid #BCC1C9;
+border-radius:5px 5px;
+box-shadow: 0 8px 15px;
+display: inline-block;
+vertical-align: top;
+margin-top:15px;
+/*max-width:90%;*/
+/*margin-left:5%;*/
+}
+
+#hrFooter {
+
+color:#E81C2C!important;
+background-color: #E81C2C;
+height: 2px;
+    margin-bottom:5px!important;
+    
+}
+
+/*.navbar-inverse .navbar-brand {
+    color: white!important;
+    
+}
+
+.navbar-inverse .navbar-nav > li > a {
+        color: white!important;
+        font-weight:bold;
+    }
+
+.navbar-inverse {
+    background-color: #E81C2C!important;
+    border-color:#E81C2C!important;
+}*/
+
+#table-container {
+
+height:650px;
 }
 
 .btn-sm {
@@ -274,6 +350,7 @@ z-index:2;
 text-decoration:none !important;
 color:black;
 
+
 }
 
 #chart {
@@ -518,6 +595,7 @@ body {
     padding-bottom: 20px;
     background-color:#DADDE2;
     height:100% !important;
+    width:auto;
     
 }
 .wrapper{

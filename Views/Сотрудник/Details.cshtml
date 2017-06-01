@@ -1,58 +1,318 @@
 ﻿@model D.Models.Сотрудник
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "О сотруднике";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Сотрудник</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Фамилия)
-        </dt>
+<div class="container">
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
 
-        <dd>
-            @Html.DisplayFor(model => model.Фамилия)
-        </dd>
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Карточка сотрудника  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Имя)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Имя)
-        </dd>
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Фамилия)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Отчество)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Фамилия)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Отчество)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Имя)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Должность)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Имя)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Должность)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Отчество)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Телефон)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Отчество)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Телефон)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Должность)
+                            </dt>
 
-    </dl>
+                            <dd>
+                                @Html.DisplayFor(model => model.Должность)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Телефон)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Телефон)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Номер_паспорта)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Номер_паспорта)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Дата_рождения)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Дата_рождения)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Адрес)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Адрес)
+                            </dd>
+                        </dl>
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+
+
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Табельный_номер }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этого сотрудника?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Фамилия)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Фамилия)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Имя)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Имя)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Отчество)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Отчество)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Должность)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Должность)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Телефон)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Телефон)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Номер_паспорта)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Номер_паспорта)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Дата_рождения)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Дата_рождения)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Адрес)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Адрес)
+                    </dd>
+
+                </dl>
+            </div>
+
+
+
+
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Сотрудник", new { id = Model.Табельный_номер }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование сотрудника</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Сотрудник", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.Табельный_номер)
+
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Фамилия, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Фамилия, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Фамилия, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Имя, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Имя, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Имя, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Отчество, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Отчество, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Отчество, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Адрес, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Адрес, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Должность, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Должность, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Должность, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Номер_паспорта, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Номер_паспорта, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Номер_паспорта, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Дата_рождения, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7 input-group date" id="datetimepicker1">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.Дата_рождения, new { @class = "form-control", @Value = Model.Дата_рождения.Value.ToShortDateString() } )
+
+                                                @Html.ValidationMessageFor(model => model.Дата_рождения, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                          $(function () {
+                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+                                          });
+                                        </script>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+
+}
+  

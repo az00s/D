@@ -1,65 +1,16 @@
-﻿@{ AjaxOptions ajaxOptions = new AjaxOptions
-    {
-        UpdateTargetId = "table",
-        HttpMethod = "Post",
-        LoadingElementId = "load",
-        LoadingElementDuration = 1000
-    };
-}
+﻿<div class="sideMenu">
+    <a href="#mdNewEmployee" data-toggle="modal" class="list-group-item"> <span class="glyphicon glyphicon-plus"></span> Добавить запись    </a>
 
-
-<div id="box" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load" />
-    <div class="indoorBtnDiv search">
-        @using (Ajax.BeginForm("Search", ajaxOptions))
-        {
-            <input id="indoorText" data-val="true" data-val-required="Введите текст" name="search" type="text" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Сотрудник")'/>
-            <button type="submit" class="indoorBtn glyphicon glyphicon-search" id="button" value="Искать"></button>
-        }
+    <div class="dropdown" tabindex="1">
+        <a href='' class="dropdown-toggle  list-group-item" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> Отчет<span class="caret"></span><span class="badge">1</span></a>
+        <ul class="dropdown-menu">
+            <li>@Html.ActionLink("Сотрудники старше 60 лет", "REmployee60")</li>
+        </ul>
     </div>
 </div>
 
-<div id="sidebar-menu" class="sidebar-menu dontPrint navbar-collapse collapse">
-    <ul>
-        <li class="fa fa-user">
-            <a href=@Url.Action("Create") class="glyphicon glyphicon-plus">
-                
 
 
-            </a>
-        </li>
-
-        <li class="fa fa-cog">
-            <a id="toggler" href="#" class="glyphicon glyphicon-search"></a>
-        </li>
-        <li class="fa fa-life-ring">
-
-
-            <div id="dd" class="dropdown" tabindex="1">
-                <a href="#" id="tog" class="dropdown-toggle glyphicon glyphicon-list" data-toggle="dropdown"></a>
-                <ul class="dropdown-menu sidebar-menu">
-                    <li>@Ajax.ActionLink("Сотрудники старше 60 лет", "REmployee60", ajaxOptions)</li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="fa fa-life-ring">
-
-
-            
-                <a id="graph" class="glyphicon glyphicon-picture" onclick="graph()" ></a>
-                
-           
-        </li>
-        <li>
-            <a class="print dontPrint glyphicon glyphicon-print"></a>
-        </li>
-
-        <li>
-            <a class="glyphicon glyphicon-export" onclick="tableToExcel('Table', 'Сотрудник')"></a>
-        </li>
-    </ul>
-</div>
 
 
 

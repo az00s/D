@@ -33,47 +33,15 @@ namespace D.Controllers
 
         //----------------------------------------------------------------------------------------------------------
            
-        public ActionResult Index(string sort)
+        public ActionResult Index()
         {
-            
-            ViewBag.NumSortParm = "num_desc";
-            ViewBag.LastSortParm= "last";
-            ViewBag.FirstSortParm = "first";
-            ViewBag.PatSortParm = "pat";
-            ViewBag.PosSortParm= "pos";
-            ViewBag.BirthSortParm = "birth";
-            
-            return View(db.Сотрудник.AsNoTracking().OrderBy(p => p.Табельный_номер));
+
+            return RedirectToAction("Table");
         }
 
-        public ActionResult Sorting(string sort)
+        public ActionResult Table ()
         {
-            //sorting----------------------------------------------------------------------------------------------
-            ViewBag.NumSortParm = sort == "num_desc" ? "num" : "num_desc";
-            ViewBag.LastSortParm = sort == "last_desc" ? "last" : "last_desc";
-            ViewBag.FirstSortParm = sort == "first_desc" ? "first" : "first_desc";
-            ViewBag.PatSortParm = sort == "pat_desc" ? "pat" : "pat_desc";
-            ViewBag.PosSortParm = sort == "pos_desc" ? "pos" : "pos_desc";
-            ViewBag.BirthSortParm = sort == "birth_desc" ? "birth" : "birth_desc";
-            switch (sort)
-            {
-                case "num": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Табельный_номер));
-                case "num_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Табельный_номер));
-                case "last": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Фамилия));
-                case "last_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Фамилия));
-
-                case "first": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Имя));
-                case "first_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Имя));
-                case "pat": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Отчество));
-                case "pat_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Отчество));
-                case "pos": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Должность));
-                case "pos_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Должность));
-                case "birth": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Дата_рождения));
-                case "birth_desc": return PartialView("Table", db.Сотрудник.AsNoTracking().OrderByDescending(p => p.Дата_рождения));
-
-                default: return PartialView("Table", db.Сотрудник.AsNoTracking().OrderBy(p => p.Табельный_номер));
-            }
-            //--------------------------------------------------------------------------------------------------------------
+            return View("Table",db.Сотрудник.AsNoTracking().OrderBy(o=>o.Табельный_номер));
         }
 
         public ActionResult Details(int? id)
@@ -91,15 +59,15 @@ namespace D.Controllers
         }
 
         
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed([Bind(Include = "Табельный_номер,Фамилия,Имя,Отчество,Должность,Телефон,Дата_рождения")] Сотрудник s)
+        public ActionResult CreateConfirmed([Bind(Include = "Табельный_номер,Фамилия,Имя,Отчество,Должность,Телефон,Дата_рождения,Адрес,Номер_паспорта")] Сотрудник s)
         {
             if (ModelState.IsValid)
             {
@@ -114,32 +82,32 @@ namespace D.Controllers
                 s.AddtoTable(db, s);
                 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",new { id=s.Табельный_номер});
             }
 
-            return View(s);
+            return RedirectToAction("Table");
         }
 
      
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var сотрудник = db.Сотрудник.Find(id);
-            if (сотрудник == null)
-            {
-                return HttpNotFound();
-            }
-            return View(сотрудник);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var сотрудник = db.Сотрудник.Find(id);
+        //    if (сотрудник == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(сотрудник);
+        //}
 
         
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Табельный_номер,Фамилия,Имя,Отчество,Должность,Телефон,Дата_рождения")] Сотрудник s)
+        public ActionResult Edit([Bind(Include = "Табельный_номер,Фамилия,Имя,Отчество,Должность,Телефон,Дата_рождения,Адрес,Номер_паспорта")] Сотрудник s)
         {
             if (ModelState.IsValid)
             {
@@ -153,25 +121,25 @@ namespace D.Controllers
                 //s.Дата_рождения = Convert.ToDateTime(Request.Form["Дата_рождения"]);
                 db.Entry(s).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",new { id=s.Табельный_номер});
             }
             return View(s);
         }
 
        
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var сотрудник = db.Сотрудник.Find(id);
-            if (сотрудник == null)
-            {
-                return HttpNotFound();
-            }
-            return View(сотрудник);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var сотрудник = db.Сотрудник.Find(id);
+        //    if (сотрудник == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(сотрудник);
+        //}
         [Authorize(Roles = "admin")]
         
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorEmployee")]
@@ -204,37 +172,37 @@ namespace D.Controllers
             
             if (queryGoods.Count() > 0)
             {
-                return PartialView("Table", queryGoods);
+                return View("Table", queryGoods);
             }
 
-            else return PartialView("NoResult");
+            else return View("NoResult");
         }
 
         
 
         //autocomplete function for search field----------------------------------------
-        public ActionResult AutocompleteSearch(string term)
-        {
+        //public ActionResult AutocompleteSearch(string term)
+        //{
             
-            return Json(db.Сотрудник
-                .AsNoTracking().Where(emp=>emp.Фамилия.Contains(term))
-                .Select(s => new { value=s.Фамилия }), 
-                JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(db.Сотрудник
+        //        .AsNoTracking().Where(emp=>emp.Фамилия.Contains(term))
+        //        .Select(s => new { value=s.Фамилия }), 
+        //        JsonRequestBehavior.AllowGet);
+        //}
         //--------------------------------------------------------------------------------
-        public ActionResult Search(string search)
-        {
-            var queryGoods = db.Сотрудник
-                .AsNoTracking()
-                .Where(good => good.Фамилия.Contains(search) || good.Должность.Contains(search) || good.Имя.Contains(search) || good.Табельный_номер.ToString().Contains(search));
+        //public ActionResult Search(string search)
+        //{
+        //    var queryGoods = db.Сотрудник
+        //        .AsNoTracking()
+        //        .Where(good => good.Фамилия.Contains(search) || good.Должность.Contains(search) || good.Имя.Contains(search) || good.Табельный_номер.ToString().Contains(search));
                              
-            if (queryGoods.Count() > 0)
-            {
-                return PartialView(queryGoods);
-            }
+        //    if (queryGoods.Count() > 0)
+        //    {
+        //        return PartialView(queryGoods);
+        //    }
 
-            else return PartialView("NoResult");
-        }
+        //    else return PartialView("NoResult");
+        //}
 
         public JsonResult GetDataForChart()
         {

@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<D.Models.Поставщик>
 @using D.Models 
 
-<table class="table-bordered table-striped" id="tbGoods">
-    @foreach (Поставщик item in Model)
-    { 
-            <tr>
+
+        @foreach (Поставщик item in Model)
+        {
+            <tr class="text-center">
                 <td>
-                    <strong>@Html.HiddenFor(modelItem =>item.УНП_поставщика) @Html.DisplayTextFor(modelItem => item.УНП_поставщика)</strong>
+                    <strong>@Html.HiddenFor(modelItem => item.УНП_поставщика) @Html.DisplayTextFor(modelItem => item.УНП_поставщика)</strong>
                 </td>
                 <td><strong>@Html.DisplayTextFor(modelItem => item.Название_организации)</strong></td>
 
             </tr>
-    }
-</table>
+        }
+        

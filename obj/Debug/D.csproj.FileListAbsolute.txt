@@ -16,8 +16,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dl
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.pdb
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Antlr3.Runtime.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.xmlworker.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AI.Agent.Intercept.dll
@@ -61,6 +59,7 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Micr
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AI.Web.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.Web.Common.xml
@@ -74,11 +73,8 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Syst
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\System.Web.WebPages.Razor.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Antlr3.Runtime.pdb
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Newtonsoft.Json.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.Owin.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.xml
@@ -88,8 +84,12 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Micr
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.resources.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Debug\D.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Debug\D.pdb
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.dll
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.dll
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.xml
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.xml
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.resources.dll
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Debug\D.csprojResolveAssemblyReference.cache

@@ -11,8 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title </title>
     
-    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="/Content/LogIn.css" rel="stylesheet" />
+    <script src="~/Scripts/MainJavaScript.js"></script>
 
 
 
@@ -22,42 +23,122 @@
 
 </head>
 <body>
-    
-        <div class="center">
+    <script>
+        addEventListener("keyup", moveRect);
+        function moveRect(e) {
+            //при нажатии на кнопку с id="save"
 
-            <div class="validation-summary-errors text-danger">
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })<br />
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+            if (e.keyCode === 13) {
+
+
+                //переменная formValid
+                var formValid = true;
+                //перебрать все элементы управления input
+                $('input').each(function () {
+                    //найти предков, которые имеют класс .form-group, для установления success/error
+                    var formGroup = $(this).parents('.form-group');
+                    //найти glyphicon, который предназначен для показа иконки успеха или ошибки
+                    var glyphicon = formGroup.find('.form-control-feedback');
+                    //для валидации данных используем HTML5 функцию checkValidity
+                    if (this.checkValidity()) {
+                        //добавить к formGroup класс .has-success, удалить has-error
+                        formGroup.addClass('has-success').removeClass('has-error');
+                        //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
+                        glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
+                    } else {
+                        //добавить к formGroup класс .has-error, удалить .has-success
+                        formGroup.addClass('has-error').removeClass('has-success');
+                        //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
+                        glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
+                        //отметить форму как невалидную
+                        formValid = false;
+                    }
+                });
+                //если форма валидна, то
+                //if (formValid) {
+                //    //сркыть модальное окно
+                //    $('#myModal').modal('hide');
+                //    //отобразить сообщение об успехе
+                //    $('#success-alert').removeClass('hidden');
+            }
+
+        }
+
+
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4.5">
             </div>
-           
+            <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
+
+
+                <div class="validation-summary-errors text-danger">
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })<br />
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+
+
+
+
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @role = "form", @class = "form-horizontal" }))
+            {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group has-feedback">
+
+                        @*<label for="login" class="control-label col-sm-3">Логин:</label>*@
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Имя", @Value = "директор", @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-я]{5,}" })
+
+                        </div>
+                        <span class="glyphicon form-control-feedback"></span>
+
+                    </div>
+
+
+
+
+                        <div class="form-group has-feedback">
+                            @*<label for="password" class="control-label col-xs-3">Пароль:</label>*@
+
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-minus-sign"></i></span>
+                                @Html.PasswordFor(m => m.Password, new { @placeholder = "Пароль", @Value = "22", @class = "form-control", @required = "required" })
+                            </div>
+                            <span class="glyphicon form-control-feedback"></span>
+
+                        </div>
+
+
+                        <input type="submit" id="submit" />
+
+
+
+                        @*<button type="submit" name="submit"><i class="glyphicon  glyphicon-arrow-right"></i></button>*@
+
+
+                }
+            </div>
+
+            <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4.5"></div>
+
         </div>
-   
 
-    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-1" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <p class="field">
-            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Имя",@Value="директор" })
-
-            <i class="glyphicon glyphicon-user"></i>
-        </p>
-
-
-                                    <p class="field">
-                                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Пароль", @Value = "22" })
-
-                                        <i class="glyphicon glyphicon-lock"></i>
-                                    </p>
-                                    <p class="submit">
-                                        <button type="submit" name="submit"><i class="glyphicon  glyphicon-arrow-right"></i></button>
-                                    </p>
-
-    }
+    </div>
 
 
 </body>
+
+
 
 </html>

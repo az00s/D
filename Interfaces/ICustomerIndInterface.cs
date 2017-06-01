@@ -1,11 +1,12 @@
-﻿using System;
+﻿using D.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace D.Interfaces
 {
-    public class ICustomerIndInterface
+    public interface ICustomerIndInterface
     {
         string PassportId { get; set; }
 
@@ -21,12 +22,13 @@ namespace D.Interfaces
 
          string Email { get; set; }
 
-         DateTime BirstDate { get; set; }
+        DateTime? BirstDate { get; set; }
 
-         DateTime RegisteredDate { get; set; }
+        DateTime RegisteredDate { get; set; }
 
          string Description { get; set; }
 
          int CustomerIndId { get; set; }
+        void AddtoTable(IdbInterface db, ICustomerIndInterface p);
     }
 }

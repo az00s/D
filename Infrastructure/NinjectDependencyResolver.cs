@@ -41,6 +41,7 @@ namespace D.Infrastructure
             kernel.Bind<IЗаказInterface>().To<Заказ>();
             kernel.Bind<IДенежное_поступлениеInterface>().To<Денежное_поступление>();
             kernel.Bind<IОплата_заказаInterface>().To<Оплата_заказа>();
+            kernel.Bind<ICustomerIndInterface>().To<CustomerInd>();
         }
     }
 }

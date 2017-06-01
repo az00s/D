@@ -1,4 +1,5 @@
-﻿using System;
+﻿using D.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -10,7 +11,7 @@ namespace D.Models
 {
     public interface IdbInterface
     {
-         DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+         //DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
          DbSet<AspNetRoles> AspNetRoles { get; set; }
          DbSet<AspNetUsers> AspNetUsers { get; set; }
          DbSet<Денежное_поступление> Денежное_поступление { get; set; }

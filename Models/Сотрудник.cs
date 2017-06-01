@@ -4,7 +4,6 @@ namespace D.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class Сотрудник
     {
@@ -26,7 +25,7 @@ namespace D.Models
         //[StringLength(20)]
         //public string Отчество { get; set; }
 
-        //[StringLength(200)]
+        //[StringLength(100)]
         //public string Должность { get; set; }
 
         //[StringLength(20)]

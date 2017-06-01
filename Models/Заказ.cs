@@ -4,7 +4,7 @@ namespace D.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
+    //using System.Data.Entity.Spatial;
 
     public partial class Заказ
     {
@@ -35,6 +35,8 @@ namespace D.Models
         //public decimal? Получено { get; set; }
 
         //public virtual CustomerEnt CustomerEnt { get; set; }
+
+        //public virtual CustomerInd CustomerInd { get; set; }
 
         //public virtual Сотрудник Сотрудник { get; set; }
 

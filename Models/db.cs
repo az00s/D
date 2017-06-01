@@ -1,11 +1,11 @@
 ﻿namespace D.Models
 {
     using System;
-    using System.Data.Entity;
+  
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
-
-    public partial class db : DbContext, IdbInterface
+    using System.Data.Entity;
+    public partial class db : DbContext,IdbInterface
     {
         public db()
             : base("name=db")
@@ -14,6 +14,8 @@
 
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<CustomerEnt> CustomerEnt { get; set; }
         public virtual DbSet<CustomerInd> CustomerInd { get; set; }
@@ -33,6 +35,16 @@
                 .WithMany(e => e.AspNetRoles)
                 .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
 
+            modelBuilder.Entity<AspNetUsers>()
+                .HasMany(e => e.AspNetUserClaims)
+                .WithRequired(e => e.AspNetUsers)
+                .HasForeignKey(e => e.UserId);
+
+            modelBuilder.Entity<AspNetUsers>()
+                .HasMany(e => e.AspNetUserLogins)
+                .WithRequired(e => e.AspNetUsers)
+                .HasForeignKey(e => e.UserId);
+
             modelBuilder.Entity<CustomerEnt>()
                 .Property(e => e.Название_организации)
                 .IsUnicode(false);
@@ -50,6 +62,12 @@
                 .WithRequired(e => e.CustomerEnt)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<CustomerInd>()
+                .HasMany(e => e.Заказ)
+                .WithRequired(e => e.CustomerInd)
+                .HasForeignKey(e => e.ID_клиента)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Денежное_поступление>()
                 .Property(e => e.Сумма)
                 .HasPrecision(19, 4);
@@ -62,9 +80,9 @@
                 .Property(e => e.Статус_заказа)
                 .IsUnicode(false);
 
-            //modelBuilder.Entity<Заказ>()
-            //    .Property(e => e.Получено)
-            //    .HasPrecision(19, 4);
+            modelBuilder.Entity<Заказ>()
+                .Property(e => e.Получено)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Заказ>()
                 .HasMany(e => e.Оплата_заказа)
@@ -143,11 +161,6 @@
             modelBuilder.Entity<Товар>()
                 .HasMany(e => e.Оформление_заказа)
                 .WithRequired(e => e.Товар)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<CustomerInd>()
-                .HasMany(e => e.Заказ)
-                .WithRequired(e => e.CustomerInd)
                 .WillCascadeOnDelete(false);
         }
     }

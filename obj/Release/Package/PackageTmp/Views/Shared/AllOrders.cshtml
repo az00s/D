@@ -1,0 +1,23 @@
+﻿@model IEnumerable<D.Models.Заказ>
+
+
+@using D.Models
+
+
+        @foreach (Заказ p in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@Html.HiddenFor(modelItem => p.ID_заказа) @Html.DisplayTextFor(modelItem => p.Дата_заказа)</strong>
+                    </td>
+                <td>
+                    <strong> @Html.DisplayTextFor(modelItem => p.CustomerEnt.Название_организации)</strong>
+                </td>
+                
+                <td><strong>@Html.DisplayTextFor(modelItem => p.Сумма_заказа_с_НДС)</strong></td>
+
+            </tr>
+
+        }
+    
+

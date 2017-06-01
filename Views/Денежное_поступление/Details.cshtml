@@ -1,91 +1,512 @@
-﻿@model IEnumerable <D.Models.Оплата_заказа>
-    @using D.Models
+﻿@model D.Models.Денежное_поступление
+@using D.Models
 
 @{
-    ViewBag.Title = "Информация о поступлении";
+    ViewBag.Title = "О поступлении";
 }
+<div class="container">
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-7">
 
-<h2>Информация о поступлении</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Клиент:
-        </dt>
-
-        <dd>
-            @ViewBag.p.Клиент.Название_организации
-        </dd>
-
-        <dt>
-            Сумма
-        </dt>
-
-        <dd>
-            @ViewBag.p.Сумма.ToString("0.00")
-        </dd>
-
-        <dt>
-            Дата поступления:
-        </dt>
-
-        <dd>
-            @{string str = ViewBag.p.Дата_поступления != null ? ViewBag.p.Дата_поступления.ToString("dd.MM.yyyy") : "";
-            }
-            @str
-        </dd>
-
-    </dl>
-</div>
-
-<p>@Html.ActionLink("Редактировать", "Edit", new { id = @ViewBag.p.ID_поступления }, new { @class = "btn btn-info dontPrint", @style = "margin-top:20px;margin-left:170px;" }) </p>
-<p>@Html.ActionLink("Связать поступление с заказом", "AddM", new { id=@ViewBag.p.ID_поступления }, new { @class = "btn btn-info dontPrint", @style = "margin-top:0px;margin-left:170px;" }) </p>
-<br />   
- @Html.ActionLink("Назад", "Index",null, new { @class = "dontPrint" })
-@{ if (Model.Count() > 0)
-    { 
-    <div class="test-border tprovider">
-        <table class="table-bordered table-striped">
-            <thead>
-                <tr><th colspan="4">Связанные заказы</th></tr>
-                <tr>
-                    <th>Номер заказа</th>
-                    @*<th>Дата заказа</th>*@
-                    
-                    <th>Клиент</th>
-                    <th>Сумма заказа</th>
-                    <th>Отнесено на заказ</th>
-                    @*@{ if (Model.Count() > 1)
-                        {
-                <th></th>}
-                    }*@
-                </tr>
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Информация о поступлении  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#mdAddProv" data-toggle="modal">Добавить платеж</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
 
 
-            </thead>
-            <tbody>
-                @foreach (Оплата_заказа i in Model)
+                    <div>
+
+
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Клиент:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model=>model.CustomerEnt.Название_организации)
+                            </dd>
+
+                            <dt>
+                                Сумма
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Сумма)
+                            </dd>
+
+                            <dt>
+                                Дата поступления:
+                            </dt>
+
+                            <dd>
+                               
+                                @Html.DisplayFor(model => model.Дата_поступления)
+                            </dd>
+
+                        </dl>
+
+
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+
+            <div class="col-xs-12 col-lg-5">
+
+                <div class="test-border tprovider">
+                    <table class="table-bordered table-striped" id="LinkedProvider">
+                        <colgroup>
+                            <col width="20%">
+                            <col>
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <thead>
+                            <tr class="text-center"><th class="text-center" colspan="3" style="border:none;">Связанные заказы</th></tr>
+                            <tr>
+                                <th class="text-center">Заказ</th>
+
+                                <th class="text-center">Клиент</th>
+                                <th class="text-center"><div>Сумма</div></th>
+                                <th class="text-center">Оплачено</th>
+                            </tr>
+
+
+                        </thead>
+                        <tbody>
+                            @foreach (Оплата_заказа i in (ViewBag.List as IQueryable<Оплата_заказа>))
             {
-                    <tr>
-                        <td>@Html.DisplayName(i.ID_заказа.ToString())</td>
-                        @*<td>@Html.Display(i.Заказ.Дата_заказа.Value.ToString())</td>*@
-                        <td>@Html.DisplayName(i.Заказ.Клиент.Название_организации)</td>
-                        <td>@Html.DisplayName(i.Заказ.Сумма_заказа_с_НДС.Value.ToString("0.00"))</td>
-                        <td>@i.Сумма.Value.ToString("0.00")</td>
-                        @*@{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
-                        <td>@Html.DisplayName(str)</td>*@
-                        @*@{ if (Model.Count() > 1)
-                            {
-                    <td><a href='@Url.Action("DeleteP", new { id = p.ID_товара, p = i.УНП_поставщика })'><img src='\Content\png\error.png' /></a></td>}
-                        }*@
-                    </tr>
+                                <tr>
+                                    <td class="text-center">@Html.DisplayName(i.ID_заказа.ToString())</td>
+                                    <td class="text-center">@Html.DisplayName(i.Заказ.CustomerEnt.Название_организации)</td>
+                                    <td class="text-center">@Html.DisplayName(i.Заказ.Сумма_заказа_с_НДС.ToString())</td>
+                                    <td class="text-center">@i.Сумма</td>
+                                </tr>
                             }
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    } }
 
-<a id="print" class="btn btn-default print dontPrint glyphicon glyphicon-print"></a>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+    $('#LinkedProvider').DataTable({
+
+        "processing": true,
+        "order": [],
+        fixedHeader: true,
+        "autoWidth": false,
+        "language": {
+            "lengthMenu": "Показывать _MENU_ записей",
+            "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
+            "infoFiltered": " (Найдено из _MAX_ записей)",
+            "emptyTable": "Нет данных для отображения",
+            "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
+            "infoPostFix":    "",
+            "thousands":      ",",
+            "loadingRecords": "Загрузка...",
+            "processing":     "Обработка...",
+            "search":         "Поиск:",
+            "zeroRecords":    "Ничего не найдено",
+            "paginate": {
+                "first":      "Первая",
+                "last":       "Последняя",
+                "next":       "Следующая",
+                "previous":   "Предыдущая"
+            }
+        },
+
+        "dom": "t",
+        "columnDefs": [
+    { "width": "25%", "targets": 0 },
+    { "width": "25%", "targets": 1 }
+        ],
+        fixedHeader: true
+        });
+
+
+
+});
+</script>
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить это поступление?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        Клиент:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CustomerEnt.Название_организации)
+                    </dd>
+
+                    <dt>
+                        Сумма
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Сумма)
+                    </dd>
+
+                    <dt>
+                        Дата поступления:
+                    </dt>
+
+                    <dd>
+
+                        @Html.DisplayFor(model => model.Дата_поступления)
+                    </dd>
+
+                </dl>
+
+
+
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Денежное_поступление", new { id = Model.ID_поступления }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal modal-lg fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование поступления</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Денежное_поступление", FormMethod.Post, new { @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model=>model.ID_поступления)
+
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Клиент</label>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input id="indoorText" class="form-control" data-val="true" data-val-number="The field ID_клиента must be a number." data-val-required="Требуется поле ID_клиента." name="ID_клиента" type="text" value="@Model.ID_клиента" readonly />
+                                                    <div class="input-group-btn">
+                                                        <a href="#ChoiceProv" class="btn btn-default" data-toggle="modal">+</a>
+                                                    </div>
+                                                </div>
+                                                <span class="field-validation-valid text-danger" data-valmsg-for="ID_клиента" data-valmsg-replace="true"></span>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Дата_поступления, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7 input-group date" id="datetimepicker1">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.Дата_поступления,  new { @class = "form-control", @Value = Model.Дата_поступления.Value.ToShortDateString(),@readonly="readonly" } )
+
+                                                @Html.ValidationMessageFor(model => model.Дата_поступления, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                          $(function () {
+                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+                                          });
+                                        </script>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Сумма, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Сумма, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Сумма, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mdAddProv" class="modal modal-lg faden" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Добавление платежа по заказу</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+
+                                @using (Html.BeginForm("AddM", "Денежное_поступление"))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                                    <div class="form-horizontal">
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ID_поступления, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                            <div class="col-md-7">
+                                                                @Html.EditorFor(model => model.ID_поступления, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Дата_поступления, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                            <div class="col-md-7">
+                                                                @Html.TextBox("Дата_поступления",Model.Дата_поступления.Value.ToString("dd.MM.yyyy"), new { @class = "form-control", @readonly = "readonly"} )
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Сумма, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                            <div class="col-md-7">
+                                                                @Html.EditorFor(model => model.Сумма, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Клиент", htmlAttributes: new { @class = "control-label col-md-3" })
+                                                            <div class="col-md-7">
+                                                                @Html.HiddenFor(model=>model.ID_клиента)
+                                                                @Html.EditorFor(model => model.CustomerEnt.Название_организации, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Заказ</label>
+                                                            <div class="col-md-7">
+                                                                <div class="input-group">
+                                                                    <input id="indoorTextOrder" class="form-control" data-val="true" data-val-number="The field Заказ must be a number." data-val-required="Требуется поле Заказ." name="ID_заказа" type="text" value="Выберите заказ!" readonly />
+                                                                    <div class="input-group-btn">
+                                                                        <a href="#mdChoiceOrder" class="btn btn-default" data-toggle="modal">+</a>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="field-validation-valid text-danger" data-valmsg-for="ID_заказа" data-valmsg-replace="true"></span><br />
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Сумма в счет оплаты заказа", htmlAttributes: new { @class = "control-label col-md-3" })
+                                                            <div class="col-md-7">
+                                                                @Html.Editor("sum", "", new { htmlAttributes = new { @class = "form-control", @Value = "0",@min="0.001",@max=Model.Сумма } })
+                                                            </div>
+                                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Добавить</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </fieldset>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ChoiceProv" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Выберите клиента</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table-bordered table-striped" id="tbProviders">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="10%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th class="text-center">УНП</th>
+                            <th class="text-center">Клиент</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @Html.Action("AllClients")
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="btChoiceProv" disabled>Выбрать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mdChoiceOrder" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Выберите заказ</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table-bordered table-striped" id="tbOrderChoice">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="50%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th class="text-center">Дата</th>
+                            <th class="text-center">Клиент</th>
+                            <th class="text-center">Сумма</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @Html.Action("AllOrders")
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="btChoiceOrder" disabled>Выбрать</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+<script>
+
+   
+
+    $('#tbOrderChoice').DataTable({
+
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+
+            "processing": true,
+            "order": [[1, 'desc']],
+            fixedHeader: true,
+            "autoWidth": false,
+            "language": {
+                "lengthMenu": "Показывать _MENU_ записей",
+                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
+                "infoFiltered": " (Найдено из _MAX_ записей)",
+                "emptyTable": "Нет данных для отображения",
+                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
+                "infoPostFix": "",
+                "thousands": ",",
+                "loadingRecords": "Загрузка...",
+                "processing": "Обработка...",
+                "search": "Поиск:",
+                "zeroRecords": "Ничего не найдено",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                }
+            },
+
+            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
+            "columnDefs": [
+        { "width": "25%", "targets": 0 },
+        { "width": "25%", "targets": 1 }
+            ],
+            fixedHeader: true,
+            "paging": true
+        });
+
+
+
+   
+</script>
+    
+@section scripts {
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+
+}
+
 
