@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<D.Models.CustomerEnt>
 <script>
-
     $("ul.navbar-nav li:contains('Клиенты')").addClass("active");
 
     $(document).on('click', '#tbCustomerEnt tbody tr', function () {
@@ -184,38 +183,35 @@
 
                                 <div class="form-horizontal">
                                    
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback">
                                         @Html.Label("УНП Клиента", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
-                                            @Html.Editor("УНП_Клиента", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessage("УНП_Клиента", "", new { @class = "text-danger" })
+                                            @Html.Editor("УНП_Клиента", new { htmlAttributes = new { @class = "form-control",@required="required", @pattern = "[0-9]{9,9}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback">
                                         @Html.Label("Название организации", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
-                                            @Html.Editor("Название_организации", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessage("Название_организации", "", new { @class = "text-danger" })
+                                            @Html.Editor("Название_организации", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-яЁё\\s0-9]{0,200}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback">
                                         @Html.Label("Телефон", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
-                                            @Html.Editor("Телефон", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessage("Телефон", "", new { @class = "text-danger" })
+                                            @Html.Editor("Телефон", new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+]{0,20}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback">
                                         @Html.Label("Адрес", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
-                                            @Html.Editor("Адрес", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessage("Адрес", "", new { @class = "text-danger" })
+                                            @Html.Editor("Адрес", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
 

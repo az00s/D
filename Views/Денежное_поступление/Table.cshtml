@@ -14,7 +14,7 @@
 
 
     $(document).ready(function () {
-        $('#tbMoney').DataTable({
+        var tableO=$('#tbMoney').DataTable({
             buttons: [{
                 fade: 500,
                 autoClose: true,
@@ -112,7 +112,57 @@
         //    $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
         //    $(".datepicker").datetimepicker({ pickTime: false, language: 'ru' });
         //});
+
+        function DateToSeconds(date) {
+            var arr = date.split('.');
+            return Date.parse(arr[2] + '-' + arr[1] + '-' + arr[0]);
+        };
+
+        $.fn.dataTable.ext.search.push(
+    function (settings, data, dataIndex) {
+
+        if (settings.nTable.id == "tbMoney") {
+            var start = $('input[name="start"]').val();
+            var end = $('input[name="end"]').val();
+
+            return DateToSeconds(data[1]) >= DateToSeconds(start) && DateToSeconds(data[1]) <= DateToSeconds(end) ? true : false;
+        }
+        return true;
+
+    }
+);
+
+
+
+        $("input[name='start'],input[name='end']").on('change', function () {
+
+            tableO.draw();
+
+        });
+
+        $('#lkOrderPeriod').click(function () {
+            $('input[name="start"]').val(null);
+            $('input[name="end"]').val(null);
+            if ($('#dvPeriodSearch').css("display") == 'none') {
+                $('#dvPeriodSearch').css("display", "block");
+            }
+            else {
+                $('#dvPeriodSearch').css("display", "none");
+            }
+        });
     });
+
+    
+</script>
+
+<script type="text/javascript">
+
+            $(function () {
+                $('#dtpStart').datetimepicker({ pickTime: false, language: 'ru' });
+            });
+            $(function () {
+                $('#dtpEnd').datetimepicker({ pickTime: false, language: 'ru' });
+            });
 </script>
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuMoney")</div>
@@ -232,10 +282,11 @@
 
 
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.Label("Сумма", htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.Editor("Сумма", new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.Editor("Сумма", new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 

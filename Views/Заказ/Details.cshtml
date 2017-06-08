@@ -236,7 +236,7 @@
                                 <td class="text-center">@p.Денежное_поступление.CustomerEnt.Название_организации</td>
                                 <td class="text-center">@p.Сумма.Value.ToString("0.00")</td>
                                 <td class="text-center">
-                                    @using (Html.BeginForm("DeleteP", "Заказ", new { id = p.ID_заказа, p = p.ID_поступления }, FormMethod.Post))
+                                    @using (Html.BeginForm("DeleteP", "Заказ", p, FormMethod.Post))
                                     {
                                         <input type="image" src="~/Content/png/error.png" />
                                     }

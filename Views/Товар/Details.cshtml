@@ -302,7 +302,38 @@ $(document).ready(function(){
 
         </div>
     </div>
+<script>
+      $(function() {
+        //при нажатии на кнопку с id="save"
+          $('input').change(function () {
+          //переменная formValid
+          var formValid = true;
+          //перебрать все элементы управления input
+          //$('input,textarea,select').each(function () {
+          //найти предков, которые имеют класс .form-group, для установления success/error
+          var formGroup = $(this).parents('.form-group');
+          //найти glyphicon, который предназначен для показа иконки успеха или ошибки
+          var glyphicon = formGroup.find('.form-control-feedback');
+          //для валидации данных используем HTML5 функцию checkValidity
+          if (this.checkValidity()) {
+            //добавить к formGroup класс .has-success, удалить has-error
+            formGroup.addClass('has-success').removeClass('has-error');
+            //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
+            glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
+          } else {
+            //добавить к formGroup класс .has-error, удалить .has-success
+            formGroup.addClass('has-error').removeClass('has-success');
+            //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
+            glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
+            //отметить форму как невалидную
+            formValid = false;
+          }
+        //});
+        //если форма валидна, то
 
+      });
+    });
+</script>
 <div id="EditModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -315,99 +346,95 @@ $(document).ready(function(){
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-lg-6">
-                                <fieldset>
-                                    @using (Html.BeginForm("Edit", "Товар", FormMethod.Post, new { @class = "form-horizontal" }))
-                                    {
-                                        @Html.AntiForgeryToken()
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Товар", FormMethod.Post, new { @class = "form-horizontal" }))
+                                {
+                                @Html.AntiForgeryToken()
 
-                                        <div class="form-horizontal">
-
-
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                            @Html.HiddenFor(model => model.ID_товара)
+                                <div class="form-horizontal">
 
 
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Обозначение, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Обозначение, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Обозначение, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Наименование, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Наименование, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Наименование, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Краткое_описание, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.TextAreaFor(model => model.Краткое_описание, 2, 46, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.Краткое_описание, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
+                                    @Html.HiddenFor(model => model.ID_товара)
 
 
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Единица_измерения, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.DropDownListFor(model => model.Единица_измерения, new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.Единица_измерения, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Остаток_на_складе, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Остаток_на_складе, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessageFor(model => model.Остаток_на_складе, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Срок_поставки, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Срок_поставки, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessageFor(model => model.Срок_поставки, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Вес, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Вес, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessageFor(model => model.Вес, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Цена, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                <div class="col-md-7">
-                                                    @Html.EditorFor(model => model.Цена, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessageFor(model => model.Цена, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                                <button type="submit" class="btn btn-success">Сохранить</button>
-                                            </div>
-
-                                            @*<div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                    <input type="submit" value="Сохранить" class="btn btn-success" />
-                                                </div>
-                                            </div>*@
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Обозначение, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Обозначение, new { htmlAttributes = new { @class = "form-control", @pattern = "{0,49}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
                                         </div>
-                                    }
-                                </fieldset>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Наименование, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Наименование, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s][A-Za-zА-Яа-яЁё\\s]{1,119}", @required = "required" } })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Краткое_описание, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.TextAreaFor(model => model.Краткое_описание, 2, 46, new { @class = "form-control", @maxlength="299" })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Единица_измерения, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.DropDownListFor(model => model.Единица_измерения, new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Остаток_на_складе, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Остаток_на_складе, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Срок_поставки, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Срок_поставки, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Вес, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Вес, new { htmlAttributes = new { @class = "form-control", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group has-feedback">
+                                        @Html.LabelFor(model => model.Цена, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.Цена, new { htmlAttributes = new { @class = "form-control", @Value = "0", @max = "100000000000000.00", @pattern = @"\d+(,\d{1,2})?" } })
+                                            <span class="glyphicon form-control-feedback"></span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        <button type="submit" class="btn btn-success">Сохранить</button>
+                                    </div>
+
+
+                                </div>
+                                }
+                            </fieldset>
+
                         </div>
                         <div class="col-xs-0 col-lg-6"></div>
 
@@ -443,7 +470,7 @@ $(document).ready(function(){
                                             <div class="form-group">
                                                 @Html.Label("Обозначение", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Hidden("id", "", new { @value =Model.ID_товара })
+                                                    @Html.Hidden("ID_товара", Model.ID_товара)
                                                     @Html.TextBox("Обозначение", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Обозначение })
                                                 </div>
                                             </div>
@@ -454,15 +481,15 @@ $(document).ready(function(){
                                                     @Html.TextBox("Наименование", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Наименование })
                                                 </div>
                                             </div>
-
+                                            
 
 
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Поставщик</label>
                                                 <div class="col-md-7">
                                                     <div class="input-group">
-                                                        <input id="hidNameProv" type="hidden" value="" name="u" />
-                                                        <input id="indoorText" class="form-control"  name="tbxNameProv" type="text" value="" readonly />
+                                                        <input id="hidNameProv" type="hidden" value="" name="УНП_поставщика" />
+                                                        <input id="indoorText" class="form-control"  name="tbxNameProv" type="text" value="" required data-readonly />
                                                         <div class="input-group-btn">
                                                             <a href="#ChoiceProv" class="btn btn-default" data-toggle="modal">+</a>
                                                         </div>
@@ -471,11 +498,12 @@ $(document).ready(function(){
 
                                                 </div>
                                             </div>
-
-                                            <div class="form-group">
+                                            
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Цена", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("price", "", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                                                    @Html.TextBox("Оптовая_цена",null,new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?" } )
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 

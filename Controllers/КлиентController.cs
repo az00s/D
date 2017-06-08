@@ -31,9 +31,6 @@ namespace D.Models
             return RedirectToAction("Table");
                                
          }
-
-        
-
         public ActionResult Table()
         {
             return View("Table",db.CustomerEnt.AsNoTracking().OrderBy(o=>o.ID_клиента));
@@ -55,94 +52,48 @@ namespace D.Models
         }
 
 
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
 
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
         public ActionResult CreateConfirmed([Bind(Include = "ID_клиента,УНП_Клиента,Название_организации,Телефон,Адрес")] CustomerEnt p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                //p.Номер_паспорта = Request.Form["Номер_паспорта"];
-                //p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
-                //p.Название_организации = Request.Form["Название_организации"];
-                //p.Телефон = Request.Form["Телефон"];
-                //p.Адрес = Request.Form["Адрес"];
-                //p.Фамилия = Request.Form["Фамилия"];
-                //p.Имя = Request.Form["Имя"];
-                //p.Отчество = Request.Form["Отчество"];
-                
-                p.AddtoTable(db, p);
-                
-                db.SaveChanges();
-                return RedirectToAction("Table");
+                if (ModelState.IsValid)
+                {
+                    p.AddtoTable(db, p);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = p.ID_клиента });
+                }
+                return View("Error");
             }
+            catch (Exception)
+            { return View("Error"); }
 
-            return View("Error");
+           
         }
 
-       
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var клиент = db.CustomerEnt.Find(id);
-        //    if (клиент == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(клиент);
-        //}
-
-        
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID_клиента,УНП_Клиента,Название_организации,Телефон,Адрес")] CustomerEnt p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                //p.Номер_паспорта = Request.Form["Номер_паспорта"];
-                //p.УНП_Клиента = Convert.ToInt32(Request.Form["УНП_Клиента"]);
-                //p.Название_организации = Request.Form["Название_организации"];
-                //p.Телефон = Request.Form["Телефон"];
-                //p.Адрес = Request.Form["Адрес"];
-                //p.Фамилия = Request.Form["Фамилия"];
-                //p.Имя = Request.Form["Имя"];
-                //p.Отчество = Request.Form["Отчество"];
-                db.Entry(p).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details",new { id=p.ID_клиента});
+                if (ModelState.IsValid)
+                {
+                    db.Entry(p).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = p.ID_клиента });
+                }
+                return View("Error");
             }
-            return View(p);
+            catch (Exception)
+            { return View("Error"); }
         }
 
-      
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var клиент = db.CustomerEnt.Find(id);
-        //    if (клиент == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(клиент);
-        //}
-
-
         [Authorize(Roles = "admin")]
-        //[HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
+        [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -168,31 +119,5 @@ namespace D.Models
         }
         //-----------------------------------------------------------------------------
         
-        //autocomplete function for search field----------------------------------------
-        //public ActionResult AutocompleteSearch(string term)
-        //{           
-        //    return Json(db.CustomerEnt
-        //        .AsNoTracking()
-        //        .Where(cl=>cl.Название_организации.Contains(term))
-        //        .Select(c=>new { value=c.Название_организации})
-        //        , JsonRequestBehavior.AllowGet);
-        //}
-        //----------------------------------------------------------------------------------
-
-        //    public ActionResult Search(string search)
-        //    {
-        //        var query = db.CustomerEnt
-        //            .AsNoTracking()
-        //            .Where(c => c.Название_организации.Contains(search) || c.УНП_Клиента.ToString().Contains(search));
-
-
-        //        if (query.Count() > 0)
-        //        {
-        //            return PartialView(query);
-        //        }
-
-        //        else return PartialView("NoResult");
-        //    }
-
     }
 }

@@ -5,25 +5,29 @@
         <a href='' class="dropdown-toggle  list-group-item" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> Отчет<span class="caret"></span><span class="badge">1</span></a>
         <ul class="dropdown-menu">
             <li>
-                <a id="toggler1" href="#">Отчет по поступлениям за период</a>
+                <a id="lkOrderPeriod" href="#">Отчет по поступлениям за период</a>
             </li>
         </ul>
     </div>
-</div>
 
-<div id="box1" style="display: none" class="dontPrint">
-    <img src="~/Content/loading.gif" id="load1" style="vertical-align: top;top:17px; left:-20px; position:absolute; display:none" />
-    <div class="reportDate">
-        @using (Html.BeginForm("ROrders","Денежное_поступление"))
-        {
-            <p>
-                Период с&nbsp;<input type="text" class="datepicker" id="datetimepicker2" name="start" required/>&nbsp;по&nbsp;<input type="text" class="datepicker" id="datetimepicker3"name="end" required/>&nbsp;<button type="submit" class="reportOrderBtn glyphicon glyphicon-chevron-right" @*id="button"*@ value="">
+    <div class="" id="dvPeriodSearch">
+        <div class="form-group">
+            <div class="col-lg-10">
 
-                </button>
-            </p>
-        }
+
+                <input type="text" name="start" id="dtpStart" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="Период с..." />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10">
+                <input type="text" name="end" id="dtpEnd" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="по..." />
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 
 

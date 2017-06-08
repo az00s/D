@@ -2,6 +2,7 @@
 
 
 <script>
+   
     $(document).on('click', '#tbGoods tbody tr', function () {
         var ID = $(this).find("input[name='item.ID_товара']").val();
         var url = "@Url.Action("Details")/" + ID;
@@ -94,11 +95,6 @@
                                     <td class="text-center @ViewBag.Ost">
                                         @Html.DisplayFor(modelItem => item.Цена_с_НДС)
                                     </td>
-                                    @*<td class="dontPrint">
-                                        <a href='@Url.Action("Edit",new { id = item.ID_товара }  )'><img src='~/Content/png/edit.png' /></a>
-                                        <a href='@Url.Action("Delete",new { id = item.ID_товара })'><img src='~/Content/png/error.png' /></a>
-
-                                    </td>*@
                                 </tr>
                             }
 
@@ -111,7 +107,9 @@
     </div>
     <div class="col-lg-1"></div>
     </div>
-
+<script>
+   
+</script>
 <div id="mdNewGood" class="modal modal-lg faden" data-keyboard="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -130,29 +128,28 @@
                                         @Html.AntiForgeryToken()
 
                                         <div class="form-horizontal">
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Обозначение", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("Обозначение", new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessage("Обозначение", "", new { @class = "text-danger" })
+                                                    @Html.Editor("Обозначение", new { htmlAttributes = new { @class = "form-control",@pattern= "[A-Za-zА-Яа-яЁё\\s]{0,50}" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Наименование", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("Наименование", new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessage("Наименование", "", new { @class = "text-danger" })
+                                                    @Html.Editor("Наименование", new { htmlAttributes = new { @class = "form-control",@pattern= "[^\\s][A-Za-zА-Яа-яЁё\\s]{0,119}", @required="required" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Краткое описание", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.TextArea("Краткое_описание",null, 2, 46, new { @class = "form-control" })
-                                                    @Html.ValidationMessage("Краткое_описание", "", new { @class = "text-danger" })
+                                                    @Html.TextArea("Краткое_описание",null, 2, 46, new { @class = "form-control", @maxlength = "299" })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
@@ -162,49 +159,51 @@
                                                 @Html.Label("Единица измерения", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
                                                     @Html.DropDownList("Единица_измерения", new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
-                                                    @Html.ValidationMessage("Единица_измерения", "", new { @class = "text-danger" })
+                                                    
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Остаток на складе", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("Остаток_на_складе", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessage("Остаток_на_складе", "", new { @class = "text-danger" })
+                                                    @Html.Editor("Остаток_на_складе", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0",@max= "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
 
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Срок поставки", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("Срок_поставки", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessage("Срок_поставки", "", new { @class = "text-danger" })
+                                                    @Html.Editor("Срок_поставки", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Вес", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.Editor("Вес", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0" } })
-                                                    @Html.ValidationMessage("Вес", "", new { @class = "text-danger" })
+                                                    @Html.Editor("Вес", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 @Html.Label("Цена", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
-                                                    @Html.ValidationMessage("Цена", "", new { @class = "text-danger" })
-                                                    @Html.Editor("Цена", new { htmlAttributes = new { @class = "form-control", @Value = "0" } })
+                                                    
+                                                    @Html.Editor("Цена", new { htmlAttributes = new { @class = "form-control", @Value = "0",  @pattern = @"\d+(,\d{1,2})?" } })
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group has-feedback">
                                                 <label class="control-label col-md-3">Поставщик</label>
                                                 <div class="col-md-7">
                                                     <div class="indoorBtnDiv input-group">
                                                         <input id="hidNameProv" type="hidden" value="" name="Поставщик_цена[0].УНП_поставщика" />
-                                                        <input id="indoorText" class="form-control"  name="tbxNameProv" type="text" value="" readonly />
+                                                        <input id="indoorText" class="form-control"  name="tbxNameProv" type="text" required  value="" data-readonly />
+                                                        
                                                         <div class="input-group-btn">
                                                             <a href="#ChoiceProv" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
                                                         </div>
@@ -213,10 +212,17 @@
                                                 </div>
                                             </div>
                                             <script>
+                                                $("[data-readonly]").on('keydown paste', function (e) {
+        e.preventDefault();
+                                                });
 
-                                               
 
-                                                
+                                                //$('form').submit(function () {
+
+                                                //    if ($(this).checkValidity() == true)
+                                                //        return true;
+                                                //    else false;
+                                                //});
                                             </script>
 
 

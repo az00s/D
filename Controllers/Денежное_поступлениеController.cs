@@ -47,57 +47,28 @@ namespace D.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ViewBag.List = db.Оплата_заказа.Include("Заказ").AsNoTracking().Where(pay => pay.ID_поступления == id);
-                
-
-            //if (ViewBag.p == null)
-            //{
-            //    return HttpNotFound();
-            //}
-
             return View(db.Денежное_поступление.Find(id));
         }
-
-        
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
         
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
         public ActionResult CreateConfirmed([Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
-                //p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
-                //p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                
-                p.AddtoTable(db, p);
-                
-                db.SaveChanges();
-                return RedirectToAction("Table");
+                if (ModelState.IsValid)
+                {
+                    p.AddtoTable(db, p);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = p.ID_поступления });
+                }
+                return View("Error");
             }
+            catch (Exception)
+            { return View("Error"); }
 
-            return View("Create",p);
+           
         }
-
-      
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var денежное_поступление = db.Денежное_поступление.Find(id);
-        //    if (денежное_поступление == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(денежное_поступление);
-        //}
 
         
         [Authorize(Roles = "admin")]
@@ -105,33 +76,21 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID_поступления,Сумма,Дата_поступления,ID_клиента")] Денежное_поступление p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
-                //p.Сумма = Convert.ToDecimal(Request.Form["Сумма"]);
-                //p.Дата_поступления = Convert.ToDateTime(Request.Form["Дата_поступления"]);
-                //p.ID_клиента = Convert.ToInt32(Request.Form["ID_клиента"]);
-                db.Entry(p).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details",new { id=p.ID_поступления});
-            }
-            return View(p);
-        }
 
-        
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var денежное_поступление = db.Денежное_поступление.Find(id);
-        //    if (денежное_поступление == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(денежное_поступление);
-        //}
+                if (ModelState.IsValid)
+                {
+                    db.Entry(p).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details",new { id=p.ID_поступления});
+                }
+                return View("Error");
+            }
+            catch (Exception)
+            { return View("Error"); }
+            
+        }
 
         [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
@@ -159,57 +118,27 @@ namespace D.Controllers
             return PartialView("AllClients", db.CustomerEnt.AsNoTracking());
             
         }
-        public ActionResult AddM(int id)
-        {
-           ViewBag.d = db.Денежное_поступление
-                .AsNoTracking()
-                .Single(m => m.ID_поступления == id);
-            
-            
-            
-            var query = db.Заказ
-                .AsNoTracking()
-                .Where(o => o.Статус_заказа != "Оплачен");
-            
-            return View(query);
-        }
-        
+
+
         [HttpPost]
-        public ActionResult AddM(decimal sum,Оплата_заказа o)
+        public ActionResult AddM(decimal sum, Оплата_заказа o)
         {
-            //o.ID_заказа = Convert.ToInt32(Request.Form["ID_заказа"]);
-            //o.ID_поступления = Convert.ToInt32(Request.Form["ID_поступления"]);
-            o.Сумма = sum;
-            o.AddtoTable(db,o);
-            db.SaveChanges();
-            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    o.Сумма = sum;
+                    o.AddtoTable(db, o);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = o.ID_поступления });
+                }
+                return View("Error");
+            }
+            catch (Exception)
+            {  return View("Error"); }
 
-            return RedirectToAction("Details", new { id = o.ID_поступления });
-
-            
         }
 
-        //public ActionResult AutocompleteSearch(string term)
-        //{            
-        //  return Json(db.Денежное_поступление
-        //        .AsNoTracking()
-        //        .Where(mo=>mo.CustomerEnt.Название_организации.Contains(term))
-        //        .Select(s=>new { value = s.CustomerEnt.Название_организации })
-        //        , JsonRequestBehavior.AllowGet);
-        //}
-
-        //public ActionResult Search(string search)
-        //{
-        //    var queryGoods = db.Денежное_поступление
-        //        .AsNoTracking()
-        //        .Where(mo => mo.CustomerEnt.Название_организации.Contains(search) || mo.CustomerEnt.УНП_Клиента.ToString().Contains(search) || mo.Сумма.ToString().Contains(search) || mo.ID_поступления.ToString().Contains(search));
-        //    if (queryGoods.Count() > 0)
-        //    {
-        //        return PartialView(queryGoods.ToList());
-        //    }
-
-        //    else return PartialView("NoResult");
-        //}
 
         public ActionResult ROrders(DateTime start, DateTime end)
         {

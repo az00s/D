@@ -54,47 +54,26 @@ namespace D.Controllers
             return View(поставщик);
         }
 
-
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-
         [HttpPost,ActionName("Create")]
         [ValidateAntiForgeryToken]
         public ActionResult CreateConfirmed([Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
-                //p.Название_организации = Request.Form["Название_организации"];
-                //p.Адрес = Request.Form["Адрес"];
-                //p.Телефон = Request.Form["Телефон"];
-                //p.Описание = Request.Form["Описание"];
-                p.AddtoTable(db, p);
-                
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    p.AddtoTable(db, p);
+
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = p.УНП_поставщика });
+                }
+                return View("Error");
             }
+            catch (Exception)
+            { return View("Error"); }
 
-            return View("Error");
+           
         }
-
-        
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var поставщик = db.Поставщик.Find(id);
-        //    if (поставщик == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(поставщик);
-        //}
 
         
         [Authorize(Roles = "admin")]
@@ -102,36 +81,19 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "УНП_поставщика,Название_организации,Адрес,Телефон,Описание")] Поставщик p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //p.УНП_поставщика = Convert.ToInt32(Request.Form["УНП_поставщика"]);
-                //p.Название_организации = Request.Form["Название_организации"];
-                //p.Адрес = Request.Form["Адрес"];
-                //p.Телефон = Request.Form["Телефон"];
-                //p.Описание = Request.Form["Описание"];
-              
-                db.Entry(p).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details",new { id=p.УНП_поставщика});
+                if (ModelState.IsValid)
+                {
+                    db.Entry(p).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = p.УНП_поставщика });
+                }
+                return View("Error");
             }
-            return View("Error");
+            catch (Exception)
+            { return View("Error"); }
         }
-
-        
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var поставщик = db.Поставщик.Find(id);
-        //    if (поставщик == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(поставщик);
-        //}
-
         
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorProviders")]
         [Authorize(Roles = "admin")]
@@ -160,30 +122,5 @@ namespace D.Controllers
             
             return View("Table",db.Поставщик.AsNoTracking().Where(pro=> pro.Адрес.Contains("минск")));
         }
-
-        // public ActionResult AutocompleteSearch(string term)
-        //{
-            
-        //    return Json(db.Поставщик
-        //        .AsNoTracking()
-        //        .Where(pro=>pro.Название_организации.Contains(term))
-        //        .Select(p => new { value = p.Название_организации })
-        //        , JsonRequestBehavior.AllowGet);
-        //}
-        //--------------------------------------------------------------------------------
-
-        //public ActionResult Search(string search)
-        //{
-        //    var query = db.Поставщик
-        //        .AsNoTracking()
-        //        .Where(pro => pro.Название_организации.Contains(search) || pro.УНП_поставщика.ToString().Contains(search) || pro.Описание.Contains(search));
-
-        //    if (query.Count() > 0)
-        //    {
-        //        return PartialView(query);
-        //    }
-
-        //    else return PartialView("NoResult");
-        //}
     }
 }

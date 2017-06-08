@@ -226,7 +226,6 @@ $(document).ready(function(){
                                     <div class="form-horizontal">
 
 
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(model=>model.ID_поступления)
 
 
@@ -254,7 +253,6 @@ $(document).ready(function(){
                                                 </span>
                                                 @Html.TextBoxFor(model => model.Дата_поступления,  new { @class = "form-control", @Value = Model.Дата_поступления.Value.ToShortDateString(),@readonly="readonly" } )
 
-                                                @Html.ValidationMessageFor(model => model.Дата_поступления, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <script type="text/javascript">
@@ -264,11 +262,12 @@ $(document).ready(function(){
                                           });
                                         </script>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Сумма, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Сумма, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Сумма, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Сумма, new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                                
                                             </div>
                                         </div>
 
@@ -343,20 +342,21 @@ $(document).ready(function(){
                                                             <label class="control-label col-md-3">Заказ</label>
                                                             <div class="col-md-7">
                                                                 <div class="input-group">
-                                                                    <input id="indoorTextOrder" class="form-control" data-val="true" data-val-number="The field Заказ must be a number." data-val-required="Требуется поле Заказ." name="ID_заказа" type="text" value="Выберите заказ!" readonly />
+                                                                    <input id="indoorTextOrder" class="form-control"  name="ID_заказа" type="text" placeholder="Выберите заказ!" required data-readonly />
                                                                     <div class="input-group-btn">
                                                                         <a href="#mdChoiceOrder" class="btn btn-default" data-toggle="modal">+</a>
                                                                     </div>
                                                                 </div>
-                                                                <span class="field-validation-valid text-danger" data-valmsg-for="ID_заказа" data-valmsg-replace="true"></span><br />
 
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group has-feedback">
                                                             @Html.Label("Сумма в счет оплаты заказа", htmlAttributes: new { @class = "control-label col-md-3" })
                                                             <div class="col-md-7">
-                                                                @Html.Editor("sum", "", new { htmlAttributes = new { @class = "form-control", @Value = "0",@min="0.001",@max=Model.Сумма } })
+                                                                @Html.Editor("sum", "", new { htmlAttributes = new { @class = "form-control", @placeholder = "0,00",@min="0.001",@max=Model.Сумма, @required="required", @pattern = @"\d+(,\d{1,2})?" } })
+                                                                <span class="glyphicon form-control-feedback"></span>
+
                                                             </div>
                                                         </div>
 

@@ -213,61 +213,60 @@
 
                                     <div class="form-horizontal">
 
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(model => model.Табельный_номер)
 
 
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Фамилия, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Фамилия, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Фамилия, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Фамилия, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Имя, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Имя, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Имя, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Имя, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Отчество, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Отчество, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Отчество, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Отчество, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Адрес, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Адрес, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,250}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Должность, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Должность, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Должность, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Должность, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Номер_паспорта, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Номер_паспорта, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Номер_паспорта, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Номер_паспорта, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s][A-Za-zА-Яа-яЁё0-9]{0,50}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -276,9 +275,10 @@
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                @Html.TextBoxFor(model => model.Дата_рождения, new { @class = "form-control", @Value = Model.Дата_рождения.Value.ToShortDateString() } )
+                                                @*@Html.TextBoxFor(model => model.Дата_рождения, new { @class = "form-control", @Value = Model.Дата_рождения.Value.ToShortDateString() } )*@
+                                                <input type="text" id="Дата_рождения" name="Дата_рождения" class="form-control" required data-readonly value="@Model.Дата_рождения.Value.ToShortDateString()"/>
 
-                                                @Html.ValidationMessageFor(model => model.Дата_рождения, "", new { @class = "text-danger" })
+                                                
                                             </div>
                                         </div>
                                         <script type="text/javascript">

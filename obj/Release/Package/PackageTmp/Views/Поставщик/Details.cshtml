@@ -90,12 +90,12 @@
                         </thead>
                         <tbody>
                             @foreach (Поставщик_цена i in (ViewBag.List as IQueryable<Поставщик_цена>))
-            {
+                            {
                                 <tr>
-                                    <td class="text-center">@Html.DisplayName(i.Товар.Обозначение)</td>
-                                    <td class="text-center">@Html.DisplayName(i.Товар.Наименование)</td>
-                                    @{ string str = i.Оптовая_цена != null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
-                                    <td class="text-center">@Html.DisplayName(str)</td>
+                                    <td class="text-center">@{ string str = i.Товар.Обозначение ?? "";} @str</td>
+                                    <td class="text-center">@{ string str1 = i.Товар.Наименование ?? "";} @str1</td>
+                                    @{ string str2 = i.Оптовая_цена!=null ? i.Оптовая_цена.Value.ToString("0.00") : "-";}
+                                    <td class="text-center">@Html.DisplayName(str2)</td>
 
 
                                 </tr>
@@ -203,46 +203,39 @@
 
                                     <div class="form-horizontal">
 
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(model => model.УНП_поставщика)
 
 
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Название_организации, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Название_организации, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Название_организации, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Название_организации, new { htmlAttributes = new { @class = "form-control", @pattern = ".{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Адрес, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Адрес, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.Адрес, new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Телефон, htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Телефон, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Телефон, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Описание, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.TextAreaFor(model => model.Описание, 2, 34, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.TextAreaFor(model => model.Описание, 2, 34, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
 

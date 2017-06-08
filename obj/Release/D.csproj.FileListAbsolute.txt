@@ -67,8 +67,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Micr
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.resources.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Release\D.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Release\D.pdb
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AI.DependencyCollector.dll
@@ -89,7 +87,7 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\WebA
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.Web.Common.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Ninject.Web.Mvc.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Release\D.csprojResolveAssemblyReference.cache
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.xmlworker.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\itextsharp.xml
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\obj\Release\D.csprojResolveAssemblyReference.cache
