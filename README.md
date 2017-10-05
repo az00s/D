@@ -39,7 +39,7 @@ Report:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Report.png?raw=true)
 
 Simple graph:
-D/Screenshots/simple graph.png
+![CC0](https://github.com/az00s/D/blob/master/Screenshots/graph.png?raw=true)
 
 
 Sort is available on each tables.
