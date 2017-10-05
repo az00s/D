@@ -25,26 +25,19 @@ Deleting:
 Details:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Details.png?raw=true)
 
-Search(with JQuery Autocomplete):
+Search:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Search.png?raw=true)
-
-No results:
-![CC0](https://github.com/az00s/D/blob/master/Screenshots/NoResult.png?raw=true)
-
-Report "Price-list":
-![CC0](https://github.com/az00s/D/blob/master/Screenshots/Price-list.png?raw=true)
 
 Table of orders:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Orders.png?raw=true)
 
 New Order:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/NewOrder.png?raw=true)
-![CC0](https://github.com/az00s/D/blob/master/Screenshots/NewOrder1.png?raw=true)
+
 
 Report:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Report.png?raw=true)
 
-Table of employees and a simple graph:
-![CC0](https://github.com/az00s/D/blob/master/Screenshots/Graph.png?raw=true)
+
 
 Sort is available on each tables.
