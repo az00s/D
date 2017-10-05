@@ -38,6 +38,9 @@ New Order:
 Report:
 ![CC0](https://github.com/az00s/D/blob/master/Screenshots/Report.png?raw=true)
 
+Simple graph:
+Report:
+![CC0](https://github.com/az00s/D/blob/master/Screenshots/simple graph.png?raw=true)
 
 
 Sort is available on each tables.
