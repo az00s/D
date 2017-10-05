@@ -1,0 +1,35 @@
+﻿@model IEnumerable<D.Models.CustomerEnt>
+
+
+@using D.Models
+
+<table class="table-bordered table-striped" id="tbCustomerEnts">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+    </colgroup>
+
+    <thead>
+        <tr>
+            <th class="text-center">УНП</th>
+            <th class="text-center">Клиент</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (CustomerEnt p in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    <strong>@Html.HiddenFor(modelItem => p.ClientID) @Html.DisplayTextFor(modelItem => p.ClientPAN)</strong>
+                </td>
+                <td class="text-center"><strong name="client">@Html.DisplayTextFor(modelItem => p.Name)</strong></td>
+
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+        
+

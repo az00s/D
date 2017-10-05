@@ -16,7 +16,7 @@ namespace D.Interfaces
 
          string LastName { get; set; }
 
-        string Adress { get; set; }
+        string Address { get; set; }
 
          string Telephone { get; set; }
 

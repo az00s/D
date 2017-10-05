@@ -1,10 +1,10 @@
-﻿namespace D.Models
+namespace D.Models
 {
     using System;
-  
+    using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
-    using System.Data.Entity;
+
     public partial class db : DbContext,IdbInterface
     {
         public db()
@@ -13,154 +13,153 @@
         }
 
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<CustomerEnt> CustomerEnt { get; set; }
-        public virtual DbSet<CustomerInd> CustomerInd { get; set; }
-        public virtual DbSet<Денежное_поступление> Денежное_поступление { get; set; }
-        public virtual DbSet<Заказ> Заказ { get; set; }
-        public virtual DbSet<Оплата_заказа> Оплата_заказа { get; set; }
-        public virtual DbSet<Оформление_заказа> Оформление_заказа { get; set; }
-        public virtual DbSet<Поставщик> Поставщик { get; set; }
-        public virtual DbSet<Поставщик_цена> Поставщик_цена { get; set; }
-        public virtual DbSet<Сотрудник> Сотрудник { get; set; }
-        public virtual DbSet<Товар> Товар { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<CustomerEnt> CustomerEnts { get; set; }
+        public virtual DbSet<CustomerInd> CustomerInds { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<MoneyReceipt> MoneyReceipts { get; set; }
+        public virtual DbSet<Ordering> Orderings { get; set; }
+        public virtual DbSet<OrderPayment> OrderPayments { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<SupplierPrice> SupplierPrices { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AspNetRoles>()
+            modelBuilder.Entity<AspNetRole>()
                 .HasMany(e => e.AspNetUsers)
                 .WithMany(e => e.AspNetRoles)
                 .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
 
-            modelBuilder.Entity<AspNetUsers>()
+            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.AspNetUserClaims)
-                .WithRequired(e => e.AspNetUsers)
+                .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId);
 
-            modelBuilder.Entity<AspNetUsers>()
+            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.AspNetUserLogins)
-                .WithRequired(e => e.AspNetUsers)
+                .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<CustomerEnt>()
-                .Property(e => e.Название_организации)
+                .Property(e => e.Name)
                 .IsUnicode(false);
 
             modelBuilder.Entity<CustomerEnt>()
-                .Property(e => e.Телефон)
+                .Property(e => e.Telephone)
                 .IsUnicode(false);
 
             modelBuilder.Entity<CustomerEnt>()
-                .Property(e => e.Адрес)
+                .Property(e => e.Address)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<CustomerEnt>()
-                .HasMany(e => e.Заказ)
-                .WithRequired(e => e.CustomerEnt)
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.LastName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Patronymic)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Position)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Telephone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MoneyReceipt>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<OrderPayment>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.AmountVat)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.OrderStatus)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.MoneyReceived)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.Orderings)
+                .WithRequired(e => e.Order)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<CustomerInd>()
-                .HasMany(e => e.Заказ)
-                .WithRequired(e => e.CustomerInd)
-                .HasForeignKey(e => e.ID_клиента)
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.OrderPayments)
+                .WithRequired(e => e.Order)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Денежное_поступление>()
-                .Property(e => e.Сумма)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Заказ>()
-                .Property(e => e.Сумма_заказа_с_НДС)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Заказ>()
-                .Property(e => e.Статус_заказа)
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Заказ>()
-                .Property(e => e.Получено)
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Price)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Заказ>()
-                .HasMany(e => e.Оплата_заказа)
-                .WithRequired(e => e.Заказ)
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Unit_of_measurement)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Price_with_vat)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Orderings)
+                .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Оплата_заказа>()
-                .Property(e => e.Сумма)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Поставщик>()
-                .Property(e => e.Название_организации)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Поставщик>()
-                .Property(e => e.Адрес)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Поставщик>()
-                .Property(e => e.Телефон)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Поставщик>()
-                .Property(e => e.Описание)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Поставщик>()
-                .HasMany(e => e.Поставщик_цена)
-                .WithRequired(e => e.Поставщик)
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.SupplierPrices)
+                .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Поставщик_цена>()
-                .Property(e => e.Оптовая_цена)
+            modelBuilder.Entity<SupplierPrice>()
+                .Property(e => e.Price)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Сотрудник>()
-                .Property(e => e.Фамилия)
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Сотрудник>()
-                .Property(e => e.Имя)
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Address)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Сотрудник>()
-                .Property(e => e.Отчество)
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Telephone)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Сотрудник>()
-                .Property(e => e.Должность)
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Description)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Сотрудник>()
-                .Property(e => e.Телефон)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Товар>()
-                .Property(e => e.Наименование)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Товар>()
-                .Property(e => e.Краткое_описание)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Товар>()
-                .Property(e => e.Цена)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Товар>()
-                .Property(e => e.Единица_измерения)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Товар>()
-                .Property(e => e.Цена_с_НДС)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Товар>()
-                .HasMany(e => e.Оформление_заказа)
-                .WithRequired(e => e.Товар)
+            modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.SupplierPrices)
+                .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
         }
     }

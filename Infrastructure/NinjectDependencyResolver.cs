@@ -31,16 +31,16 @@ namespace D.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IОформление_заказаInterface>().To<Оформление_заказа>().InRequestScope();
+            kernel.Bind<IOrderingInterface>().To<Ordering>().InRequestScope();
             kernel.Bind<IdbInterface>().To<db>();
-            kernel.Bind<IПоставщик_ценаInterface>().To<Поставщик_цена>();
-            kernel.Bind<IТоварInterface>().To<Товар>();
-            kernel.Bind<IСотрудникInterface>().To<Сотрудник>();
-            kernel.Bind<IПоставщикInterface>().To<Поставщик>();
-            kernel.Bind<IКлиентInterface>().To<CustomerEnt>();
-            kernel.Bind<IЗаказInterface>().To<Заказ>();
-            kernel.Bind<IДенежное_поступлениеInterface>().To<Денежное_поступление>();
-            kernel.Bind<IОплата_заказаInterface>().To<Оплата_заказа>();
+            kernel.Bind<ISupplierPriceInterface>().To<SupplierPrice>();
+            kernel.Bind<IProductInterface>().To<Product>();
+            kernel.Bind<IEmployeeInterface>().To<Employee>();
+            kernel.Bind<ISupplierInterface>().To<Supplier>();
+            kernel.Bind<ICustomerEntInterface>().To<CustomerEnt>();
+            kernel.Bind<IOrderInterface>().To<Order>();
+            kernel.Bind<IMoneyReceiptInterface>().To<MoneyReceipt>();
+            kernel.Bind<IOrderPaymentInterface>().To<OrderPayment>();
             kernel.Bind<ICustomerIndInterface>().To<CustomerInd>();
         }
     }

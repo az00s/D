@@ -1,0 +1,285 @@
+﻿@model D.Models.MoneyReceipt
+
+<script>
+    $(document).ready(function () {
+
+            $(document).on('click', '.table-hover tbody tr', function () {
+                var table = $('.table-hover').DataTable();
+                $(this).toggleClass('ch');
+                var ID = table.rows('.ch').data()[0].ReceiptID;
+                var url = "@Url.Action("Details")/" + ID;
+                document.location.href = url;
+            });
+
+        $("ul.navbar-nav li:contains('Денежные')").addClass("active");
+
+            $("[data-readonly]").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+            var end = new Date();
+            var start = new Date(end.getFullYear() - 0,0,1);
+            
+            //var end=new Date(new Date().setFullYear(today.getFullYear() + 100));
+           
+            $("#dtpStart").val(start.toLocaleDateString());
+            $("#dtpEnd").val(end.toLocaleDateString());
+
+            $('#tbMoneyReceiptsPeriod').DataTable({
+                serverSide: true,
+                ajax: {
+                    "type": "POST",
+                    "url": '/MoneyReceipt/ReportData',
+                    "contentType": 'application/json; charset=utf-8',
+                    "data": function (data) { data.repStart = $("#dtpStart").val(); data.repEnd = $("#dtpEnd").val(); return data = JSON.stringify(data); },
+                    "dataSrc": function (json) {
+                        for (var i = 0, end = json.data.length; i < end; i++)
+                        { json.data[i].ReceiptDate = new Date(json.data[i].ReceiptDate).toLocaleDateString(); }
+                        return json.data;
+                    }
+                },
+
+                "columns": [
+
+           { "data": "ReceiptID" },
+           { "data": "ReceiptDate" },
+           { "data": "CustomerPAN" },
+           { "data": "Customer" },
+           { "data": "Amount" }
+                ],
+
+                buttons: [{
+                    fade: 500,
+                    autoClose: true,
+                    className: 'btn btn-xs',
+                    extend: 'collection',
+                    text: 'Экспорт',
+                    buttons: [{
+                        extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                            modifier: {
+                                order: 'current',
+                                page: 'current',
+                                search: 'applied'
+                            }
+                        }
+                    }
+                , {
+                    extend: 'excel', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A5', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }
+                    ]
+                }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
+                //"preDrawCallback": function (settings) {
+
+                //    $('#divForTable').fadeIn(1000);
+
+                //},
+
+                stateSave: true,
+                "stateDuration": 60 * 60 * 24,
+                "order": [],
+                fixedHeader: true,
+                "autoWidth": false,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+                "language": {
+                    "lengthMenu": "Показывать _MENU_ записей",
+                    "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                    "infoFiltered": " (Найдено из _MAX_)",
+                    "emptyTable": "Нет данных для отображения",
+                    "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "loadingRecords": "Загрузка...",
+                    "processing": "Обработка...",
+                    "search": "Поиск в отчете:",
+                    "zeroRecords": "Ничего не найдено",
+                    "paginate": {
+                        "first": "Первая",
+                        "last": "Последняя",
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    },
+                    buttons: {
+                        copyTitle: 'Данные скопированы',
+                        copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                        copyTitle: 'Копирование в буфер',
+                        copySuccess: {
+                            1: "Скопирована одна запись в буфер",
+                            _: "Скопировано %d записей в буфер"
+                        },
+                    }
+                },
+
+
+                "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                "processing": true,
+
+                fixedHeader: true
+                //"pagingType": "full_numbers"
+            });
+
+            $('#lkOrderPeriod').click(function () {
+                $('input[name="start"]').val(null);
+                $('input[name="end"]').val(null);
+                if ($('#dvPeriodSearch').css("display") == 'none') {
+                    $('#dvPeriodSearch').css("display", "block");
+                }
+                else {
+                    $('#dvPeriodSearch').css("display", "none");
+                }
+            });
+
+        //    function DateToSeconds(date) {
+        //        var arr = date.split('.');
+        //        return Date.parse(arr[2] + '-' + arr[1] + '-' + arr[0]);
+        //    };
+
+        //    $.fn.dataTable.ext.search.push(
+        //function (settings, data, dataIndex) {
+
+        //    if (settings.nTable.id == "tbOrders")
+        //    {
+        //        var start = $('input[name="start"]').val();
+        //        var end = $('input[name="end"]').val();
+
+        //        return DateToSeconds(data[1]) >= DateToSeconds(start) && DateToSeconds(data[1]) <= DateToSeconds(end) ? true : false;
+        //    }
+        //    return true;
+
+        //});
+
+            $("input[name='start'],input[name='end']").on('change', function () {
+
+                //var table= $("#tbOrdersPeriod").DataTable();
+                //table.ajax.data=new {"start": '7',"end":'8'};
+                $("#tbMoneyReceiptsPeriod").DataTable().ajax.url('/MoneyReceipt/ReportData').load();
+                //$(".table-hover").dataTable({
+                //    "ajax": {
+                //        "url": "/Order/PeriodReport",
+                //        "data": {
+                //            "start": 451,
+                //            "end":1000
+                //        }
+                //    }
+                //}).load();
+            });
+
+           
+
+            });
+    
+    
+</script>
+
+
+<div class="row">
+    <div class="col-lg-2">
+        <div class="row"><div class="" id="dvPeriodReport">
+    <div class="form-group">
+        <div class="col-lg-10">
+
+
+            <input type="text" name="start" id="dtpStart" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="Период с..." />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10">
+            <input type="text" name="end" id="dtpEnd" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="по..." />
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                $('#dtpStart').datetimepicker({ pickTime: false, language: 'ru' });
+            });
+            $(function () {
+                $('#dtpEnd').datetimepicker({ pickTime: false, language: 'ru' });
+            });
+        </script>
+    </div>
+
+    <div id="dvForTable" class="col-lg-9 col-lg-offset-0">
+
+        <h4>Отчет по денежным поступлениям за период</h4>
+        <hr />
+        <table class="table-bordered table-striped table-hover table table-condensed" id="tbMoneyReceiptsPeriod">
+            <colgroup>
+                <col width="15%">
+                <col width="15%">
+                <col width="35%">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model=>model.ReceiptID)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.ReceiptDate)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.CustomerEnt.ClientPAN)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.CustomerEnt.Name)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody class="text-center">
+               
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+
+}
+
+
+

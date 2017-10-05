@@ -12,19 +12,19 @@ namespace D.Models
     public interface IdbInterface
     {
          //DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-         DbSet<AspNetRoles> AspNetRoles { get; set; }
-         DbSet<AspNetUsers> AspNetUsers { get; set; }
-         DbSet<Денежное_поступление> Денежное_поступление { get; set; }
-         DbSet<Заказ> Заказ { get; set; }
-         DbSet<CustomerEnt> CustomerEnt { get; set; }
-         DbSet<CustomerInd> CustomerInd { get; set; }
+         DbSet<AspNetRole> AspNetRoles { get; set; }
+         DbSet<AspNetUser> AspNetUsers { get; set; }
+         DbSet<MoneyReceipt> MoneyReceipts { get; set; }
+         DbSet<Order> Orders { get; set; }
+         DbSet<CustomerEnt> CustomerEnts { get; set; }
+         DbSet<CustomerInd> CustomerInds { get; set; }
 
-        DbSet<Оплата_заказа> Оплата_заказа { get; set; }
-         DbSet<Оформление_заказа> Оформление_заказа { get; set; }
-         DbSet<Поставщик> Поставщик { get; set; }
-         DbSet<Поставщик_цена> Поставщик_цена { get; set; }
-         DbSet<Сотрудник> Сотрудник { get; set; }
-         DbSet<Товар> Товар { get; set; }
+        DbSet<OrderPayment> OrderPayments { get; set; }
+         DbSet<Ordering> Orderings { get; set; }
+         DbSet<Supplier> Suppliers { get; set; }
+         DbSet<SupplierPrice> SupplierPrices { get; set; }
+         DbSet<Employee> Employees { get; set; }
+         DbSet<Product> Products { get; set; }
 
          int SaveChanges();
          DbEntityEntry Entry(object entity);

@@ -310,6 +310,24 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     
     $('#tbGoods').DataTable({
+        serverSide: true,
+        ajax: {
+            "type": "POST",
+            "url": '/Product/Table',
+            "contentType": 'application/json; charset=utf-8',
+            'data': function (data) { return data = JSON.stringify(data); }
+},
+        
+        "columns": [
+        
+       { "data": "Designation" },
+       { "data": "Name" },
+       { "data": "Unit_of_measurement" },
+       { "data": "Balance" },
+       { "data": "Delivery_time" },
+       { "data": "Weight" },
+       { "data": "Price" },
+        { "data": "Price_with_vat" }],
         buttons: [{
             fade:500,
             autoClose: true,
@@ -394,10 +412,7 @@ $(document).ready(function(){
                 "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "processing": true,
-        "columnDefs": [
-    { "width": "25%", "targets": 0 },
-    { "width": "25%", "targets": 1 }
-        ],
+        
         fixedHeader: true
         //"pagingType": "full_numbers"
         });
@@ -561,5 +576,7 @@ $(document).ready(function () {
                 formValid = false;
             }
         });
-    }
-);
+
+    
+    });
+

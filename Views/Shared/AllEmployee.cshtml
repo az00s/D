@@ -1,18 +1,18 @@
-﻿@model IEnumerable<D.Models.Сотрудник>
+﻿@model IEnumerable<D.Models.Employee>
 
 
 @using D.Models
 
 
-        @foreach (Сотрудник p in Model)
+        @foreach (Employee p in Model)
         {
             <tr>
                 <td>
-                    <strong>@Html.HiddenFor(modelItem => p.Табельный_номер) @Html.DisplayTextFor(modelItem => p.Фамилия)</strong>
+                    <strong>@Html.HiddenFor(modelItem => p.PersonnelNumber) @Html.DisplayTextFor(modelItem => p.LastName)</strong>
                 </td>
-                <td><strong>@Html.DisplayTextFor(modelItem => p.Имя)</strong></td>
-                <td><strong>@Html.DisplayTextFor(modelItem => p.Отчество)</strong></td>
-                <td><strong>@Html.DisplayTextFor(modelItem => p.Должность)</strong></td>
+                <td><strong>@Html.DisplayTextFor(modelItem => p.Name)</strong></td>
+                <td><strong>@Html.DisplayTextFor(modelItem => p.Patronymic)</strong></td>
+                <td><strong>@Html.DisplayTextFor(modelItem => p.Position)</strong></td>
             </tr>
 
         }

@@ -74,42 +74,7 @@ namespace D.Controllers
                 return View(model);
             }
 
-            //try
-            //{
-
-            //    WebMail.SmtpServer = "smtp.yandex.ru";
-            //WebMail.SmtpPort = 587;
-            //WebMail.EnableSsl = true;
-            //WebMail.UserName = "azoos@tut.by";
-            //WebMail.Password = "azoosgoogle11";
-            //WebMail.From = "azoos@tut.by";
-
-            //string os = HttpContext.Request.Browser.Platform;
-            //string browser = HttpContext.Request.Browser.Type;
-            //string useragent = HttpContext.Request.UserAgent;
-            //string ip = HttpContext.Request.UserHostAddress;
-            //string userhostname = HttpContext.Request.UserHostName;
-            //WebMail.Send("azoos@tut.by", "Посещение сайта",
-            //         "Браузер: " + browser + "," + "useragent: " + useragent + "," + "ip: " + ip + "," + "userhostname: " + userhostname );
-
-            //}
-            //catch (Exception)
-            //{
-            //    var result1 = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            //    switch (result1)
-            //    {
-            //        case SignInStatus.Success:
-            //            return RedirectToLocal(returnUrl);
-            //        case SignInStatus.LockedOut:
-            //            return View("Lockout");
-            //        case SignInStatus.RequiresVerification:
-            //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-            //        case SignInStatus.Failure:
-            //        default:
-            //            ModelState.AddModelError("", "Неверные имя или пароль.");
-            //            return View(model);
-            //    }
-            //}
+           
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -134,7 +99,7 @@ namespace D.Controllers
                         //}
                         Session["sessionid"] = Session.SessionID;
                         IdbInterface db = new db();
-                        AspNetUsers login = db.AspNetUsers.Where(i => i.Email == model.Email).First();
+                        AspNetUser login = db.AspNetUsers.Where(i => i.Email == model.Email).First();
                          
                         //login.Email = model.Email;
                         login.SessionId = Session.SessionID; 
@@ -218,7 +183,7 @@ namespace D.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email/*, Email = model.Email */};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

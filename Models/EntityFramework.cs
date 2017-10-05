@@ -9,14 +9,14 @@ using System.Web;
 
 namespace D.Models
 {
-    public partial class Денежное_поступление : IДенежное_поступлениеInterface
+    public partial class MoneyReceipt : IMoneyReceiptInterface
     {
 
         [Required]
         [Range(0, 100000000000000.00)]
-
+        [Display(Name = "Сумма")]
         [Column(TypeName = "money")]
-        public decimal? Сумма { get; set; }
+        public decimal? Amount { get; set; }
 
         [Required]
 
@@ -24,182 +24,183 @@ namespace D.Models
         [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата поступления")]
         [Column(TypeName = "date")]
-        public DateTime? Дата_поступления { get; set; }
+        public DateTime? ReceiptDate { get; set; }
         [Display(Name = "Номер")]
         [Key]
-        public int ID_поступления { get; set; }
+        public int ReceiptID { get; set; }
         [Required]
-        public int ID_клиента { get; set; }
+        public int ClientID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Оплата_заказа> Оплата_заказа { get; set; }
+        public virtual ICollection<OrderPayment> OrderPayments { get; set; }
 
         public virtual CustomerEnt CustomerEnt { get; set; }
 
-        public void AddtoTable(IdbInterface db, IДенежное_поступлениеInterface p)
+        public void AddtoTable(IdbInterface db, IMoneyReceiptInterface p)
         {
 
-            db.Денежное_поступление.Add(p as Денежное_поступление);
+            db.MoneyReceipts.Add(p as MoneyReceipt);
         }
     }
 
-    public partial class Заказ : IЗаказInterface
+    public partial class Order : IOrderInterface
     {
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата заказа")]
         [Column(TypeName = "date")]
-        public DateTime? Дата_заказа { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         [Display(Name = "Сумма заказа с НДС")]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
 
         [Column(TypeName = "money")]
-        public decimal? Сумма_заказа_с_НДС { get; set; }
+        public decimal? AmountVat { get; set; }
 
         [Display(Name = "Номер заказа")]
 
         [Key]
-        public int ID_заказа { get; set; }
+        public int OrderID { get; set; }
         [Display(Name = "ID клиента")]
-        public int ID_клиента { get; set; }
+        public int? ClientID { get; set; }
+        public int? CustomerIndId { get; set; }
 
         [Display(Name = "Табельный номер")]
 
-        public int? Табельный_номер { get; set; }
+        public int? PersonnelNumber { get; set; }
 
         [Display(Name = "Статус заказа")]
         [StringLength(30)]
-        public string Статус_заказа { get; set; }
+        public string OrderStatus { get; set; }
 
         [Column(TypeName = "money")]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
-        public decimal? Получено { get; set; }
+        public decimal? MoneyReceived { get; set; }
 
-        public virtual CustomerInd CustomerInd { get; set; }
-        public virtual CustomerEnt CustomerEnt { get; set; }
+        public  virtual CustomerInd CustomerInd { get; set; }
+        public  virtual CustomerEnt CustomerEnt { get; set; }
 
-        public virtual Сотрудник Сотрудник { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Оплата_заказа> Оплата_заказа { get; set; }
+        public  virtual Employee Employee { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Оформление_заказа> Оформление_заказа { get; set; }
+        public  ICollection<OrderPayment> OrderPayments { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public  ICollection<Ordering> Orderings { get; set; }
         
 
-        public void AddtoTable(IdbInterface db, IЗаказInterface p)
+        public void AddtoTable(IdbInterface db, IOrderInterface p)
         {
 
-            db.Заказ.Add(p as Заказ);
+            db.Orders.Add(p as Order);
         }
     }
 
-    public partial class CustomerEnt : IКлиентInterface
+    public partial class CustomerEnt : ICustomerEntInterface
     {
 
         [Key]
-        public int ID_клиента { get; set; }
+        public int ClientID { get; set; }
 
 
 
         [Range(0, 999999999)]
         //[StringLength(9)]
         [Display(Name = "УНП клиента")]
-        public int? УНП_Клиента { get; set; }
+        public int? ClientPAN { get; set; }
 
         [Display(Name = "Название организации")]
 
         [StringLength(200)]
-        public string Название_организации { get; set; }
-
+        public string Name { get; set; }
+        [Display(Name = "Телефон")]
         [StringLength(20)]
-        public string Телефон { get; set; }
-
+        public string Telephone { get; set; }
+        [Display(Name = "Адрес")]
         [StringLength(200)]
-        public string Адрес { get; set; }
+        public string Address { get; set; }
 
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Заказ> Заказ { get; set; }
+        public  ICollection<Order> Orders { get; set; }
 
-        public void AddtoTable(IdbInterface db, IКлиентInterface p)
+        public void AddtoTable(IdbInterface db, ICustomerEntInterface p)
         {
 
-            db.CustomerEnt.Add(p as CustomerEnt);
+            db.CustomerEnts.Add(p as CustomerEnt);
         }
     }
 
-    public partial class Оплата_заказа : IОплата_заказаInterface
+    public partial class OrderPayment : IOrderPaymentInterface
     {
 
         [Key]
         public int ID { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? Сумма { get; set; }
+        public decimal? Amount { get; set; }
 
 
         //[Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID_поступления { get; set; }
+        public int ReceiptID { get; set; }
 
 
         //[Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID_клиента { get; set; }
+        public int ClientID { get; set; }
 
 
         //[Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID_заказа { get; set; }
-        public virtual Денежное_поступление Денежное_поступление { get; set; }
+        public int OrderID { get; set; }
+        public virtual MoneyReceipt MoneyReceipt { get; set; }
 
-        public virtual Заказ Заказ { get; set; }
+        public virtual Order Order { get; set; }
 
-        public void AddtoTable(IdbInterface db, IОплата_заказаInterface p)
+        public void AddtoTable(IdbInterface db, IOrderPaymentInterface p)
         {
 
-            db.Оплата_заказа.Add(p as Оплата_заказа);
+            db.OrderPayments.Add(p as OrderPayment);
         }
     }
 
-    public partial class Оформление_заказа : IОформление_заказаInterface
+    public partial class Ordering : IOrderingInterface
     {
-        public int ID_товара { get; set; }
+        public int ProductID { get; set; }
 
-        public int ID_заказа { get; set; }
+        public int OrderID { get; set; }
 
-        public int Количество { get; set; }
+        public int ProductQuantity { get; set; }
 
         public int ID { get; set; }
 
-        public virtual Заказ Заказ { get; set; }
+        public  Order Order { get; set; }
 
-        public virtual Товар Товар { get; set; }
-        public void AddtoTable(IdbInterface db, IОформление_заказаInterface p)
+        public  Product Product { get; set; }
+        public void AddtoTable(IdbInterface db, IOrderingInterface p)
         {
 
-            db.Оформление_заказа.Add(p as Оформление_заказа);
+            db.Orderings.Add(p as Ordering);
         }
     }
 
-    public partial class Пользователь
-    {
-        public int Id { get; set; }
+    //public partial class Employee
+    //{
+    //    public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string login { get; set; }
+    //    [Required]
+    //    [StringLength(50)]
+    //    public string login { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string password { get; set; }
-    }
+    //    [Required]
+    //    [StringLength(50)]
+    //    public string password { get; set; }
+    //}
 
-    public partial class Поставщик : IПоставщикInterface
+    public partial class Supplier : ISupplierInterface
     {
 
 
@@ -207,145 +208,147 @@ namespace D.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Range(0, 999999999)]
-        public int УНП_поставщика { get; set; }
+        public int SupplierPAN { get; set; }
 
         [Display(Name = "Название организации")]
         [StringLength(200)]
-        public string Название_организации { get; set; }
-
+        public string Name { get; set; }
+        [Display(Name="Адрес")]
         [StringLength(200)]
-        public string Адрес { get; set; }
-
+        public string Address { get; set; }
+        [Display(Name = "Телефон")]
         [StringLength(20)]
-        public string Телефон { get; set; }
+        public string Telephone { get; set; }
 
         [StringLength(200)]
-        public string Описание { get; set; }
+        public string Description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Поставщик_цена> Поставщик_цена { get; set; }
+        public virtual ICollection<SupplierPrice> SupplierPrices { get; set; }
 
-        public void AddtoTable(IdbInterface db, IПоставщикInterface p)
+        public void AddtoTable(IdbInterface db, ISupplierInterface p)
         {
 
-            db.Поставщик.Add(p as Поставщик);
+            db.Suppliers.Add(p as Supplier);
         }
     }
 
-    public partial class Поставщик_цена : IПоставщик_ценаInterface
+    public partial class SupplierPrice : ISupplierPriceInterface
     {
         //private IdbInterface db;
         //public Поставщик_цена() { }
         //public Поставщик_цена(IdbInterface dbParam) { db = dbParam; }
         [Column(TypeName = "money")]
-        public decimal? Оптовая_цена { get; set; }
+        public decimal? Price { get; set; }
 
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID_товара { get; set; }
+        public int ProductID { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "УНП Поставщика")]
-        public int УНП_поставщика { get; set; }
+        public int SupplierPAN { get; set; }
 
-        public virtual Поставщик Поставщик { get; set; }
+        public virtual Supplier Supplier { get; set; }
 
-        public virtual Товар Товар { get; set; }
+        public virtual Product Product { get; set; }
 
-        public void AddtoTable(IdbInterface db, IПоставщик_ценаInterface p)
+        public void AddtoTable(IdbInterface db, ISupplierPriceInterface p)
         {
 
-            db.Поставщик_цена.Add(p as Поставщик_цена);
+            db.SupplierPrices.Add(p as SupplierPrice);
         }
     }
 
-    public partial class Сотрудник : IСотрудникInterface
+    public partial class Employee : IEmployeeInterface
     {
 
         [Display(Name = "Табельный номер")]
         [Key]
-        public int Табельный_номер { get; set; }
-
+        public int PersonnelNumber { get; set; }
+        [Display(Name = "Фамилия")]
         [StringLength(20)]
-        public string Фамилия { get; set; }
-
+        public string LastName { get; set; }
+        [Display(Name = "Имя")]
         [StringLength(20)]
-        public string Имя { get; set; }
-
+        public string Name { get; set; }
+        [Display(Name = "Отчество")]
         [StringLength(20)]
-        public string Отчество { get; set; }
-
+        public string Patronymic { get; set; }
+        [Display(Name = "Должность")]
         [StringLength(200)]
-        public string Должность { get; set; }
+        public string Position { get; set; }
+        [Display(Name = "Телефон")]
         [DataType(DataType.PhoneNumber)]
         [StringLength(20)]
-        public string Телефон { get; set; }
-
+        public string Telephone { get; set; }
+        [Display(Name = "Адрес")]
         [StringLength(250)]
-        public string Адрес { get; set; }
-
+        public string Address { get; set; }
+        [Display(Name = "Паспорт")]
         [StringLength(50)]
-        public string Номер_паспорта { get; set; }
+        public string PassportID { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         [Display(Name = " Дата рождения")]
         [Column(TypeName = "date")]
-        public DateTime? Дата_рождения { get; set; }
+        public DateTime? BirstDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Заказ> Заказ { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
-        public void AddtoTable(IdbInterface db, IСотрудникInterface p)
+        public void AddtoTable(IdbInterface db, IEmployeeInterface p)
         {
 
-            db.Сотрудник.Add(p as Сотрудник);
+            db.Employees.Add(p as Employee);
         }
     }
 
-    public partial class Товар : IТоварInterface
+    public partial class Product : IProductInterface
     {
-        
 
+        [Display(Name = "#")]
         [Key]
-        public int ID_товара { get; set; }
-
+        public int ProductID { get; set; }
+        [Display(Name = "Обозначение")]
         [StringLength(50)]
-        public string Обозначение { get; set; }
+        public string Designation { get; set; }
+        [Display(Name = "Наименование")]
         [Required]
         [StringLength(120)]
-        public string Наименование { get; set; }
+        public string Name { get; set; }
 
         [Display(Name = "Краткое описание")]
         [StringLength(300)]
-        public string Краткое_описание { get; set; }
+        public string Description { get; set; }
 
         [Display(Name = "Ед.изм.")]
         [StringLength(20)]
-        public string Единица_измерения { get; set; }
+        public string Unit_of_measurement { get; set; }
 
         [Range(0, 2147483647)]
         [Required]
         [Display(Name = "Остаток")]
-        public int Остаток_на_складе { get; set; }
+        public int Balance { get; set; }
 
         [Range(0, 2147483647)]
 
         [Display(Name = "Поставка,\nдней")]
-        public int? Срок_поставки { get; set; }
+        public int? Delivery_time { get; set; }
 
         [Range(0, 2147483647)]
 
         [Display(Name = "Вес,\nг")]
-        public int? Вес { get; set; }
-
+        public int? Weight { get; set; }
+        [Display(Name = "Цена")]
         [Range(0, 100000000000000.00)]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "money")]
-        public decimal? Цена { get; set; }
+        public decimal? Price { get; set; }
 
 
 
@@ -368,20 +371,20 @@ namespace D.Models
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         [Display(Name = "Цена\nс НДС")]
         [Column(TypeName = "money")]
-        public decimal? Цена_с_НДС { get; set; }
+        public decimal? Price_with_vat { get; set; }
 
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Оформление_заказа> Оформление_заказа { get; set; }
+        public  ICollection<Ordering> Orderings { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Поставщик_цена> Поставщик_цена { get; set; }
+        public  ICollection<SupplierPrice> SupplierPrices { get; set; }
 
-        public void AddtoTable(IdbInterface db, IТоварInterface p)
+        public void AddtoTable(IdbInterface db, IProductInterface p)
         {
 
-            db.Товар.Add(p as Товар);
+            db.Products.Add(p as Product);
         }
 
 
@@ -407,7 +410,7 @@ namespace D.Models
         [Display(Name = "Адрес")]
         [Required]
         [StringLength(250)]
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
         [Display(Name ="Телефон")]
         [Required]
@@ -434,16 +437,16 @@ namespace D.Models
 
         public int CustomerIndId { get; set; }
 
-        public virtual ICollection<Заказ> Заказ { get; set; }
+        public /*virtual*/ ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomerInd()
         {
-            Заказ = new HashSet<Заказ>();
+            Orders = new HashSet<Order>();
         }
 
         public void AddtoTable(IdbInterface db, ICustomerIndInterface p)
         {
-            db.CustomerInd.Add(p as CustomerInd);
+            db.CustomerInds.Add(p as CustomerInd);
         }
     }
 }

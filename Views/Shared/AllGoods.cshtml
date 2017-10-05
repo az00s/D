@@ -1,4 +1,4 @@
-﻿@model IEnumerable <D.Models.Товар>
+﻿@model IEnumerable <D.Models.Product>
 
 
 @using D.Models
@@ -56,7 +56,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Товар p in Model)
+            @foreach (Product p in Model)
             {
                 @Html.Partial("GoodsBlock", p)
             }

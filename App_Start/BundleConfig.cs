@@ -38,20 +38,8 @@ namespace D
                        "~/Scripts/myScripts.js"                      
                        ));
 
-            bundles.Add(new ScriptBundle("~/bundles/popupCreateGoods").Include(
+           
                        
-                       "~/Scripts/popupCreateGoods.js"
-                       ));
-
-            bundles.Add(new ScriptBundle("~/bundles/popupCreateOrders").Include(
-
-                       "~/Scripts/popupCreateOrders.js"
-                       ));
-
-            bundles.Add(new ScriptBundle("~/bundles/popupCreateMoney").Include(
-
-                       "~/Scripts/popupCreateMoney.js"
-                       ));
         }
     }
 }

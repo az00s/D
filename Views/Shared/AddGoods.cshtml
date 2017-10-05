@@ -1,20 +1,20 @@
-﻿@model IEnumerable<D.Models.Товар>
+﻿@model IEnumerable<D.Models.Product>
 
 
     <table class="table-bordered table-striped" id="AddGoods">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Обозначение)
+                    @Html.DisplayNameFor(model => model.Designation)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Наименование)
+                    @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Цена)
+                    @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Цена_с_НДС)
+                    @Html.DisplayNameFor(model => model.Price_with_vat)
                 </th>
                 <th>
                     @Html.DisplayName("Количество")
@@ -24,28 +24,28 @@
         </thead>
         <tbody>
 
-            @foreach (D.Models.Товар item in Model)
+            @foreach (D.Models.Product item in Model)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Обозначение)
+                        @Html.DisplayFor(modelItem => item.Designation)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Наименование)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Цена)
+                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Цена_с_НДС)
+                        @Html.DisplayFor(modelItem => item.Price_with_vat)
                     </td>
                     <td>
-                        @Html.Hidden("ID_товара")
-                        @Html.TextBox("Количество", 0)
+                        @Html.Hidden("ProductID")
+                        @Html.TextBox("ProductQuantity", 0)
                     </td>
                     <td>
 
-                        @Html.ActionLink("Удалить", "DelFromList", "Заказ", new { id = item.ID_товара }, null)
+                        @Html.ActionLink("Удалить", "DelFromList", "Order", new { id = item.ProductID }, null)
                     </td>
 
 

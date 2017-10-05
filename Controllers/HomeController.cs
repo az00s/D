@@ -23,134 +23,108 @@ namespace D.Controllers
            
         }
         
-        private void Sending()
-        {
-            try
-            {
-                WebMail.SmtpServer = "smtp.yandex.ru";
-                WebMail.SmtpPort = 587;
-                WebMail.EnableSsl = true;
-                WebMail.UserName = "azoos@tut.by";
-                WebMail.Password = "azoosgoogle11";
-                WebMail.From = "azoos@tut.by";
-
-
-                string os = HttpContext.Request.Browser.Platform;
-                string browser = HttpContext.Request.Browser.Type;
-                string useragent = HttpContext.Request.UserAgent;
-                string ip = HttpContext.Request.UserHostAddress;
-                string userhostname = HttpContext.Request.UserHostName;
-                WebMail.Send("azoos@tut.by", "Посещение сайта",
-                             "Браузер: " + browser + "," + "useragent: " + useragent + "," + "ip: " + ip + "," + "userhostname: " + userhostname);
-
-            }
-            catch (Exception)
-            {
-                
-
-            }
-        }
         [Authorize]
         public  ActionResult Index()
         {
-            ViewBag.t = db.Товар.AsNoTracking().Count();
-            ViewBag.c = db.CustomerEnt.AsNoTracking().Count()+ db.CustomerInd.AsNoTracking().Count();
-            ViewBag.p = db.Поставщик.AsNoTracking().Count();
-            ViewBag.e = db.Сотрудник.AsNoTracking().Count();
-            ViewBag.o = db.Заказ.AsNoTracking().Count();
+            ViewBag.ProductCount = db.Products.AsNoTracking().Count();
+            ViewBag.CustomerCount = db.CustomerEnts.AsNoTracking().Count()+ db.CustomerInds.AsNoTracking().Count();
+            ViewBag.SupplierCount = db.Suppliers.AsNoTracking().Count();
+            ViewBag.EmployeeCount = db.Employees.AsNoTracking().Count();
+            ViewBag.OrderCount = db.Orders.AsNoTracking().Count();
             
 
-            ViewBag.amount = db.Товар
+            
+            ViewBag.ProductCost = db.Products
                 .AsNoTracking()
-                .Sum(g=>g.Остаток_на_складе*g.Цена);
+                .Sum(g => g.Balance * g.Price).Value.ToString("0.00");
 
-            ViewBag.w= db.Товар
+            ViewBag.ProductWeight= db.Products
                 .AsNoTracking().AsEnumerable()
-                .Sum(g => (decimal)(g.Остаток_на_складе)* g.Вес) / 1000;
+                .Sum(g => (decimal)(g.Balance)* g.Weight) / 1000;
 
 
-            ViewBag.o1mY = db.Заказ
+            ViewBag.OrderAmountLastYear = db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Year == DateTime.Now.Year - 1)
-                .Select(o => o.Сумма_заказа_с_НДС).Sum();
+                .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year - 1)
+                .Select(o => o.AmountVat).Sum();
 
-            ViewBag.o1Y= db.Заказ
+            ViewBag.OrderCountLastYear= db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Year == DateTime.Now.Year - 1)
+                .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year - 1)
                 .Count();
 
-            ViewBag.o1mYN = db.Заказ
+            ViewBag.OrderAmountYear = db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Year == DateTime.Now.Year )
-                .Select(o => o.Сумма_заказа_с_НДС).Sum();
+                .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year )
+                .Select(o => o.AmountVat).Sum();
 
-            ViewBag.o1YN = db.Заказ
+            ViewBag.OrderCountYear = db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Year == DateTime.Now.Year )
+                .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year )
                 .Count();
 
 
-            ViewBag.o1m= db.Заказ
+            ViewBag.OrderAmountLastMonth= db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Month == DateTime.Now.Month-1)
-                .Select(o => o.Сумма_заказа_с_НДС).Sum();
+                .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month-1)
+                .Select(o => o.AmountVat).Sum();
 
-            ViewBag.o1= db.Заказ
+            ViewBag.OrderCountLastMonth= db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Month == DateTime.Now.Month - 1)
+                .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month - 1)
                 .Count();
 
-            ViewBag.o2m= db.Заказ
+            ViewBag.OrderAmountMonth= db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Month == DateTime.Now.Month )
-                .Select(o => o.Сумма_заказа_с_НДС).Sum();
+                .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month )
+                .Select(o => o.AmountVat).Sum();
            
-            ViewBag.o2 = db.Заказ
+            ViewBag.OrderCountMonth = db.Orders
                 .AsNoTracking()
-                .Where(o => o.Дата_заказа.Value.Month == DateTime.Now.Month )
+                .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month )
                 .Count();
 
-            ViewBag.o1m1= db.Денежное_поступление
+            ViewBag.ReceiptAmountLastMonth= db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month-1 && o.Дата_поступления.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Сумма).Sum();
+                .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month-1 && o.ReceiptDate.Value.Year == DateTime.Now.Year)
+                .Select(o => o.Amount).Sum();
 
             
-            ViewBag.o11 = db.Денежное_поступление
+            ViewBag.ReceiptCountLastMonth = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month - 1 && o.Дата_поступления.Value.Year == DateTime.Now.Year)
+                .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month - 1 && o.ReceiptDate.Value.Year == DateTime.Now.Year)
                 .Count();
 
 
-            ViewBag.o2m1= db.Денежное_поступление
+            ViewBag.o2m1= db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month && o.Дата_поступления.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Сумма).Sum();
+                .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month && o.ReceiptDate.Value.Year == DateTime.Now.Year)
+                .Select(o => o.Amount).Sum();
 
-            ViewBag.o21= db.Денежное_поступление
+            ViewBag.ReceiptCountMonth = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Month == DateTime.Now.Month && o.Дата_поступления.Value.Year == DateTime.Now.Year)
+                .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month && o.ReceiptDate.Value.Year == DateTime.Now.Year)
                 .Count();
 
 
-            ViewBag.o1m1Y= db.Денежное_поступление
+            ViewBag.ReceiptAmountLastYear = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Year == DateTime.Now.Year-1)
-                .Select(o => o.Сумма).Sum();
+                .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year-1)
+                .Select(o => o.Amount).Sum();
             
-            ViewBag.o11Y = db.Денежное_поступление
+            ViewBag.ReceiptCountLastYear = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Year == DateTime.Now.Year - 1)
+                .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year - 1)
                 .Count();
 
-            ViewBag.o2m1Y = db.Денежное_поступление
+            ViewBag.ReceiptAmountYear = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Сумма).Sum();
+                .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year)
+                .Select(o => o.Amount).Sum();
 
-            ViewBag.o21Y = db.Денежное_поступление
+            ViewBag.ReceiptCountYear = db.MoneyReceipts
                 .AsNoTracking()
-                .Where(o => o.Дата_поступления.Value.Year == DateTime.Now.Year )
+                .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year )
                 .Count();
 
             return View();

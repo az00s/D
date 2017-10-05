@@ -1,0 +1,114 @@
+﻿<div id="mdNewEmployee" class="modal faden" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Новый сотрудник</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-12">
+                            <fieldset>
+
+                                @using (Html.BeginForm("Create", "Employee", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Фамилия", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("LastName", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Имя", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Отчество", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Patronymic", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Должность", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Position", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Телефон", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Telephone", new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.Label("Дата рождения", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7 input-group date" id="datetimepicker10">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon-calendar glyphicon"></span>
+                                                </span>
+                                                <input type="text" id="Дата_рождения" name="BirstDate" class="form-control" required data-readonly />
+                                                <script type="text/javascript">
+                                          $(document).ready(function () {
+                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+                                              $('#datetimepicker10').datetimepicker({ pickTime: false, language: 'ru' });
+                                          });
+                                                </script>
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Номер паспорта", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("PassportID", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s][A-Za-zА-Яа-яЁё0-9]{0,50}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Адрес", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Address", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,250}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Добавить сотрудника</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </fieldset>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

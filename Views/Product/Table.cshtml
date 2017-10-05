@@ -1,0 +1,86 @@
+﻿@model D.Models.Product
+
+
+<script>
+    $(document).ready(function () { 
+
+            $(document).on('click', '.table-hover tbody tr', function () {
+                var table = $('.table-hover').DataTable();
+                $(this).toggleClass('ch');
+                var ID = table.rows('.ch').data()[0].ProductID;
+                var url = "@Url.Action("Details")/" + ID;
+                document.location.href = url;        
+            });
+
+            $("ul.navbar-nav li:contains('Товары')").addClass("active");
+
+            $("[data-readonly]").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+    })
+</script>
+
+@Html.Partial("_ModalCreate")
+
+
+<div class="row">
+    <div class="col-lg-2">@Html.Partial("_SideMenuGoods")</div>
+    <div class="col-lg-9 col-lg-offset-0" id="divTable">
+                    <table class="table-bordered table-striped table-hover table table-condensed" id="tbGoods" cellspacing="0">
+                        <colgroup>
+                            
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                       
+                        <thead>
+                            <tr >
+                                <th class="text-center">
+
+                                    @Html.DisplayNameFor(model => model.Designation)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Unit_of_measurement)
+                                </th>
+
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Balance)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Delivery_time)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Weight)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Price)
+                                </th>
+
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Price_with_vat)
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-center">
+
+                           
+
+                        </tbody>
+
+
+                    </table>
+               
+
+    </div>
+    <div class="col-lg-1"></div>
+    </div>
+
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>

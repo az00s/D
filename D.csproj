@@ -30,13 +30,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,12 +50,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
@@ -229,18 +230,17 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="AuthorizeAttribute .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerIndController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\Денежное_поступлениеController.cs" />
-    <Compile Include="Controllers\ЗаказController.cs" />
-    <Compile Include="Controllers\КлиентController.cs" />
-    <Compile Include="Controllers\ПоставщикController.cs" />
-    <Compile Include="Controllers\СотрудникController.cs" />
-    <Compile Include="Controllers\ТоварController.cs" />
+    <Compile Include="Controllers\MoneyReceiptController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\CustomerEntController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -248,40 +248,39 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Interfaces\ICustomerIndInterface.cs" />
     <Compile Include="Interfaces\IdbInterface.cs" />
-    <Compile Include="Interfaces\IДенежное_поступлениеInterface.cs" />
-    <Compile Include="Interfaces\IЗаказInterface.cs" />
-    <Compile Include="Interfaces\IКлиентInterface.cs" />
-    <Compile Include="Interfaces\IОплата_заказаInterface.cs" />
-    <Compile Include="Interfaces\IОформление_заказаInterface.cs" />
-    <Compile Include="Interfaces\IПоставщикInterface.cs" />
-    <Compile Include="Interfaces\IПоставщик_ценаInterface.cs" />
-    <Compile Include="Interfaces\IСотрудникInterface.cs" />
-    <Compile Include="Interfaces\IТоварInterface.cs" />
+    <Compile Include="Interfaces\IMoneyReceiptInterface.cs" />
+    <Compile Include="Interfaces\IOrderInterface.cs" />
+    <Compile Include="Interfaces\ICustomerEntInterface.cs" />
+    <Compile Include="Interfaces\IOrderPaymentInterface.cs" />
+    <Compile Include="Interfaces\IOrderingInterface.cs" />
+    <Compile Include="Interfaces\ISupplierInterface.cs" />
+    <Compile Include="Interfaces\ISupplierPriceInterface.cs" />
+    <Compile Include="Interfaces\IEmployeeInterface.cs" />
+    <Compile Include="Interfaces\IProductInterface.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AspNetRoles.cs" />
-    <Compile Include="Models\AspNetUserClaims.cs" />
-    <Compile Include="Models\AspNetUserLogins.cs" />
-    <Compile Include="Models\AspNetUsers.cs" />
-    <Compile Include="Models\CustomerEnt.cs" />
-    <Compile Include="Models\CustomerInd.cs" />
+    <Compile Include="Models\AspNetRole.cs" />
+    <Compile Include="Models\AspNetUser.cs" />
+    <Compile Include="Models\AspNetUserClaim.cs" />
+    <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\C__MigrationHistory.cs" />
+    <Compile Include="Models\DataTableModel\DataTableModel.cs" />
+    <Compile Include="Models\DataTableModel\dtEmployee.cs" />
+    <Compile Include="Models\DataTableModel\dtMoneyReceipt.cs" />
+    <Compile Include="Models\DataTableModel\dtSupplier.cs" />
+    <Compile Include="Models\DataTableModel\dtOrder.cs" />
+    <Compile Include="Models\DataTableModel\dtCustomerInd.cs" />
+    <Compile Include="Models\DataTableModel\dtCustomerEnt.cs" />
+    <Compile Include="Models\DataTableModel\dtProduct.cs" />
     <Compile Include="Models\db.cs" />
     <Compile Include="Models\EntityFramework.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Денежное_поступление.cs" />
-    <Compile Include="Models\Заказ.cs" />
-    <Compile Include="Models\Оплата_заказа.cs" />
-    <Compile Include="Models\Оформление_заказа.cs" />
-    <Compile Include="Models\Поставщик.cs" />
-    <Compile Include="Models\Поставщик_цена.cs" />
-    <Compile Include="Models\Сотрудник.cs" />
-    <Compile Include="Models\Товар.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\background-main-small.jpg" />
     <Content Include="Content\background-main.jpg" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -298,12 +297,6 @@
     <Content Include="Content\loading.gif" />
     <Content Include="Content\LogIn.css" />
     <Content Include="Content\NoResult.png" />
-    <Content Include="Content\png\edit.png" />
-    <Content Include="Content\png\error.png" />
-    <Content Include="Content\png\file.png" />
-    <Content Include="Content\png\more-1.png" />
-    <Content Include="Content\png\sort-bt.gif" />
-    <Content Include="Content\png\sort-up.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -321,6 +314,7 @@
     <None Include="bundleconfig.json" />
     <Content Include="fonts\7454.ttf" />
     <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Scripts\datatables.min.css" />
     <Content Include="Scripts\datatables.min.js" />
@@ -486,7 +480,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\uds.js" />
-    <Content Include="System.Data.Entity.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -502,8 +495,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -525,61 +516,64 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Товар\Details.cshtml" />
-    <Content Include="Views\Клиент\Details.cshtml" />
-    <Content Include="Views\Заказ\Create.cshtml" />
-    <Content Include="Views\Заказ\Delete.cshtml" />
-    <Content Include="Views\Заказ\Details.cshtml" />
-    <Content Include="Views\Заказ\Edit.cshtml" />
-    <Content Include="Views\Заказ\Index.cshtml" />
-    <Content Include="Views\Поставщик\Create.cshtml" />
-    <Content Include="Views\Поставщик\Delete.cshtml" />
-    <Content Include="Views\Поставщик\Details.cshtml" />
-    <Content Include="Views\Поставщик\Edit.cshtml" />
-    <Content Include="Views\Поставщик\Index.cshtml" />
-    <Content Include="Views\Денежное_поступление\Details.cshtml" />
-    <Content Include="Views\Сотрудник\Details.cshtml" />
-    <Content Include="Views\Товар\_SideMenuGoods.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\CustomerEnt\Details.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Supplier\Details.cshtml" />
+    <Content Include="Views\MoneyReceipt\Details.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Product\_SideMenuGoods.cshtml" />
     <Content Include="Views\Shared\GoodsBlock.cshtml" />
     <Content Include="Views\Shared\AllGoods.cshtml" />
     <Content Include="Views\Shared\AddGoods.cshtml" />
-    <Content Include="Views\Товар\AllProviders.cshtml" />
-    <Content Include="Views\Клиент\_SideMenuClients.cshtml" />
-    <Content Include="Views\Заказ\_SideMenuOrder.cshtml" />
-    <Content Include="Views\Поставщик\_SideMenuProvider.cshtml" />
-    <Content Include="Views\Денежное_поступление\_SideMenuMoney.cshtml" />
-    <Content Include="Views\Сотрудник\_SideMenuEmployee.cshtml" />
+    <Content Include="Views\Shared\AllProviders.cshtml" />
+    <Content Include="Views\CustomerEnt\_SideMenuClients.cshtml" />
+    <Content Include="Views\Order\_SideMenuOrder.cshtml" />
+    <Content Include="Views\Supplier\_SideMenuProvider.cshtml" />
+    <Content Include="Views\MoneyReceipt\_SideMenuMoney.cshtml" />
+    <Content Include="Views\Employee\_SideMenuEmployee.cshtml" />
     <Content Include="Views\Shared\ErrorGoods.cshtml" />
     <Content Include="Views\Shared\ErrorClients.cshtml" />
     <Content Include="Views\Shared\ErrorProviders.cshtml" />
     <Content Include="Views\Shared\ErrorEmployee.cshtml" />
-    <Content Include="Views\Заказ\Invoice.cshtml" />
-    <Content Include="Views\Товар\AddP.cshtml" />
     <Content Include="Views\Shared\ErrorMoney.cshtml" />
     <Content Include="Views\Shared\ErrorOrders.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Shared\NoResult.cshtml" />
-    <Content Include="Views\Поставщик\Search.cshtml" />
-    <Content Include="Views\Заказ\Search.cshtml" />
-    <Content Include="Views\Заказ\ROrders.cshtml" />
-    <Content Include="Views\Товар\Table.cshtml" />
-    <Content Include="Views\Сотрудник\Table.cshtml" />
-    <Content Include="Views\Клиент\Table.cshtml" />
-    <Content Include="Views\Заказ\Table.cshtml" />
+    <Content Include="Views\Product\Table.cshtml" />
+    <Content Include="Views\Employee\Table.cshtml" />
+    <Content Include="Views\CustomerEnt\Table.cshtml" />
+    <Content Include="Views\Order\Table.cshtml" />
     <Content Include="Views\Shared\_PdfLayout.cshtml" />
-    <Content Include="Views\Денежное_поступление\Table.cshtml" />
-    <Content Include="Views\Shared\AllClients.cshtml" />
+    <Content Include="Views\MoneyReceipt\Table.cshtml" />
+    <Content Include="Views\Shared\_AllCustomerEnts.cshtml" />
     <Content Include="Views\CustomerInd\Table.cshtml" />
     <Content Include="Views\CustomerInd\_SideMenuCustomerInd.cshtml" />
     <Content Include="Views\CustomerInd\Details.cshtml" />
     <Content Include="Views\Shared\AllOrders.cshtml" />
     <Content Include="Views\Shared\AllEmployee.cshtml" />
-    <Content Include="Views\Поставщик\Table.cshtml" />
+    <Content Include="Views\Supplier\Table.cshtml" />
+    <None Include="Properties\PublishProfiles\somee.pubxml" />
+    <Content Include="Views\Shared\ErrorGoods-Supplier.cshtml" />
+    <Content Include="Views\Product\ReportBalance0.cshtml" />
+    <Content Include="Views\Product\_ModalCreate.cshtml" />
+    <Content Include="Views\Product\ReportBalance.cshtml" />
+    <Content Include="Views\Product\ReportPrice.cshtml" />
+    <Content Include="Views\CustomerEnt\_ModalCreate.cshtml" />
+    <Content Include="Views\CustomerEnt\ReportMogilev.cshtml" />
+    <Content Include="Views\CustomerInd\_ModalCreate.cshtml" />
+    <Content Include="Views\CustomerInd\ReportMogilev.cshtml" />
+    <Content Include="Views\Order\_ModalCreate.cshtml" />
+    <Content Include="Views\Order\PeriodReport.cshtml" />
+    <Content Include="Views\Shared\_AllCustomerInds.cshtml" />
+    <Content Include="Views\Supplier\_ModalCreate.cshtml" />
+    <Content Include="Views\Supplier\Report.cshtml" />
+    <Content Include="Views\MoneyReceipt\_ModalCreate.cshtml" />
+    <Content Include="Views\MoneyReceipt\PeriodReport.cshtml" />
+    <Content Include="Views\Employee\_ModalCreate.cshtml" />
+    <Content Include="Views\Employee\Report.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Content\themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -588,11 +582,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

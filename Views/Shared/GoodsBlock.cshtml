@@ -1,14 +1,14 @@
-﻿@model D.Models.Товар
+﻿@model D.Models.Product
 
     
         <tr>
             <td class="text-center">
-               @Html.Hidden("ID_заказа") @Html.HiddenFor(p => p.ID_товара) @Model.Обозначение
+               @Html.Hidden("OrderID") @Html.HiddenFor(p => p.ProductID) @Model.Designation
                 </td>
-            <td class="text-center">@Model.Наименование</td>
-            <td class="text-center">@Model.Единица_измерения</td>
-            <td class="text-center">@Model.Цена.Value.ToString("0.00")</td>
-            <td class="text-center">@Model.Цена_с_НДС.Value.ToString("0.00")</td>
+            <td class="text-center">@Model.Name</td>
+            <td class="text-center">@Model.Unit_of_measurement</td>
+            <td class="text-center">@Model.Price.Value.ToString("0.00")</td>
+            <td class="text-center">@Model.Price_with_vat.Value.ToString("0.00")</td>
 
 
 

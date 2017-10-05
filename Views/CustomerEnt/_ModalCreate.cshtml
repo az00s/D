@@ -1,0 +1,72 @@
+﻿<div id="mdNewCustomerEnt" class="modal faden" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Новый клиент (Юридическое лицо)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-12">
+                            <fieldset>
+
+                                @using (Html.BeginForm("Create", "CustomerEnt", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("УНП Клиента", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("ClientPAN", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[0-9]{9,9}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Название организации", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-яЁё\\s0-9]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Телефон", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Telephone", new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Адрес", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Address", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Добавить клиента</button>
+                                        </div>
+                                    </div>
+                                }
+                            </fieldset>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

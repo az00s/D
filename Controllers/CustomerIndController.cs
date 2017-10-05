@@ -1,13 +1,9 @@
-﻿using D.Interfaces;
-using D.Models;
+﻿using D.Models;
+using D.Models.DataTableModel;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace D.Controllers
@@ -15,25 +11,28 @@ namespace D.Controllers
     public class CustomerIndController : Controller
     {
         private IdbInterface db;//dataContext
-        private ICustomerIndInterface p;
+        
 
-        public CustomerIndController(IdbInterface dbParam, ICustomerIndInterface pParam)//dependency injection via constructor
+        public CustomerIndController(IdbInterface dbParam)//dependency injection via constructor
         {
-
             db = dbParam;
-            p = pParam;
-
-
+         
         }
         // GET: CustomerInd
         public ActionResult Index()
         {
-            return RedirectToAction("Table");
+            return View("Table");
+
         }
-        
-        public ActionResult Table()
+        public JsonResult Table(dtParam param)
         {
-            return View("Table",db.CustomerInd.AsNoTracking().OrderBy(o=>o.CustomerIndId));
+
+            dtCustomerInd res = new dtCustomerInd();
+            res.data = res.GetData(param, db.CustomerInds.AsNoTracking());
+            res.draw = param.Draw;
+            res.recordsTotal = db.CustomerInds.AsNoTracking().Count();
+            res.recordsFiltered = res.Count(param, db.CustomerInds.AsNoTracking());
+            return Json(res);
         }
 
 
@@ -43,23 +42,23 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var клиент = db.CustomerInd.Find(id);
-            if (клиент == null)
+            var customer = db.CustomerInds.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(клиент);
+            return View(customer);
         }
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateConfirmed([Bind(Include = "CustomerIndId,Description,BirstDate,Email,Telephone,Adress,LastName,FirstName,Patronymic,PassportId")] CustomerInd customer)
+        public ActionResult CreateConfirmed( CustomerInd customer)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    customer.AddtoTable(db, customer);
+                    db.CustomerInds.Add(customer);
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = customer.CustomerIndId });
                 }
@@ -72,7 +71,7 @@ namespace D.Controllers
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerIndId,PassportId,Email,Telephone,Adress,BirstDate,Description,FirstName,LastName,Patronymic,RegisteredDate")] CustomerInd customer)
+        public ActionResult Edit( CustomerInd customer)
         {
             try
             {
@@ -95,7 +94,7 @@ namespace D.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            db.CustomerInd.Remove(db.CustomerInd.Find(id));
+            db.CustomerInds.Remove(db.CustomerInds.Find(id));
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -109,11 +108,24 @@ namespace D.Controllers
             base.Dispose(disposing);
         }
 
-        //a report about clients from Mogilev
-        public ActionResult CMogilev()
+        public ActionResult ReportMogilev()
         {
-            return View("Table", db.CustomerInd.AsNoTracking().Where(cl => cl.Adress.Contains("могил")));
+            return View("ReportMogilev");
         }
+
+
+        public JsonResult CMogilev(dtParam param)
+        {
+            var query = db.CustomerInds.AsNoTracking().Where(cus => cus.Address.Contains("могил"));
+            dtCustomerInd res = new dtCustomerInd();
+            res.data = res.GetData(param, query);
+            res.draw = param.Draw;
+            res.recordsTotal = db.CustomerInds.AsNoTracking().Count();
+            res.recordsFiltered = res.Count(param, query);
+            return Json(res);
+        }
+
+
 
     }
 }
