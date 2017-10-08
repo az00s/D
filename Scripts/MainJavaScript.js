@@ -117,384 +117,60 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 */
 (function (a) { var b = "unobtrusiveAjaxClick", g = "unobtrusiveValidation"; function c(d, b) { var a = window, c = (d || "").split("."); while (a && c.length) a = a[c.shift()]; if (typeof a === "function") return a; b.push(d); return Function.constructor.apply(null, b) } function d(a) { return a === "GET" || a === "POST" } function f(b, a) { !d(a) && b.setRequestHeader("X-HTTP-Method-Override", a) } function h(c, b, e) { var d; if (e.indexOf("application/x-javascript") !== -1) return; d = (c.getAttribute("data-ajax-mode") || "").toUpperCase(); a(c.getAttribute("data-ajax-update")).each(function (f, c) { var e; switch (d) { case "BEFORE": e = c.firstChild; a("<div />").html(b).contents().each(function () { c.insertBefore(this, e) }); break; case "AFTER": a("<div />").html(b).contents().each(function () { c.appendChild(this) }); break; default: a(c).html(b) } }) } function e(b, e) { var j, k, g, i; j = b.getAttribute("data-ajax-confirm"); if (j && !window.confirm(j)) return; k = a(b.getAttribute("data-ajax-loading")); i = b.getAttribute("data-ajax-loading-duration") || 0; a.extend(e, { type: b.getAttribute("data-ajax-method") || undefined, url: b.getAttribute("data-ajax-url") || undefined, beforeSend: function (d) { var a; f(d, g); a = c(b.getAttribute("data-ajax-begin"), ["xhr"]).apply(this, arguments); a !== false && k.show(i); return a }, complete: function () { k.hide(i); c(b.getAttribute("data-ajax-complete"), ["xhr", "status"]).apply(this, arguments) }, success: function (a, e, d) { h(b, a, d.getResponseHeader("Content-Type") || "text/html"); c(b.getAttribute("data-ajax-success"), ["data", "status", "xhr"]).apply(this, arguments) }, error: c(b.getAttribute("data-ajax-failure"), ["xhr", "status", "error"]) }); e.data.push({ name: "X-Requested-With", value: "XMLHttpRequest" }); g = e.type.toUpperCase(); if (!d(g)) { e.type = "POST"; e.data.push({ name: "X-HTTP-Method-Override", value: g }) } a.ajax(e) } function i(c) { var b = a(c).data(g); return !b || !b.validate || b.validate() } a(document).on("click", "a[data-ajax=true]", function (a) { a.preventDefault(); e(this, { url: this.href, type: "GET", data: [] }) }); a(document).on("click", "form[data-ajax=true] input[type=image]", function (c) { var g = c.target.name, d = a(c.target), f = d.parents("form")[0], e = d.offset(); a(f).data(b, [{ name: g + ".x", value: Math.round(c.pageX - e.left) }, { name: g + ".y", value: Math.round(c.pageY - e.top) }]); setTimeout(function () { a(f).removeData(b) }, 0) }); a(document).on("click", "form[data-ajax=true] :submit", function (c) { var e = c.currentTarget.name, d = a(c.target).parents("form")[0]; a(d).data(b, e ? [{ name: e, value: c.currentTarget.value }] : []); setTimeout(function () { a(d).removeData(b) }, 0) }); a(document).on("submit", "form[data-ajax=true]", function (d) { var c = a(this).data(b) || []; d.preventDefault(); if (!i(this)) return; e(this, { url: this.action, type: this.method || "GET", data: c.concat(a(this).serializeArray()) }) }) })(jQuery);
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-            
-//var tableToExcel = (function() {
-//    var uri = 'data:application/vnd.ms-excel;base64,'
-//      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
-//      , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-//      , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
-//    return function (table, name) {
-      
-//        if (!table.nodeType) table = $('#Table:not(.dontPrint)');
-      
-//        var ctx = {worksheet: name || 'Worksheet', table: table.html()}
-//        window.location.href = uri + base64(format(template, ctx))
-//    }
-//})()
-
-
-        $(function () {
-            // при нажатии на кнопку scrollup
-            $('.scrollup').click(function () {
-                // переместиться в верхнюю часть страницы
-                $("html, body").animate({
-                    scrollTop: 0
-                }, 500);
-            })
-        })
-        // при прокрутке окна (window)
-        $(window).scroll(function () {
-            // если пользователь прокрутил страницу более чем на 200px
-            if ($(this).scrollTop() > 200) {
-                // то сделать кнопку scrollup видимой
-                $('.scrollup').fadeIn();
-            }
-                // иначе скрыть кнопку scrollup
-            else {
-                $('.scrollup').fadeOut();
-            }
-        });
+//MyScripts
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+$(document).ready(function () {
     
-        
-                //$(function () {
-                //    $("[data-autocomplete-source]").each(function () {
-                //        var target = $(this);
-                //        target.autocomplete({ source: target.attr("data-autocomplete-source") });
-                //    });
-                //});
-      
-
-                
-    //function graph() { 
-
-    //    if ($("#mdChart").is(":hidden")) {
-    //        $("#mdChart").fadeIn("slow");
-            
-    //    }
-    //    else {
-    //        $("#mdChart").fadeOut("slow");
-            
-    //    }
+        // при нажатии на кнопку scrollup
+    $('.scrollup').click(function () {
+        // переместиться в верхнюю часть страницы
+        $("html, body").animate({
+            scrollTop: 0
+        }, 500);
+    });
     
-    //};
+    // при прокрутке окна (window)
+    $(window).scroll(function () {
+        // если пользователь прокрутил страницу более чем на 200px
+        if ($(this).scrollTop() > 200) {
+            // то сделать кнопку scrollup видимой
+            $('.scrollup').fadeIn();
+        }
+            // иначе скрыть кнопку scrollup
+        else {
+            $('.scrollup').fadeOut();
+        }
+    });
 
-    //window.onload = function () {
-        
-    //    document.getElementById('toggler').onclick = function () {
-    //        openbox('box', this);
-    //        return false;
-    //    };
-
-    //    if (document.getElementById('toggler1'))
-    //        {
-    //        document.getElementById('toggler1').onclick = function () {
-    //            openboxO('box1', 'tog');
-    //            return false;
-    //        }
-    //    };
-
-
-    //    function openbox(id, toggler) {
-
-    //        var div = document.getElementById(id);
-
-
-    //        if (div.style.display == 'block') {
-
-    //            div.style.display = 'none';
-
-    //            toggler.style.background = 'none';
-
-    //        }
-
-    //        else {
-
-    //            div.style.display = 'block';
-
-    //            toggler.style.background = '#BC0000';
-
-    //        }
-
-    //    };
-
-    //    function openboxO(id, tog) {
-    //        var div = document.getElementById(id);
-    //        var toggler = document.getElementById(tog);
-    //        if (div.style.display == 'block') {
-    //            div.style.display = 'none';
-    //            toggler.style.background = 'none';
-    //        }
-    //        else {
-    //            div.style.display = 'block';
-    //            toggler.style.background = '#BC0000';
-    //        }
-    //    };
-
-    //};
-
-    
-    
-                
-    //$('.dropdown').on('click', '#drop1', function () {
-
-
-
-    //    if ($(".customer").css('display') == 'block')
-
-    //    { $(".customer").css('display', 'none'); }
-
-    //    else $(".customer").css('display', 'block');
-    //        });
-
-
-
-    
-
-    //$(window).scroll(function () {
-
-    //    if ($(this).scrollTop() > 30) {
-
-    //        $('#TableHeader thead tr th').each(function (indx) {
-
-    //            $(this).css('width', $('#Table thead tr th').eq(indx).css('width'));
-
-    //        });
-
-    //        $("#header").fadeIn();
-    //        $('#Table thead tr th a').css({ 'color': '#DADDE2' });
-    //    }
-    //    else {
-    //        $("#header").fadeOut();
-    //        $('#Table thead tr th a').css({ 'color': 'black' });
-    //    }
-
-    //});
-
-    //$('#table').on('click', '#moreButtons', function () {
-
-
-        
-    //    if ($(".moreButtons").css('display') == 'block')
-
-    //    { $(".moreButtons").css('display', 'none'); }
-
-    //    else $(".moreButtons").css('display', 'block');
-    //});
-    
-
-    //$('#moreButtons').click(function () {
-
-        //    if ($(".moreButtons").css('display') == 'block')
-
-        //    { $(".moreButtons").css('display', 'none'); }
-
-        //    else $(".moreButtons").css('display', 'block');
-//});
-
-
-    //    $(document).ready(function () { 
-    //        $("footer").on("click", 'p', function () {
-
-    //alert('e');
-    //$(this).addClass("active");
-    //});
-    //    });
-    
-
-$(document).ready(function(){
     $('[data-toggle="popover"]').popover();
-
-    
         // инициализировать все элементы на страницы, имеющих атрибут data-toggle="tooltip", как компоненты tooltip
     $('[data-toggle="tooltip"]').tooltip();
-    
-    $('#tbGoods').DataTable({
-        serverSide: true,
-        ajax: {
-            "type": "POST",
-            "url": '/Product/Table',
-            "contentType": 'application/json; charset=utf-8',
-            'data': function (data) { return data = JSON.stringify(data); }
-},
-        
-        "columns": [
-        
-       { "data": "Designation" },
-       { "data": "Name" },
-       { "data": "Unit_of_measurement" },
-       { "data": "Balance" },
-       { "data": "Delivery_time" },
-       { "data": "Weight" },
-       { "data": "Price" },
-        { "data": "Price_with_vat" }],
-        buttons: [{
-            fade:500,
-            autoClose: true,
-            className: 'btn btn-xs',
-            extend: 'collection',
-            text: 'Экспорт',
-            buttons: [{ extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions:{modifier:{
-                order:  'current',  
-                page: 'current',     
-                search: 'applied'     
-            }}} 
-        , {
-            extend: 'excel', className: 'btn btn-xs', exportOptions: {
-                modifier: {
-                    order: 'current',
-                    page: 'current',
-                    search: 'applied'
-                }
-            }
-        }, {
-            extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A3', exportOptions: {
-                modifier: {
-                    order: 'current',
-                    page: 'current',
-                    search: 'applied'
-                }
-            }
-        }, {
-            extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
-                modifier: {
-                    order: 'current',
-                    page: 'current',
-                    search: 'applied'
-                }
-            }
-        }
-            ]
-        }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-        "preDrawCallback": function( settings ) {
-          
-            $('#divForTable').fadeIn(1000);
-            
-        },
-        "processing": true,
-        stateSave: true,
-        "stateDuration": 60 * 60 * 24,
-        "order": [],
-        fixedHeader: true,
-        "autoWidth": false,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-        "language": {
-            "lengthMenu": "Показывать _MENU_ записей",
-            "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
-            "infoFiltered": " (Найдено из _MAX_)",
-            "emptyTable": "Нет данных для отображения",
-            "infoEmpty": "Показаны записи с 0 по 0 из 0",
-            "infoPostFix":    "",
-            "thousands":      ",",
-            "loadingRecords": "Загрузка...",
-            "processing":     "Обработка...",
-            "search":         "Поиск:",
-            "zeroRecords":    "Ничего не найдено",
-            "paginate": {
-                "first":      "Первая",
-                "last":       "Последняя",
-                "next":       "Следующая",
-                "previous":   "Предыдущая"
-            },
-            buttons: {
-                copyTitle: 'Данные скопированы',
-                copyKeys: 'Используйте клавиатуру или меню для выбора команды',
-                copyTitle: 'Копирование в буфер',
-                copySuccess: {
-                    1: "Скопирована одна запись в буфер",
-                    _: "Скопировано %d записей в буфер"
-                },
-            }
-        },
-        
 
-        "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        "processing": true,
-        
-        fixedHeader: true
-        //"pagingType": "full_numbers"
-        });
-
-
-
+    $("[data-readonly]").on('keydown paste', function (e) {
+        e.preventDefault();
+    });
+ 
 });
 
-//Initialisation and logic for table tbProviders-----------------------------------------------------------------
-$(document).ready(function(){
 
-    $('#tbProviders').DataTable({
-
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-        "processing": true,
-        "order": [[1,'desc']],
-        fixedHeader: true,
-        "autoWidth": false,
-        "language": {
-            "lengthMenu": "Показывать _MENU_ записей",
-            "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-            "infoFiltered": " (Найдено из _MAX_ записей)",
-            "emptyTable": "Нет данных для отображения",
-            "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-            "infoPostFix":    "",
-            "thousands":      ",",
-            "loadingRecords": "Загрузка...",
-            "processing":     "Обработка...",
-            "search":         "Поиск:",
-            "zeroRecords":    "Ничего не найдено",
-            "paginate": {
-                "first":      "Первая",
-                "last":       "Последняя",
-                "next":       "Следующая",
-                "previous":   "Предыдущая"
-            }
-        },
-
-        "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                 "<'row'<'col-sm-0'><'col-sm-12'p>>",
-        "columnDefs": [
-    { "width": "25%", "targets": 0 },
-    { "width": "25%", "targets": 1 }
-        ],
-        fixedHeader: true,
-        "paging": true
-        });
-
-
-
-});
-
-$(document).on('click','#tbProviders tbody tr',(function () {
+$(document).on('click', '.modal-dialog .modalTable tbody tr', (function () {
 
     if ($(this).is('.chosen')) {
         $(this).removeClass('chosen');
-        $("#btChoiceProv").attr('disabled','disabled');
+        $(".modal-footer .btn-primary").attr('disabled', 'disabled');
     }
-    else{
-        $('#tbProviders tr').removeClass('chosen');
+    else {
+        $('.modal-dialog .table-striped tbody tr').removeClass('chosen');
 
         $(this).toggleClass('chosen');
 
 
-        if ($('#tbProviders tr .chosen')) {
-        $("#btChoiceProv").removeAttr("disabled");
-    }
-
-        if (!($("tr").is(".chosen"))) {
-        $("#btChoiceProv").attr("disabled", "disabled");
-    }
+            $(".modal-footer .btn-primary").removeAttr("disabled");
     }
 }));
 
-$(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
 
 
-    $('#tbProviders tr').removeClass('chosen');
-    $("#btChoiceProv").attr("disabled", "disabled");
-}));
 
 $(document).on('click', '#btChoiceProv', (function () {
 
@@ -519,34 +195,7 @@ $(document).on('click', '#btChoiceOrder', (function () {
 
 }));
 
-$(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
 
-
-    $('#tbOrderChoice tr').removeClass('chosen');
-    $("#btChoiceOrder").attr("disabled", "disabled");
-}));
-
-$(document).on('click', '#tbOrderChoice tbody tr', (function () {
-
-    if ($(this).is('.chosen')) {
-        $(this).removeClass('chosen');
-        $("#btChoiceOrder").attr('disabled', 'disabled');
-    }
-    else {
-        $('#tbOrderChoice tr').removeClass('chosen');
-
-        $(this).toggleClass('chosen');
-
-
-        if ($('#tbOrderChoice tr .chosen')) {
-            $("#btChoiceOrder").removeAttr("disabled");
-        }
-
-        if (!($("tr").is(".chosen"))) {
-            $("#btChoiceOrder").attr("disabled", "disabled");
-        }
-    }
-}));
 
 //--------------------------------------------------------------------------------------------------
 
@@ -558,9 +207,7 @@ $(document).on('hidden.bs.modal', function (event) {
 
 $(document).ready(function () {
     
-                                                $("[data-readonly]").on('keydown paste', function (e) {
-                                                    e.preventDefault();
-                                                });
+                                                
     
 
         $('form input').change(function () {
@@ -576,6 +223,13 @@ $(document).ready(function () {
                 formValid = false;
             }
         });
+
+        $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
+
+
+            $('.modal-body .table-striped tr').removeClass('chosen');
+            $(".modal-footer .btn-primary").attr("disabled", "disabled");
+        }));
 
     
     });

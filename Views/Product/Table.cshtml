@@ -12,21 +12,174 @@
                 document.location.href = url;        
             });
 
-            $("ul.navbar-nav li:contains('Товары')").addClass("active");
+        $("ul.navbar-nav li:contains('Товары')").addClass("active");
 
-            $("[data-readonly]").on('keydown paste', function (e) {
-                e.preventDefault();
-            });
+        $('#tbGoods').DataTable({
+            serverSide: true,
+            ajax: {
+                "type": "POST",
+                "url": '/Product/Table',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) { return data = JSON.stringify(data); }
+            },
+
+            "columns": [
+
+           { "data": "Designation" },
+           { "data": "Name" },
+           { "data": "Unit_of_measurement" },
+           { "data": "Balance" },
+           { "data": "Delivery_time" },
+           { "data": "Weight" },
+           { "data": "Price" },
+            { "data": "Price_with_vat" }],
+            buttons: [{
+                fade: 500,
+                autoClose: true,
+                className: 'btn btn-xs',
+                extend: 'collection',
+                text: 'Экспорт',
+                buttons: [{
+                    extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }
+            , {
+                extend: 'excel', className: 'btn btn-xs', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }, {
+                extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A3', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }, {
+                extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }
+                ]
+            }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
+            "preDrawCallback": function (settings) {
+
+                $('#divForTable').fadeIn(1000);
+
+            },
+            "processing": true,
+            stateSave: true,
+            "stateDuration": 60 * 60 * 24,
+            "order": [],
+            fixedHeader: true,
+            "autoWidth": false,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+            "language": {
+                "lengthMenu": "Показывать _MENU_ записей",
+                "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                "infoFiltered": " (Найдено из _MAX_)",
+                "emptyTable": "Нет данных для отображения",
+                "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                "infoPostFix": "",
+                "thousands": ",",
+                "loadingRecords": "Загрузка...",
+                "processing": "Обработка...",
+                "search": "Поиск:",
+                "zeroRecords": "Ничего не найдено",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                },
+                buttons: {
+                    copyTitle: 'Данные скопированы',
+                    copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                    copyTitle: 'Копирование в буфер',
+                    copySuccess: {
+                        1: "Скопирована одна запись в буфер",
+                        _: "Скопировано %d записей в буфер"
+                    },
+                }
+            },
+
+
+            "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "processing": true,
+
+            fixedHeader: true
+            //"pagingType": "full_numbers"
+        });
+
+        $('#tbProviders').DataTable({
+
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+
+            "processing": true,
+            "order": [[1, 'desc']],
+            fixedHeader: true,
+            "autoWidth": false,
+            "language": {
+                "lengthMenu": "Показывать _MENU_ записей",
+                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
+                "infoFiltered": " (Найдено из _MAX_ записей)",
+                "emptyTable": "Нет данных для отображения",
+                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
+                "infoPostFix": "",
+                "thousands": ",",
+                "loadingRecords": "Загрузка...",
+                "processing": "Обработка...",
+                "search": "Поиск:",
+                "zeroRecords": "Ничего не найдено",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                }
+            },
+
+            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
+            "columnDefs": [
+        { "width": "25%", "targets": 0 },
+        { "width": "25%", "targets": 1 }
+            ],
+            fixedHeader: true,
+            "paging": true
+        });
+
 
     })
 </script>
-
 @Html.Partial("_ModalCreate")
 
 
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuGoods")</div>
     <div class="col-lg-9 col-lg-offset-0" id="divTable">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Главная</a></li>
+            <li class="active" >Товары</li>
+            
+        </ol>
+
                     <table class="table-bordered table-striped table-hover table table-condensed" id="tbGoods" cellspacing="0">
                         <colgroup>
                             

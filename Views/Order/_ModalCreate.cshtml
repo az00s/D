@@ -132,93 +132,89 @@
                                         });
 
 
+                                        $('#mdNewOrder').modal('handleUpdate');
 
+                                        $('.tbChoice').DataTable({
 
-                                    });
+                                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
 
-
-
-                                    $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
-
-
-                                        $('table tr').removeClass('chosen');
-                                        $(".clear button[type='submit']").attr("disabled", "disabled");
-                                    }));
-
-                                    $(document).on('click', '#btChoiceClient', (function () {
-
-                                        var id = $('.chosen input[type=hidden]').attr("value");
-
-                                        if ($(".chosen").parent().parent().attr("id") == "tbCustomerEnts") {
-
-                                            var name = $(".table-striped .chosen strong")[1].innerText;
-                                            $("#iptCustomerHidden").attr("name", "ClientID");
-                                            $("#iptCustomerHidden").val(id);
-
-                                           
-                                        }
-                                        else
-                                        {
-                                           
-                                            var name = $(".table-striped .chosen strong")[0].innerText + " " + $(".table-striped .chosen strong")[1].innerText;
-                                            $("#iptCustomerHidden").attr("name", "CustomerIndId");
-                                            $("#iptCustomerHidden").val(id);
-                                            
-                                        }
-                                        $("#indoorText").val(name);
-                                        
-                                        $('.table-striped tr').removeClass('chosen');
-                                        $("#btChoiceClient").attr("disabled", "disabled");
-
-
-                                    }));
-
-                                    $(document).ready(function () {
-                                        $(document).on('click', '#tbCustomerInds tbody tr', function choice(tableId, buttonId) {
-
-                                            if ($(this).is('.chosen')) {
-                                                $(this).removeClass('chosen');
-                                                $("#btChoiceClient").attr('disabled', 'disabled');
-                                            }
-                                            else {
-                                                $("#tbCustomerInds tr").removeClass('chosen');
-
-                                                $(this).toggleClass('chosen');
-
-
-                                                if ($("#tbCustomerInds tr.chosen")) {
-                                                    $("#btChoiceClient").removeAttr("disabled");
+                                            "processing": true,
+                                            "order": [[1, 'desc']],
+                                            fixedHeader: true,
+                                            "autoWidth": false,
+                                            "language": {
+                                                "lengthMenu": "Показывать _MENU_ записей",
+                                                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
+                                                "infoFiltered": " (Найдено из _MAX_ записей)",
+                                                "emptyTable": "Нет данных для отображения",
+                                                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
+                                                "infoPostFix": "",
+                                                "thousands": ",",
+                                                "loadingRecords": "Загрузка...",
+                                                "processing": "Обработка...",
+                                                "search": "Поиск:",
+                                                "zeroRecords": "Ничего не найдено",
+                                                "paginate": {
+                                                    "first": "Первая",
+                                                    "last": "Последняя",
+                                                    "next": "Следующая",
+                                                    "previous": "Предыдущая"
                                                 }
+                                            },
 
-                                                if (!($("tr").is(".chosen"))) {
-                                                    $("#btChoiceClient").attr("disabled", "disabled");
-                                                }
-                                            }
-
+                                            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                                                    "<'row'<'col-sm-12'tr>>" +
+                                                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
+                                            "columnDefs": [
+                                        { "width": "25%", "targets": 0 },
+                                        { "width": "25%", "targets": 1 }
+                                            ],
+                                            fixedHeader: true,
+                                            "paging": true
                                         });
 
-                                        $(document).on('click', '#tbCustomerEnts tbody tr', function choice(tableId, buttonId) {
 
-                                            if ($(this).is('.chosen')) {
-                                                $(this).removeClass('chosen');
-                                                $("#btChoiceClient").attr('disabled', 'disabled');
+                                        $(document).on('click', '#btChoiceClient', (function () {
+
+                                            var id = $('.chosen input[type=hidden]').attr("value");
+
+                                            if ($(".chosen").parent().parent().attr("id") == "tbCustomerEnts") {
+
+                                                var name = $(".table-striped .chosen strong")[1].innerText;
+                                                $("#iptCustomerHidden").attr("name", "ClientID");
+                                                $("#iptCustomerHidden").val(id);
+
+
                                             }
                                             else {
-                                                $("#tbCustomerEnts tr").removeClass('chosen');
 
-                                                $(this).toggleClass('chosen');
+                                                var name = $(".table-striped .chosen strong")[0].innerText + " " + $(".table-striped .chosen strong")[1].innerText;
+                                                $("#iptCustomerHidden").attr("name", "CustomerIndId");
+                                                $("#iptCustomerHidden").val(id);
 
-
-                                                if ($("#tbCustomerEnts tr.chosen")) {
-                                                    $("#btChoiceClient").removeAttr("disabled");
-                                                }
-
-                                                if (!($("tr").is(".chosen"))) {
-                                                    $("#btChoiceClient").attr("disabled", "disabled");
-                                                }
                                             }
+                                            $("#indoorText").val(name);
 
-                                        });
+                                            $('.table-striped tr').removeClass('chosen');
+                                            $("#btChoiceClient").attr("disabled", "disabled");
+
+
+                                        }));
+
+                                        $(document).on('click', '#btEmployeeChoice', (function () {
+
+                                            var id = $('.chosen input[type=hidden]').attr("value");
+
+                                            var name = $("#tbEmployeeChoice .chosen strong")[0].innerText;
+
+                                            $("#indoorTextEmployee").val(name);
+                                            $("#mdNewOrder input[name='PersonnelNumber']").val(id);
+                                            $('#tbEmployeeChoice tr').removeClass('chosen');
+                                            $("#btEmployeeChoice").attr("disabled", "disabled");
+
+
+                                        }));
+
 
                                         $("#btChoiceCustomer").click(function () {
 
@@ -228,8 +224,28 @@
                                             $("#dvCustomerInds").css("display", "none");
                                         });
 
+                                        $('#fmNewOrder').submit(function () {
+                                            var rows = $("#tbGoodsChosen tbody tr");
+                                            for (var i = 0; i < rows.length; i++) {
+                                                $("input[name='ProductID']", rows[i]).attr('name', 'Orderings[' + i + '].ProductID');
+                                                $("input[name='ProductQuantity']", rows[i]).attr('name', 'Orderings[' + i + '].ProductQuantity');
+                                            }
+
+                                            return true;
+                                        });
+
+                                        $("#lkCustomerEnts").click(function () {
+                                            $("#dvCustomerLink").css("display", "none");
+                                            $("#dvCustomerEnts").css("display", "block");
+                                        });
+
+                                        $("#lkCustomerInds").click(function () {
+                                            $("#dvCustomerLink").css("display", "none");
+                                            $("#dvCustomerInds").css("display", "block");
+                                        })
 
                                     });
+
 
                                         </script>
 
@@ -249,87 +265,6 @@
 
                                             </div>
                                         </div>
-                                        <script>
-
-                                    $(document).on('click', '#btEmployeeChoice', (function () {
-
-                                        var id = $('.chosen input[type=hidden]').attr("value");
-
-                                        var name = $("#tbEmployeeChoice .chosen strong")[0].innerText;
-
-                                        $("#indoorTextEmployee").val(name);
-                                        $("#mdNewOrder input[name='PersonnelNumber']").val(id);
-                                        $('#tbEmployeeChoice tr').removeClass('chosen');
-                                        $("#btEmployeeChoice").attr("disabled", "disabled");
-
-
-                                    }));
-
-                                   
-                                    $(document).on('click', '#tbEmployeeChoice tbody tr', function () {
-                                            
-                                            if ($(this).is('.chosen')) {
-                                                $(this).removeClass('chosen');
-                                                $("#btEmployeeChoice").attr('disabled', 'disabled');
-                                            }
-                                            else {
-                                                $("#tbEmployeeChoice tr").removeClass('chosen');
-
-                                                $(this).toggleClass('chosen');
-
-
-                                                if ($("#tbEmployeeChoice tr.chosen")) {
-                                                    $("#btEmployeeChoice").removeAttr("disabled");
-                                                }
-
-                                                if (!($("tr").is(".chosen"))) {
-                                                    $("#btEmployeeChoice").attr("disabled", "disabled");
-                                                }
-                                            }
-
-                                        });
-
-                                   
-
-                                    $('#tbEmployeeChoice').DataTable({
-
-                                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-                                        "processing": true,
-                                        //"order": [[1, 'desc']],
-                                        fixedHeader: true,
-                                        "autoWidth": false,
-                                        "language": {
-                                            "lengthMenu": "Показывать _MENU_ записей",
-                                            "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-                                            "infoFiltered": " (Найдено из _MAX_ записей)",
-                                            "emptyTable": "Нет данных для отображения",
-                                            "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-                                            "infoPostFix": "",
-                                            "thousands": ",",
-                                            "loadingRecords": "Загрузка...",
-                                            "processing": "Обработка...",
-                                            "search": "Поиск:",
-                                            "zeroRecords": "Ничего не найдено",
-                                            "paginate": {
-                                                "first": "Первая",
-                                                "last": "Последняя",
-                                                "next": "Следующая",
-                                                "previous": "Предыдущая"
-                                            }
-                                        },
-
-                                        "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                                                "<'row'<'col-sm-12'tr>>" +
-                                                 "<'row'<'col-sm-0'><'col-sm-12'p>>",
-                                        "columnDefs": [
-                                    { "width": "25%", "targets": 0 },
-                                    { "width": "25%", "targets": 1 }
-                                        ],
-                                        fixedHeader: true,
-                                        "paging": true
-                                    });
-                                        </script>
                                         <div class="form-group">
 
                                             <div class="col-md-7 col-md-offset-3">
@@ -374,18 +309,6 @@
                                         </div>
                                     </div>
                                 }
-                                <script>
-
-                                    $('#fmNewOrder').submit(function () {
-                                        var rows = $("#tbGoodsChosen tbody tr");
-                                        for (var i = 0; i < rows.length; i++) {
-                                            $("input[name='ProductID']", rows[i]).attr('name', 'Orderings[' + i + '].ProductID');
-                                            $("input[name='ProductQuantity']", rows[i]).attr('name', 'Orderings[' + i + '].ProductQuantity');
-                                        }
-
-                                        return true;
-                                    });
-                                </script>
                             </fieldset>
 
                         </div>
@@ -407,20 +330,6 @@
             </div>
             <div class="modal-body">
                <div id="dvCustomerLink"><a id="lkCustomerEnts" href=#>Юридические лица</a>     <a id="lkCustomerInds"href=#>Физические лица</a></div>
-                <script>
-                    $(document).ready(function () {
-
-                        $("#lkCustomerEnts").click(function () {
-                            $("#dvCustomerLink").css("display", "none");
-                            $("#dvCustomerEnts").css("display", "block");
-                        });
-
-                        $("#lkCustomerInds").click(function () {
-                            $("#dvCustomerLink").css("display", "none");
-                            $("#dvCustomerInds").css("display", "block");
-                        })
-                    })
-                </script>
                 <div id="dvCustomerEnts">
                     @Html.Action("AllCustomerEnts")
                 </div>
@@ -444,7 +353,7 @@
                 <h4 class="modal-title">Выберите сотрудника</h4>
             </div>
             <div class="modal-body">
-                <table class="table-bordered table-striped tbChoice" id="tbEmployeeChoice">
+                <table class="table-bordered table-striped tbChoice modalTable" id="tbEmployeeChoice">
                     <colgroup>
                         <col width="25%">
                         <col width="20%">
@@ -475,7 +384,7 @@
     </div>
 </div>
 <div id="mdGoodsChoice" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -495,55 +404,6 @@
 </div>
 
 
-<script>
-    $(document).ready(function () {
-        $('#mdNewOrder').modal('handleUpdate');
-
-        $('.tbChoice').DataTable({
-
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-            "processing": true,
-            "order": [[1, 'desc']],
-            fixedHeader: true,
-            "autoWidth": false,
-            "language": {
-                "lengthMenu": "Показывать _MENU_ записей",
-                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-                "infoFiltered": " (Найдено из _MAX_ записей)",
-                "emptyTable": "Нет данных для отображения",
-                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-                "infoPostFix": "",
-                "thousands": ",",
-                "loadingRecords": "Загрузка...",
-                "processing": "Обработка...",
-                "search": "Поиск:",
-                "zeroRecords": "Ничего не найдено",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "Следующая",
-                    "previous": "Предыдущая"
-                }
-            },
-
-            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
-            "columnDefs": [
-        { "width": "25%", "targets": 0 },
-        { "width": "25%", "targets": 1 }
-            ],
-            fixedHeader: true,
-            "paging": true
-        });
-
-
-
-    });
-
-
-</script>
 
 <script>
 
@@ -551,43 +411,21 @@
 
         if ($(this).is('.chosen')) {
             $(this).removeClass('chosen');
-            //$("#btChoiceGoods").attr('disabled', 'disabled');
         }
         else {
-            //$('#tbGoodsChoice tr').removeClass('chosen');
-
             $(this).toggleClass('chosen');
+        }
 
-
-            if ($('#tbGoodsChoice tr .chosen')) {
+        if ($('#tbGoodsChoice tr .chosen')) {
+           
                 $("#btChoiceGoods").removeAttr("disabled");
             }
 
-            if (!($("tr").is(".chosen"))) {
-                $("#btChoiceGoods").attr("disabled", "disabled");
-            }
-        }
         if (!($("tr").is(".chosen"))) {
             $("#btChoiceGoods").attr("disabled", "disabled");
         }
-        else { $("#btChoiceGoods").removeAttr("disabled"); }
     }));
 
-    $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
-
-
-        $('#tbGoodsChoice tr').removeClass('chosen');
-        $("#btChoiceGoods").attr("disabled", "disabled");
-    }));
-
-    //$(document).on('click', '#btChoiceGoods', (function () {
-    //    var a = $('.chosen input[type=hidden]').attr("value");
-    //    $("#indoorText").val(a);
-    //    $('#tbProviders tr').removeClass('chosen');
-    //    $("#btChoiceProv").attr("disabled", "disabled");
-
-
-    //}));
 
     var tableGoodsChosen = $("#tbGoodsChosen").DataTable({
 

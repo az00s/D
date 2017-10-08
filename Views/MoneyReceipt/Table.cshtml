@@ -1,20 +1,17 @@
 ﻿@model D.Models.MoneyReceipt
 <script>
-    $("ul.navbar-nav li:contains('Денежные')").addClass("active");
-
-
-
-
-    $(document).on('click', '#tbMoney tbody tr', function () {
-        var ID = $(this).children()[0].innerText;
-        var url = "@Url.Action("Details")/" + ID;
-        document.location.href = url;
-    });
-
-
-
+    
     $(document).ready(function () {
-        var tableO = $('#tbMoney').DataTable({
+
+        $("ul.navbar-nav li:contains('Денежные')").addClass("active");
+
+        $(document).on('click', '.table-hover tbody tr', function () {
+            var ID = $(this).children()[0].innerText;
+            var url = "@Url.Action("Details")/" + ID;
+            document.location.href = url;
+        });
+
+       $('#tbMoney').DataTable({
             serverSide: true,
             ajax: {
                 "type": "POST",
@@ -129,61 +126,23 @@
         });
 
 
-        function DateToSeconds(date) {
-            var arr = date.split('.');
-            return Date.parse(arr[2] + '-' + arr[1] + '-' + arr[0]);
-        };
-
-        $.fn.dataTable.ext.search.push(
-    function (settings, data, dataIndex) {
-
-        if (settings.nTable.id == "tbMoney") {
-            var start = $('input[name="start"]').val();
-            var end = $('input[name="end"]').val();
-
-            return DateToSeconds(data[1]) >= DateToSeconds(start) && DateToSeconds(data[1]) <= DateToSeconds(end) ? true : false;
-        }
-        return true;
-
-    }
-);
-
-
-
-        $("input[name='start'],input[name='end']").on('change', function () {
-
-            tableO.draw();
-
-        });
-
-        $('#lkOrderPeriod').click(function () {
-            $('input[name="start"]').val(null);
-            $('input[name="end"]').val(null);
-            if ($('#dvPeriodSearch').css("display") == 'none') {
-                $('#dvPeriodSearch').css("display", "block");
-            }
-            else {
-                $('#dvPeriodSearch').css("display", "none");
-            }
-        });
     });
 
-
+    $(function () {
+        //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+        $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+    });
 </script>
 
-<script type="text/javascript">
-
-            $(function () {
-                $('#dtpStart').datetimepicker({ pickTime: false, language: 'ru' });
-            });
-            $(function () {
-                $('#dtpEnd').datetimepicker({ pickTime: false, language: 'ru' });
-            });
-</script>
 @Html.Partial("_ModalCreate")
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuMoney")</div>
     <div class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Главная</a></li>
+            <li class="active">Денежные поступления</li>
+
+        </ol>
 
 
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbMoney">

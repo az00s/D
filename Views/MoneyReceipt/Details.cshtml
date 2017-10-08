@@ -5,6 +5,13 @@
     ViewBag.Title = "О поступлении";
 }
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+        <li><a href="@Url.Action("Index","MoneyReceipt")">Денежные поступления</a></li>
+        <li class="active">Карточка поступления</li>
+
+    </ol>
+
     <div class="well bs-component">
         <div class="row">
             <div class="col-xs-12 col-lg-7">
@@ -394,7 +401,7 @@ $(document).ready(function(){
             <div class="modal-body">
                 
                         @Html.Action("AllCustomerEnts")
-                    <
+                    
 
             </div>
             <div class="modal-footer">
@@ -413,7 +420,7 @@ $(document).ready(function(){
                 <h4 class="modal-title">Выберите заказ</h4>
             </div>
             <div class="modal-body">
-                <table class="table-bordered table-striped" id="tbOrderChoice">
+                <table class="table-bordered table-striped modalTable" id="tbOrderChoice">
                     <colgroup>
                         <col width="10%">
                         <col width="15%">
@@ -536,12 +543,6 @@ $(document).ready(function(){
 
 
 
-        $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
-
-
-            $('table tr').removeClass('chosen');
-            $(".clear button[type='submit']").attr("disabled", "disabled");
-        }));
 
         $(document).on('click', '#btChoiceClient', (function () {
 
@@ -570,36 +571,7 @@ $(document).ready(function(){
 
         }));
 
-        $(document).on('click', '#tbCustomerEnts tbody tr', function choice(tableId, buttonId) {
 
-            if ($(this).is('.chosen')) {
-                $(this).removeClass('chosen');
-                $("#btChoiceClient").attr('disabled', 'disabled');
-            }
-            else {
-                $("#tbCustomerEnts tr").removeClass('chosen');
-
-                $(this).toggleClass('chosen');
-
-
-                if ($("#tbCustomerEnts tr.chosen")) {
-                    $("#btChoiceClient").removeAttr("disabled");
-                }
-
-                if (!($("tr").is(".chosen"))) {
-                    $("#btChoiceClient").attr("disabled", "disabled");
-                }
-            }
-
-        });
-
-        $("#btChoiceCustomer").click(function () {
-
-
-            $("#dvCustomerLink").css("display", "block");
-            $("#dvCustomerEnts").css("display", "none");
-            $("#dvCustomerInds").css("display", "none");
-        });
 
 
 

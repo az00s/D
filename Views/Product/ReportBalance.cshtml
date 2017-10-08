@@ -138,6 +138,12 @@
 <div class="row">
     <div class="col-lg-2">@*@Html.Partial("_SideMenuGoods")*@</div>
     <div class="col-lg-9 col-lg-offset-0" id="divTable">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+            <li><a href="@Url.Action("Index","Product")">Товары</a></li>
+            <li class="active">Отчет</li>
+
+        </ol>
 
         <h4>Ведомость остатков</h4>
         <hr />

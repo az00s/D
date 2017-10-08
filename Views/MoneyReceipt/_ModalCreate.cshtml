@@ -32,12 +32,9 @@
 
                                             </div>
                                         </div>
-                                        <script type="text/javascript">
-                                          $(function () {
-                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
-                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
-                                          });
-                                        </script>
+                                        @*<script type="text/javascript">
+                                          
+                                        </script>*@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
@@ -149,12 +146,6 @@
 
 
 
-        $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
-
-
-            $('table tr').removeClass('chosen');
-            $(".clear button[type='submit']").attr("disabled", "disabled");
-        }));
 
         $(document).on('click', '#btChoiceClient', (function () {
 
@@ -183,28 +174,6 @@
 
         }));
 
-        $(document).on('click', '#tbCustomerEnts tbody tr', function choice(tableId, buttonId) {
-
-            if ($(this).is('.chosen')) {
-                $(this).removeClass('chosen');
-                $("#btChoiceClient").attr('disabled', 'disabled');
-            }
-            else {
-                $("#tbCustomerEnts tr").removeClass('chosen');
-
-                $(this).toggleClass('chosen');
-
-
-                if ($("#tbCustomerEnts tr.chosen")) {
-                    $("#btChoiceClient").removeAttr("disabled");
-                }
-
-                if (!($("tr").is(".chosen"))) {
-                    $("#btChoiceClient").attr("disabled", "disabled");
-                }
-            }
-
-        });
 
         $("#btChoiceCustomer").click(function () {
 

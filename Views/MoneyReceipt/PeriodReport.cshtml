@@ -187,6 +187,13 @@
                 //}).load();
             });
 
+            $(function () {
+                $('#dtpStart').datetimepicker({ pickTime: false, language: 'ru' });
+            });
+            $(function () {
+                $('#dtpEnd').datetimepicker({ pickTime: false, language: 'ru' });
+            });
+
            
 
             });
@@ -218,18 +225,15 @@
 
 
 
-        <script type="text/javascript">
-
-            $(function () {
-                $('#dtpStart').datetimepicker({ pickTime: false, language: 'ru' });
-            });
-            $(function () {
-                $('#dtpEnd').datetimepicker({ pickTime: false, language: 'ru' });
-            });
-        </script>
     </div>
 
     <div id="dvForTable" class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+            <li><a href="@Url.Action("Index","MoneyReceipt")">Денежные поступления</a></li>
+            <li class="active">Отчет</li>
+
+        </ol>
 
         <h4>Отчет по денежным поступлениям за период</h4>
         <hr />

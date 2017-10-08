@@ -85,6 +85,13 @@
 
 </script>
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+        <li><a href="@Url.Action("Index","Order")">Заказы</a></li>
+        <li class="active">Карточка заказа</li>
+
+    </ol>
+
     <div class="well bs-component">
         <div class="row">
             <div class="col-xs-12 col-lg-8">
@@ -390,7 +397,7 @@
                                                     <input type="hidden" id="iptCustomerHidden" value="@ID" name="@Property" />
                                                     <input id="indoorText" class="form-control" name="Клиент" type="text" value="@CustomerName" readonly required />
                                                     <div class="input-group-btn">
-                                                        <a href="#mdChoiceClient" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
+                                                        <a href="#mdChoiceClient" class="indoorBtn btn btn-default" id="btChoiceCustomer" data-toggle="modal">+</a>
                                                     </div>
                                                 </div>
 
@@ -483,28 +490,6 @@
                                             }));
 
 
-                                            $(document).on('click', '#tbEmployeeChoice tbody tr', function () {
-
-                                                if ($(this).is('.chosen')) {
-                                                    $(this).removeClass('chosen');
-                                                    $("#btEmployeeChoice").attr('disabled', 'disabled');
-                                                }
-                                                else {
-                                                    $("#tbEmployeeChoice tr").removeClass('chosen');
-
-                                                    $(this).toggleClass('chosen');
-
-
-                                                    if ($("#tbEmployeeChoice tr.chosen")) {
-                                                        $("#btEmployeeChoice").removeAttr("disabled");
-                                                    }
-
-                                                    if (!($("tr").is(".chosen"))) {
-                                                        $("#btEmployeeChoice").attr("disabled", "disabled");
-                                                    }
-                                                }
-
-                                            });
 
 
                                             $('#tbEmployeeChoice').DataTable({
@@ -707,94 +692,32 @@
                                             "paging": true
                                         });
 
+                                        $(document).on('click', '#btChoiceClient', (function () {
+
+                                            var id = $('.chosen input[type=hidden]').attr("value");
+
+                                            if ($(".chosen").parent().parent().attr("id") == "tbCustomerEnts") {
+
+                                                var name = $(".table-striped .chosen strong")[1].innerText;
+                                                $("#iptCustomerHidden").attr("name", "ClientID");
+                                                $("#iptCustomerHidden").val(id);
 
 
-
-                                    });
-
-
-                                    $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
-
-
-                                        $('table tr').removeClass('chosen');
-                                        $(".clear button[type='submit']").attr("disabled", "disabled");
-                                    }));
-
-                                    $(document).on('click', '#btChoiceClient', (function () {
-
-                                        var id = $('.chosen input[type=hidden]').attr("value");
-                                       
-                                        if ($(".chosen").parent().parent().attr("id") == "tbCustomerEnts") {
-
-                                            var name = $(".table-striped .chosen strong")[1].innerText;
-                                            $("#iptCustomerHidden").attr("name", "ClientID");
-                                            $("#iptCustomerHidden").val(id);
-
-
-                                        }
-                                        else {
-
-                                            var name = $(".table-striped .chosen strong")[0].innerText + " " + $(".table-striped .chosen strong")[1].innerText;
-                                            $("#iptCustomerHidden").attr("name", "CustomerIndId");
-                                            $("#iptCustomerHidden").val(id);
-
-                                        }
-                                        $("#indoorText").val(name);
-
-                                        $('.table-striped tr').removeClass('chosen');
-                                        $("#btChoiceClient").attr("disabled", "disabled");
-
-
-                                    }));
-
-
-
-                                    $(document).ready(function () {
-                                        $(document).on('click', '#tbCustomerInds tbody tr', function choice(tableId, buttonId) {
-
-                                            if ($(this).is('.chosen')) {
-                                                $(this).removeClass('chosen');
-                                                $("#btChoiceClient").attr('disabled', 'disabled');
                                             }
                                             else {
-                                                $("#tbCustomerInds tr").removeClass('chosen');
 
-                                                $(this).toggleClass('chosen');
+                                                var name = $(".table-striped .chosen strong")[0].innerText + " " + $(".table-striped .chosen strong")[1].innerText;
+                                                $("#iptCustomerHidden").attr("name", "CustomerIndId");
+                                                $("#iptCustomerHidden").val(id);
 
-
-                                                if ($("#tbCustomerInds tr.chosen")) {
-                                                    $("#btChoiceClient").removeAttr("disabled");
-                                                }
-
-                                                if (!($("tr").is(".chosen"))) {
-                                                    $("#btChoiceClient").attr("disabled", "disabled");
-                                                }
                                             }
+                                            $("#indoorText").val(name);
 
-                                        });
-
-                                        $(document).on('click', '#tbCustomerEnts tbody tr', function choice(tableId, buttonId) {
-
-                                            if ($(this).is('.chosen')) {
-                                                $(this).removeClass('chosen');
-                                                $("#btChoiceClient").attr('disabled', 'disabled');
-                                            }
-                                            else {
-                                                $("#tbCustomerEnts tr").removeClass('chosen');
-
-                                                $(this).toggleClass('chosen');
+                                            $('.table-striped tr').removeClass('chosen');
+                                            $("#btChoiceClient").attr("disabled", "disabled");
 
 
-                                                if ($("#tbCustomerEnts tr.chosen")) {
-                                                    $("#btChoiceClient").removeAttr("disabled");
-                                                }
-
-                                                if (!($("tr").is(".chosen"))) {
-                                                    $("#btChoiceClient").attr("disabled", "disabled");
-                                                }
-                                            }
-
-                                        });
+                                        }));
 
                                         $("#btChoiceCustomer").click(function () {
 
@@ -803,6 +726,17 @@
                                             $("#dvCustomerEnts").css("display", "none");
                                             $("#dvCustomerInds").css("display", "none");
                                         });
+
+
+                                        $("#lkCustomerEnts").click(function () {
+                                            $("#dvCustomerLink").css("display", "none");
+                                            $("#dvCustomerEnts").css("display", "block");
+                                        });
+
+                                        $("#lkCustomerInds").click(function () {
+                                            $("#dvCustomerLink").css("display", "none");
+                                            $("#dvCustomerInds").css("display", "block");
+                                        })
 
 
                                     });
@@ -818,20 +752,6 @@
             </div>
             <div class="modal-body">
                 <div id="dvCustomerLink"><a id="lkCustomerEnts" href=#>Юридические лица</a>     <a id="lkCustomerInds" href=#>Физические лица</a></div>
-                <script>
-                    $(document).ready(function () {
-
-                        $("#lkCustomerEnts").click(function () {
-                            $("#dvCustomerLink").css("display", "none");
-                            $("#dvCustomerEnts").css("display", "block");
-                        });
-
-                        $("#lkCustomerInds").click(function () {
-                            $("#dvCustomerLink").css("display", "none");
-                            $("#dvCustomerInds").css("display", "block");
-                        })
-                    })
-                </script>
                 <div id="dvCustomerEnts">
                     @Html.Action("AllCustomerEnts")
                 </div>
@@ -855,7 +775,7 @@
                 <h4 class="modal-title">Выберите сотрудника</h4>
             </div>
             <div class="modal-body">
-                <table class="table-bordered table-striped tbChoice" id="tbEmployeeChoice">
+                <table class="table-bordered table-striped tbChoice modalTable" id="tbEmployeeChoice">
                     <colgroup>
                         <col width="25%">
                         <col width="20%">
@@ -900,7 +820,7 @@
 
 
 <div id="mdGoodsChoice" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -923,45 +843,24 @@
 
     $(document).on('click', '#tbGoodsChoice tbody tr', (function () {
 
-                                if ($(this).is('.chosen')) {
+        if ($(this).is('.chosen')) {
             $(this).removeClass('chosen');
-                                    //$("#btChoiceGoods").attr('disabled', 'disabled');
-                                }
+        }
         else {
-            //$('#tbGoodsChoice tr').removeClass('chosen');
-
             $(this).toggleClass('chosen');
+        }
 
+        if ($('#tbGoodsChoice tr .chosen')) {
 
-                                    if ($('#tbGoodsChoice tr .chosen')) {
-                $("#btChoiceGoods").removeAttr("disabled");
-                                    }
+            $("#btChoiceGoods").removeAttr("disabled");
+        }
 
-                                    if (!($("tr").is(".chosen"))) {
-                $("#btChoiceGoods").attr("disabled", "disabled");
-                                    }
-                                }
-                                if (!($("tr").is(".chosen"))) {
+        if (!($("tr").is(".chosen"))) {
             $("#btChoiceGoods").attr("disabled", "disabled");
-                                }
-        else { $("#btChoiceGoods").removeAttr("disabled"); }
-                            }));
-
-    $(document).on('click', '.modal-content button[data-dismiss="modal"]', (function () {
+        }
+    }));
 
 
-        $('#tbGoodsChoice tr').removeClass('chosen');
-        $("#btChoiceGoods").attr("disabled", "disabled");
-                            }));
-
-    //$(document).on('click', '#btChoiceGoods', (function () {
-    //    var a = $('.chosen input[type=hidden]').attr("value");
-    //    $("#indoorText").val(a);
-    //    $('#tbProviders tr').removeClass('chosen');
-    //    $("#btChoiceProv").attr("disabled", "disabled");
-
-
-    //}));
 
     $('#btChoiceGoods').click(function () {
 
@@ -981,10 +880,6 @@
         //$('#tbGoodsChosen tbody tr.added').append('<td class="text-center"><input type="number" min="1" max="2147483647" name="Количество" style="width:70px;" value="1" required /></td><td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>');
         $('#tbGoodsChosen tbody tr.added').removeClass('added');
         $('#tbGoodsChosen tr').unbind('click');
-
-        @*$.ajax({method: "GET",url: "@Url.Action("AllGoods")"}).done( function (data) {
-            $('#dvGoodsChoice').html(data);
-        });*@
     });
 
     $("#EditModal button.clear").click(function () {

@@ -138,6 +138,13 @@
 <div class="row">
     <div class="col-lg-2">@*@Html.Partial("_SideMenuCustomerInd")*@</div>
     <div class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+            <li><a href="@Url.Action("Index","CustomerInd")">Физические лица</a></li>
+            <li class="active">Отчет</li>
+
+        </ol>
+
         <h4>Клиенты из г.Могилева</h4>
         <hr />
 
