@@ -27,11 +27,8 @@ namespace D.Models
         public JsonResult Table(dtParam param)
         {
            
-            dtCustomerEnt res = new dtCustomerEnt();
-            res.data = res.GetData(param, db.CustomerEnts.AsNoTracking());
-            res.draw = param.Draw;
-            res.recordsTotal = db.CustomerEnts.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, db.CustomerEnts.AsNoTracking());
+            dtResult<IQueryable<CustomerEnt>,CustomerEnt> res = new dtResult<IQueryable<CustomerEnt>, CustomerEnt>();
+            res.GetData(param, db.CustomerEnts,db.CustomerEnts);
             return Json(res);
         }
 
@@ -121,11 +118,8 @@ namespace D.Models
         public JsonResult CMogilev(dtParam param)
         {
             IQueryable<CustomerEnt> query = db.CustomerEnts.AsNoTracking().Where(c => c.Address.Contains("могил"));
-            dtCustomerEnt res = new dtCustomerEnt();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.CustomerEnts.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<CustomerEnt>, CustomerEnt> res = new dtResult<IQueryable<CustomerEnt>, CustomerEnt>();
+            res.GetData(param, db.CustomerEnts,query);
             return Json(res);
         }
         //-----------------------------------------------------------------------------

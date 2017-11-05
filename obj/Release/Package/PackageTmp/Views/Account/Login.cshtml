@@ -13,7 +13,7 @@
     
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="/Content/LogIn.css" rel="stylesheet" />
-    @*<script src="~/Scripts/MainJavaScript.js"></script>*@
+    <script src="~/Scripts/MainJavaScript.js"></script>
 
 
 
@@ -24,50 +24,43 @@
 </head>
 <body>
     <script>
-        addEventListener("keyup", moveRect);
+        addEventListener("keyup", function (e) {
+
+            if (e.keyCode === 13) { moveRect(); }
+        });
+        $(document).on('click', '#submit1', moveRect);
+       
         function moveRect(e) {
-            //при нажатии на кнопку с id="save"
 
 
 
 
+            //переменная formValid
+            var formValid = true;
+            //перебрать все элементы управления input
+            $('input').each(function () {
+                //найти предков, которые имеют класс .form-group, для установления success/error
+                var formGroup = $(this).parents('.form-group');
+                //найти glyphicon, который предназначен для показа иконки успеха или ошибки
+                var glyphicon = formGroup.find('.form-control-feedback');
+                //для валидации данных используем HTML5 функцию checkValidity
+                if (this.checkValidity()) {
+                    //добавить к formGroup класс .has-success, удалить has-error
+                    formGroup.addClass('has-success').removeClass('has-error');
+                    //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
+                    glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
+                } else {
+                    //добавить к formGroup класс .has-error, удалить .has-success
+                    formGroup.addClass('has-error').removeClass('has-success');
+                    //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
+                    glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
+                    //отметить форму как невалидную
+                    formValid = false;
+                }
+            });
 
-            if (e.keyCode === 13) {
-
-
-                //переменная formValid
-                var formValid = true;
-                //перебрать все элементы управления input
-                $('input').each(function () {
-                    //найти предков, которые имеют класс .form-group, для установления success/error
-                    var formGroup = $(this).parents('.form-group');
-                    //найти glyphicon, который предназначен для показа иконки успеха или ошибки
-                    var glyphicon = formGroup.find('.form-control-feedback');
-                    //для валидации данных используем HTML5 функцию checkValidity
-                    if (this.checkValidity()) {
-                        //добавить к formGroup класс .has-success, удалить has-error
-                        formGroup.addClass('has-success').removeClass('has-error');
-                        //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
-                        glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
-                    } else {
-                        //добавить к formGroup класс .has-error, удалить .has-success
-                        formGroup.addClass('has-error').removeClass('has-success');
-                        //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
-                        glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
-                        //отметить форму как невалидную
-                        formValid = false;
-                    }
-                });
-                //если форма валидна, то
-                //if (formValid) {
-                //    //сркыть модальное окно
-                //    $('#myModal').modal('hide');
-                //    //отобразить сообщение об успехе
-                //    $('#success-alert').removeClass('hidden');
-            }
 
         }
-
 
     </script>
     <div class="container">
@@ -91,44 +84,55 @@
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @role = "form", @class = "form-horizontal" }))
             {
                     @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group has-feedback">
 
-                    <div class="form-group has-feedback">
+                                @*<label for="login" class="control-label col-sm-3">Логин:</label>*@
 
-                        @*<label for="login" class="control-label col-sm-3">Логин:</label>*@
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Имя", @Value = "директор", @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-я]{5,}" })
 
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Имя", @Value = "директор", @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-я]{5,}" })
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
 
-                        </div>
-                        <span class="glyphicon form-control-feedback"></span>
-
-                    </div>
-
-
-
-
-                        <div class="form-group has-feedback">
-                            @*<label for="password" class="control-label col-xs-3">Пароль:</label>*@
-
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-minus-sign"></i></span>
-                                @Html.PasswordFor(m => m.Password, new { @placeholder = "Пароль", @Value = "22", @class = "form-control", @required = "required" })
                             </div>
-                            <span class="glyphicon form-control-feedback"></span>
-
+                        </div>
                         </div>
 
 
-                        <input type="submit" id="submit" />
+                        <div class="row">
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <div class="form-group has-feedback">
+                                    @*<label for="password" class="control-label col-xs-3">Пароль:</label>*@
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-minus-sign"></i></span>
+                                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Пароль", @Value = "22", @class = "form-control", @required = "required" })
+                                    </div>
+                                    <span class="glyphicon form-control-feedback"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <button type="submit" name="submit" id="submit1" class="btn btn-default" >  Войти  </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 
 
 
                         @*<button type="submit" name="submit"><i class="glyphicon  glyphicon-arrow-right"></i></button>*@
 
 
-                }
-            </div>
+                        }
+                    </div>
 
             <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4.5"></div>
 

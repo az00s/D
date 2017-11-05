@@ -1,24 +1,75 @@
-﻿@model IEnumerable<D.Models.CustomerInd>
+﻿@model D.Models.CustomerInd
+
 
 <script>
-    $("ul.navbar-nav li:contains('Клиенты')").addClass("active");
-
-    $(document).on('click', '#tbCustomerInd tbody tr', function () {
-        var ID = $(this).find("input[name='item.CustomerIndId']").val();
-        var url = "@Url.Action("Details")/" + ID;
-        document.location.href = url;
-    });
-
     $(document).ready(function () {
-        $('#tbCustomerInd').DataTable({
-            buttons: [{
-                fade: 500,
-                autoClose: true,
-                className: 'btn btn-xs',
-                extend: 'collection',
-                text: 'Экспорт',
+
+            $(document).on('click', '.table-hover tbody tr', function () {
+                var table = $('.table-hover').DataTable();
+                $(this).toggleClass('ch');
+                var ID = table.rows('.ch').data()[0].CustomerIndId;
+                var url = "@Url.Action("Details")/" + ID;
+                document.location.href = url;
+            });
+
+        $("ul.navbar-nav li:contains('Клиенты')").addClass("active");
+
+            $("[data-readonly]").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+
+            $('#tbCustomerInd').DataTable({
+                serverSide: true,
+                ajax: {
+                    "type": "POST",
+                    "url": '/CustomerInd/Table',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data) { return data = JSON.stringify(data); }
+                },
+
+                "columns": [
+
+               { "data": "LastName" },
+               { "data": "FirstName" },
+               { "data": "Patronymic" },
+               { "data": "Email" },
+               { "data": "Telephone" }
+               ],
+
                 buttons: [{
-                    extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                    fade: 500,
+                    autoClose: true,
+                    className: 'btn btn-xs',
+                    extend: 'collection',
+                    text: 'Экспорт',
+                    buttons: [{
+                        extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                            modifier: {
+                                order: 'current',
+                                page: 'current',
+                                search: 'applied'
+                            }
+                        }
+                    }
+                , {
+                    extend: 'excel', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A5', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
                         modifier: {
                             order: 'current',
                             page: 'current',
@@ -26,86 +77,77 @@
                         }
                     }
                 }
-            , {
-                extend: 'excel', className: 'btn btn-xs', exportOptions: {
-                    modifier: {
-                        order: 'current',
-                        page: 'current',
-                        search: 'applied'
-                    }
-                }
-            }, {
-                extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A5', exportOptions: {
-                    modifier: {
-                        order: 'current',
-                        page: 'current',
-                        search: 'applied'
-                    }
-                }
-            }, {
-                extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
-                    modifier: {
-                        order: 'current',
-                        page: 'current',
-                        search: 'applied'
-                    }
-                }
-            }
-                ]
-            }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-            "preDrawCallback": function (settings) {
+                    ]
+                }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
+                //"preDrawCallback": function (settings) {
 
-                $('#divForTable').fadeIn(1000);
+                //    $('#divForTable').fadeIn(1000);
 
-            },
-            "processing": true,
-            stateSave: true,
-            "stateDuration": 60 * 60 * 24,
-            "order": [],
-            fixedHeader: true,
-            "autoWidth": false,
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-            "language": {
-                "lengthMenu": "Показывать _MENU_ записей",
-                "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
-                "infoFiltered": " (Найдено из _MAX_)",
-                "emptyTable": "Нет данных для отображения",
-                "infoEmpty": "Показаны записи с 0 по 0 из 0",
-                "infoPostFix": "",
-                "thousands": ",",
-                "loadingRecords": "Загрузка...",
-                "processing": "Обработка...",
-                "search": "Поиск:",
-                "zeroRecords": "Ничего не найдено",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "Следующая",
-                    "previous": "Предыдущая"
-                },
-                buttons: {
-                    copyTitle: 'Данные скопированы',
-                    copyKeys: 'Используйте клавиатуру или меню для выбора команды',
-                    copyTitle: 'Копирование в буфер',
-                    copySuccess: {
-                        1: "Скопирована одна запись в буфер",
-                        _: "Скопировано %d записей в буфер"
+                //},
+
+                stateSave: true,
+                "stateDuration": 60 * 60 * 24,
+                "order": [],
+                fixedHeader: true,
+                "autoWidth": false,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+                "language": {
+                    "lengthMenu": "Показывать _MENU_ записей",
+                    "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                    "infoFiltered": " (Найдено из _MAX_)",
+                    "emptyTable": "Нет данных для отображения",
+                    "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "loadingRecords": "Загрузка...",
+                    "processing": "Обработка...",
+                    "search": "Поиск:",
+                    "zeroRecords": "Ничего не найдено",
+                    "paginate": {
+                        "first": "Первая",
+                        "last": "Последняя",
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
                     },
-                }
-            },
+                    buttons: {
+                        copyTitle: 'Данные скопированы',
+                        copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                        copyTitle: 'Копирование в буфер',
+                        copySuccess: {
+                            1: "Скопирована одна запись в буфер",
+                            _: "Скопировано %d записей в буфер"
+                        },
+                    }
+                },
 
 
-            "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            "processing": true,
+                "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                "processing": true,
 
-            fixedHeader: true
-            //"pagingType": "full_numbers"
-        });
-    });
-
+                fixedHeader: true
+                //"pagingType": "full_numbers"
+            });
+    })
 </script>
+
+@Html.Partial("_ModalCreate")
+
+<div class="row">
+    <div class="col-lg-2 col-xs-12"></div>
+    <div class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Главная</a></li>
+            <li class="active">Физические лица</li>
+
+        </ol>
+
+    </div>
+    <div class="col-lg-1"></div>
+
+</div>
+
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuCustomerInd")</div>
     <div class="col-lg-9 col-lg-offset-0">
@@ -139,148 +181,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-            {
-                    <tr>
-
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.LastName)
-                            @Html.HiddenFor(modelItem => item.CustomerIndId)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Patronymic)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Telephone)
-                        </td>
-                    </tr>
-                }
             </tbody>
         </table>
     </div>
     <div class="col-lg-1"></div>
 </div>
 
-<div id="mdNewCustomerInd" class="modal faden" data-keyboard="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Новый клиент (Физическое лицо)</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-12 col-lg-12">
-                            <fieldset>
-
-                                @using (Html.BeginForm("Create", "CustomerInd", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-
-                                    <div class="form-horizontal">
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Имя", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("FirstName", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,99}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Фамилия", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("LastName", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,99}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Отчество", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("Patronymic", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,99}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Идентификационный номер", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("PassportId", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[^\\s][A-Za-zА-Яа-яЁё0-9]{0,99}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Телефон", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("Telephone", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Адрес", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("Adress", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,250}" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.Editor("Email", new { htmlAttributes = new { @class = "form-control", @required = "required", @pattern = "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.Label("Дата рождения", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7 input-group date" id="datetimepicker1">
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input type="text" id="BirstDate" name="BirstDate" class="form-control" required data-readonly />
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group has-feedback">
-                                            @Html.Label("Примечание", htmlAttributes: new { @class = "control-label col-md-3" })
-                                            <div class="col-md-7">
-                                                @Html.TextArea("Description",null,2,34, new { htmlAttributes = new { @class = "form-control", @maxlength = "300" } })
-                                                <span class="glyphicon form-control-feedback"></span>
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                            <button type="submit" class="btn btn-success">Добавить клиента</button>
-                                        </div>
-                                    </div>
-                                }
-                            </fieldset>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
@@ -292,9 +198,3 @@
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
 
 }
-<script type="text/javascript">
-                                          $(function () {
-                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
-                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
-                                          });
-</script>

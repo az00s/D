@@ -5,7 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
 
 namespace D.Models
 {
@@ -32,9 +35,9 @@ namespace D.Models
         public int ClientID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderPayment> OrderPayments { get; set; }
+        public  ICollection<OrderPayment> OrderPayments { get; set; }
 
-        public virtual CustomerEnt CustomerEnt { get; set; }
+        public  virtual CustomerEnt CustomerEnt { get; set; }
 
         public void AddtoTable(IdbInterface db, IMoneyReceiptInterface p)
         {
@@ -42,8 +45,8 @@ namespace D.Models
             db.MoneyReceipts.Add(p as MoneyReceipt);
         }
     }
-
-    public partial class Order : IOrderInterface
+    
+    public partial class Order 
     {
 
         [DataType(DataType.Date)]
@@ -77,27 +80,28 @@ namespace D.Models
         [Column(TypeName = "money")]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal? MoneyReceived { get; set; }
-
-        public  virtual CustomerInd CustomerInd { get; set; }
-        public  virtual CustomerEnt CustomerEnt { get; set; }
-
-        public  virtual Employee Employee { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<OrderPayment> OrderPayments { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Ordering> Orderings { get; set; }
         
+        public  CustomerInd CustomerInd { get; set; }
+        
+        public virtual CustomerEnt CustomerEnt { get; set; }
+        
+        public Employee Employee { get; set; }
 
-        public void AddtoTable(IdbInterface db, IOrderInterface p)
-        {
+        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public ICollection<OrderPayment> OrderPayments { get; set; }
+        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public ICollection<Ordering> Orderings { get; set; }
 
-            db.Orders.Add(p as Order);
-        }
+
+
+
+
+
     }
-
-    public partial class CustomerEnt : ICustomerEntInterface
+    
+    public partial class CustomerEnt 
     {
 
         [Key]
@@ -122,15 +126,11 @@ namespace D.Models
         public string Address { get; set; }
 
 
-
+        [ScriptIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Order> Orders { get; set; }
-
-        public void AddtoTable(IdbInterface db, ICustomerEntInterface p)
-        {
-
-            db.CustomerEnts.Add(p as CustomerEnt);
-        }
+        public ICollection<Order> Orders { get; set; }
+        //[NonSerialized]
+        //public ICollection<Order> orders;
     }
 
     public partial class OrderPayment : IOrderPaymentInterface
@@ -224,7 +224,7 @@ namespace D.Models
         public string Description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierPrice> SupplierPrices { get; set; }
+        public  ICollection<SupplierPrice> SupplierPrices { get; set; }
 
         public void AddtoTable(IdbInterface db, ISupplierInterface p)
         {
@@ -262,8 +262,8 @@ namespace D.Models
             db.SupplierPrices.Add(p as SupplierPrice);
         }
     }
-
-    public partial class Employee : IEmployeeInterface
+    [Serializable]
+    public partial class Employee 
     {
 
         [Display(Name = "Табельный номер")]
@@ -297,15 +297,11 @@ namespace D.Models
         [Display(Name = " Дата рождения")]
         [Column(TypeName = "date")]
         public DateTime? BirstDate { get; set; }
-
+        [ScriptIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
-
-        public void AddtoTable(IdbInterface db, IEmployeeInterface p)
-        {
-
-            db.Employees.Add(p as Employee);
-        }
+        public  ICollection<Order> Orders { get; set; }
+        
+        
     }
 
     public partial class Product : IProductInterface
@@ -389,7 +385,7 @@ namespace D.Models
 
 
     }
-
+    [Serializable]
     public partial class CustomerInd : ICustomerIndInterface
     {
         [Display(Name ="Идентификационный номер")]
@@ -436,7 +432,7 @@ namespace D.Models
         public string Description { get; set; }
 
         public int CustomerIndId { get; set; }
-
+        [ScriptIgnore]
         public /*virtual*/ ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomerInd()
@@ -448,5 +444,7 @@ namespace D.Models
         {
             db.CustomerInds.Add(p as CustomerInd);
         }
+
+       
     }
 }

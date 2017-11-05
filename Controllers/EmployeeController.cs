@@ -43,11 +43,8 @@ namespace D.Controllers
         public JsonResult Table(dtParam param)
         {
 
-            dtEmployee res = new dtEmployee();
-            res.data = res.GetData(param, db.Employees.AsNoTracking());
-            res.draw = param.Draw;
-            res.recordsTotal = db.Employees.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, db.Employees);
+            dtResult<IQueryable<Employee>,Employee> res = new dtResult<IQueryable<Employee>, Employee>();
+            res.GetData(param, db.Employees,db.Employees);
             return Json(res);
         }
 
@@ -136,12 +133,10 @@ namespace D.Controllers
         public JsonResult ReportData(dtParam param)
         {
 
-            dtEmployee res = new dtEmployee();
+            dtResult<IQueryable<Employee>, Employee> res = new dtResult<IQueryable<Employee>, Employee>();
             var query = db.Employees.AsNoTracking().Where(emp => (DateTime.Now.Year - emp.BirstDate.Value.Year) * 8755.2 > 525312);
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.Employees.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            res.GetData(param,db.Employees, query);
+
             return Json(res);
         }
 

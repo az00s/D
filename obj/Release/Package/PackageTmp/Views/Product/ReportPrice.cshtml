@@ -1,0 +1,207 @@
+﻿@model D.Models.Product
+
+<script>
+    $(document).ready(function () {
+
+            $(document).on('click', '.table-hover tbody tr', function () {
+                var table = $('.table-hover').DataTable();
+                $(this).toggleClass('ch');
+                var ID = table.rows('.ch').data()[0].ProductID;
+                var url = "@Url.Action("Details")/" + ID;
+                document.location.href = url;
+            });
+
+            $("ul.navbar-nav li:contains('Товары')").addClass("active");
+
+            $("[data-readonly]").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+            $('#tbReportBalance').DataTable({
+                serverSide: true,
+                ajax: {
+                    "type": "POST",
+                    "url": '/Product/Table',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data) { return data = JSON.stringify(data); }
+                },
+
+                "columns": [
+
+               { "data": "Designation" },
+               { "data": "Name" },
+               { "data": "Unit_of_measurement" },
+              
+               { "data": "Price" },
+                { "data": "Price_with_vat" }
+                ],
+                buttons: [{
+                    fade: 500,
+                    autoClose: true,
+                    className: 'btn btn-xs',
+                    extend: 'collection',
+                    text: 'Экспорт',
+                    buttons: [{
+                        extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                            modifier: {
+                                order: 'current',
+                                page: 'current',
+                                search: 'applied'
+                            }
+                        }
+                    }
+                , {
+                    extend: 'excel', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A3', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }, {
+                    extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }
+                    ]
+                }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
+                "preDrawCallback": function (settings) {
+
+                    $('#divForTable').fadeIn(1000);
+
+                },
+                "processing": true,
+                stateSave: true,
+                "stateDuration": 60 * 60 * 24,
+                "order": [],
+                fixedHeader: true,
+                "autoWidth": false,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+                "language": {
+                    "lengthMenu": "Показывать _MENU_ записей",
+                    "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                    "infoFiltered": " (Найдено из _MAX_)",
+                    "emptyTable": "Нет данных для отображения",
+                    "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "loadingRecords": "Загрузка...",
+                    "processing": "Обработка...",
+                    "search": "Поиск в отчете:",
+                    "zeroRecords": "Ничего не найдено",
+                    "paginate": {
+                        "first": "Первая",
+                        "last": "Последняя",
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    },
+                    buttons: {
+                        copyTitle: 'Данные скопированы',
+                        copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                        copyTitle: 'Копирование в буфер',
+                        copySuccess: {
+                            1: "Скопирована одна запись в буфер",
+                            _: "Скопировано %d записей в буфер"
+                        },
+                    }
+                },
+
+
+                "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                "processing": true,
+    //            "columnDefs": [
+    //{ "width": "35%", "targets": 0 },
+    //{ "width": "35%", "targets": 1 },
+    // { "width": "10%", "targets": 2 }
+    //            ],
+                fixedHeader: true
+            });
+
+    })
+</script>
+
+@*@Html.Partial("_ModalCreate")*@
+
+
+<div class="row">
+    <div class="col-lg-2">@*@Html.Partial("_SideMenuGoods")*@</div>
+    <div class="col-lg-9 col-lg-offset-0" id="divTable">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+            <li><a href="@Url.Action("Index","Product")">Товары</a></li>
+            <li class="active">Отчет</li>
+
+        </ol>
+
+        <h4>Прайс-лист</h4>
+        <hr />
+
+        <table class="table-bordered table-striped table-hover table table-condensed " id="tbReportBalance" cellspacing="0">
+            <colgroup>
+
+                <col width="35%">
+                <col width="35%">
+                <col width="10%">
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th class="text-center">
+
+                        @Html.DisplayNameFor(model => model.Designation)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Unit_of_measurement)
+                    </th>
+
+                    @*<th class="text-center">
+                        @Html.DisplayNameFor(model => model.Balance)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Delivery_time)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Weight)
+                    </th>*@
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Price_with_vat)
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="text-center"></tbody>
+
+
+        </table>
+
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+
+

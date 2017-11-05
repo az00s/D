@@ -1,0 +1,15 @@
+﻿@model IEnumerable<D.Models.Supplier>
+@using D.Models 
+
+
+        @foreach (Supplier item in Model)
+        {
+            <tr class="text-center">
+                <td>
+                    <strong>@Html.HiddenFor(modelItem => item.SupplierPAN) @Html.DisplayTextFor(modelItem => item.SupplierPAN)</strong>
+                </td>
+                <td><strong>@Html.DisplayTextFor(modelItem => item.Name)</strong></td>
+
+            </tr>
+        }
+        

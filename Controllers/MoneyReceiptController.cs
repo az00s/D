@@ -31,11 +31,8 @@ namespace D.Controllers
         public JsonResult Table(dtParam param)
         {
 
-            dtMoneyReceipt res = new dtMoneyReceipt();
-            res.data = res.GetData(param, db.MoneyReceipts.AsNoTracking());
-            res.draw = param.Draw;
-            res.recordsTotal = db.MoneyReceipts.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, db.MoneyReceipts.AsNoTracking());
+            dtResult<IQueryable<MoneyReceipt>,MoneyReceipt> res = new dtResult<IQueryable<MoneyReceipt>, MoneyReceipt>();
+            res.GetData(param, db.MoneyReceipts,db.MoneyReceipts.Include("CustomerEnt"));
             return Json(res);
         }
 
@@ -46,8 +43,11 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.List = db.OrderPayments.Include("Order").AsNoTracking().Where(pay => pay.ReceiptID == id);
-            return View(db.MoneyReceipts.Find(id));
+
+           
+            ViewBag.List = db.Orders.Include("CustomerEnt").Include("CustomerInd").Include("OrderPayments").Where(o => o.OrderPayments.Any(op => op.ReceiptID == id));
+            var model = db.MoneyReceipts.Find(id);
+            return View(model);
         }
         
         [HttpPost,ActionName("Create")]
@@ -134,10 +134,13 @@ namespace D.Controllers
 
 
 
-        [ChildActionOnly]
-        public ActionResult AllOrders()
+        //[ChildActionOnly]
+        public JsonResult AllOrders(dtParam param)
         {
-            return PartialView("AllOrders",db.Orders.AsNoTracking().OrderBy(o=>o.OrderID));
+            dtResult<IQueryable<Order>, Order> res = new dtResult<IQueryable<Order>, Order>();
+            var query = db.Orders.Include("CustomerEnt").Include("CustomerInd");
+            res.GetData(param, query, query);
+            return Json(res);
         }
 
         [ChildActionOnly]
@@ -153,12 +156,9 @@ namespace D.Controllers
         public JsonResult ReportData(dtParam param)
         {
 
-            dtMoneyReceipt res = new dtMoneyReceipt();
+            dtResult<IQueryable<MoneyReceipt>, MoneyReceipt> res = new dtResult<IQueryable<MoneyReceipt>, MoneyReceipt>();
             var query = db.MoneyReceipts.Where(s => s.ReceiptDate <= param.repEnd && s.ReceiptDate >= param.repStart);
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.MoneyReceipts.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            res.GetData(param, db.MoneyReceipts,query);
             return Json(res);
         }
 

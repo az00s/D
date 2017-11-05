@@ -1,0 +1,325 @@
+﻿@model D.Models.Employee
+@{
+    ViewBag.Title = "О сотруднике";
+}
+
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+        <li><a href="@Url.Action("Index","Employee")">Сотрудники</a></li>
+        <li class="active">Карточка сотрудника</li>
+
+    </ol>
+
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
+
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Карточка сотрудника  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
+
+
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.LastName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Patronymic)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Patronymic)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Position)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Position)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Telephone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Telephone)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PassportID)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.PassportID)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BirstDate)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.BirstDate)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
+                        </dl>
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этого сотрудника?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Patronymic)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Patronymic)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Position)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Position)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Telephone)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Telephone)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PassportID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PassportID)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BirstDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.BirstDate)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                </dl>
+            </div>
+
+
+
+
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Employee", new { id = Model.PersonnelNumber }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование сотрудника</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Employee", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+                                        @Html.HiddenFor(model => model.PersonnelNumber)
+
+
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Patronymic, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s]{0,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,250}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s0-9][A-Za-zА-Яа-яЁё\\s\\.]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.PassportID, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.PassportID, new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s][A-Za-zА-Яа-яЁё0-9]{0,50}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.BirstDate, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7 input-group date" id="datetimepicker1">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                @*@Html.TextBoxFor(model => model.Дата_рождения, new { @class = "form-control", @Value = Model.Дата_рождения.Value.ToShortDateString() } )*@
+                                                <input type="text" id="Дата_рождения" name="BirstDate" class="form-control" required data-readonly value="@Model.BirstDate.Value.ToShortDateString()"/>
+
+                                                
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                          $(function () {
+                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+                                              $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+                                          });
+                                        </script>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+
+}
+  

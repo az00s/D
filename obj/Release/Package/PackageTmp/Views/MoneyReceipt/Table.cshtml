@@ -1,0 +1,204 @@
+﻿@model D.Models.MoneyReceipt
+<script>
+    
+    $(document).ready(function () {
+
+        $("ul.navbar-nav li:contains('Денежные')").addClass("active");
+
+        $(document).on('click', '.table-hover tbody tr', function () {
+            var ID = $(this).children()[0].innerText;
+            var url = "@Url.Action("Details")/" + ID;
+            document.location.href = url;
+        });
+
+       $('#tbMoney').DataTable({
+            serverSide: true,
+            ajax: {
+                "type": "POST",
+                "url": '/MoneyReceipt/Table',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) { return data = JSON.stringify(data); },
+                "dataSrc": function (json) {
+                    for (var i = 0, end = json.data.length; i < end; i++)
+                    { json.data[i].ReceiptDate = new Date(json.data[i].ReceiptDate).toLocaleDateString(); }
+                    return json.data;
+                }
+
+            },
+            "columns": [
+
+           { "data": "ReceiptID" },
+           { "data": "ReceiptDate" },
+           { "data": "CustomerPAN" },
+           { "data": "Customer" },
+           { "data": "Amount" }
+            ],
+            buttons: [{
+                fade: 500,
+                autoClose: true,
+                className: 'btn btn-xs',
+                extend: 'collection',
+                text: 'Экспорт',
+                buttons: [{
+                    extend: 'copy', text: 'Копировать', className: 'btn btn-xs', exportOptions: {
+                        modifier: {
+                            order: 'current',
+                            page: 'current',
+                            search: 'applied'
+                        }
+                    }
+                }
+            , {
+                extend: 'excel', className: 'btn btn-xs', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }, {
+                extend: 'pdf', className: 'btn btn-xs', orientation: 'landscape', pageSize: 'A5', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }, {
+                extend: 'print', text: 'Печать', className: 'btn btn-xs', exportOptions: {
+                    modifier: {
+                        order: 'current',
+                        page: 'current',
+                        search: 'applied'
+                    }
+                }
+            }
+                ]
+            }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
+            "preDrawCallback": function (settings) {
+
+                $('#divForTable').fadeIn(1000);
+
+            },
+            "processing": true,
+            stateSave: true,
+            "stateDuration": 60 * 60 * 24,
+            "order": [],
+            fixedHeader: true,
+            "autoWidth": false,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+            "language": {
+                "lengthMenu": "Показывать _MENU_ записей",
+                "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                "infoFiltered": " (Найдено из _MAX_)",
+                "emptyTable": "Нет данных для отображения",
+                "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                "infoPostFix": "",
+                "thousands": ",",
+                "loadingRecords": "Загрузка...",
+                "processing": "Обработка...",
+                "search": "Поиск:",
+                "zeroRecords": "Ничего не найдено",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                },
+                buttons: {
+                    copyTitle: 'Данные скопированы',
+                    copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                    copyTitle: 'Копирование в буфер',
+                    copySuccess: {
+                        1: "Скопирована одна запись в буфер",
+                        _: "Скопировано %d записей в буфер"
+                    },
+                }
+            },
+
+
+            "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "processing": true,
+
+            fixedHeader: true
+        });
+
+
+    });
+
+    $(function () {
+        //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
+        $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
+    });
+</script>
+
+@Html.Partial("_ModalCreate")
+<div class="row">
+    <div class="col-lg-2 col-xs-12"></div>
+    <div class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Главная</a></li>
+            <li class="active">Денежные поступления</li>
+
+        </ol>
+
+    </div>
+    <div class="col-lg-1"></div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-2">@Html.Partial("_SideMenuMoney")</div>
+    <div class="col-lg-9 col-lg-offset-0">
+
+
+        <table class="table-bordered table-striped table-hover table table-condensed" id="tbMoney">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col>
+                <col width="15%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.ReceiptID)
+                    </th>
+                    <th class="text-center">
+
+                        @Html.DisplayNameFor(model => model.ReceiptDate)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.CustomerEnt.ClientPAN)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.CustomerEnt.Name)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="text-center">
+               
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+<div class="scrollup">
+    <i class="glyphicon glyphicon-chevron-up"></i>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+
+}

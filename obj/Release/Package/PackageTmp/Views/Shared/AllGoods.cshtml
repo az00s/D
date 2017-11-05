@@ -1,48 +1,7 @@
-﻿@model IEnumerable <D.Models.Товар>
+﻿@model IEnumerable <D.Models.Product>
 
 
 @using D.Models
-<script>
-
-    var table= $('#tbGoodsChoice').DataTable({
-
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-        "processing": true,
-        "order": [[1, 'desc']],
-        fixedHeader: true,
-        "autoWidth": false,
-        "language": {
-            "lengthMenu": "Показывать _MENU_ записей",
-            "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-            "infoFiltered": " (Найдено из _MAX_ записей)",
-            "emptyTable": "Нет данных для отображения",
-            "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-            "infoPostFix": "",
-            "thousands": ",",
-            "loadingRecords": "Загрузка...",
-            "processing": "Обработка...",
-            "search": "Поиск:",
-            "zeroRecords": "Ничего не найдено",
-            "paginate": {
-                "first": "Первая",
-                "last": "Последняя",
-                "next": "Следующая",
-                "previous": "Предыдущая"
-            }
-        },
-
-        "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                 "<'row'<'col-sm-0'><'col-sm-12'p>>",
-        "columnDefs": [
-    { "width": "25%", "targets": 0 },
-    { "width": "25%", "targets": 1 }
-        ],
-        fixedHeader: true,
-        "paging": true
-    });
-</script>
 
     <table class="table-bordered table-striped tbChoice" id="tbGoodsChoice">
 
@@ -56,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Товар p in Model)
+            @foreach (Product p in Model)
             {
                 @Html.Partial("GoodsBlock", p)
             }

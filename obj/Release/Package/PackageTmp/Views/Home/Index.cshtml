@@ -9,66 +9,43 @@
     <div class="center-block bs-callout bs-callout-danger">
         <center>
             <h3>
-                Автоматизированная система обработки информации по учету автозапчастей Могилевского филиала «Торговый дом» ОАО «МАЗ»
-                г.Могилёв
+                Магазин "Автозапчасти"
             </h3>
         </center>
     </div>
     <div class="center-block bs-callout bs-callout-limegreen">
-        <p>Система содержит информацию о <strong>@ViewBag.t</strong>  товаре(ах), <strong>@ViewBag.c</strong> клиенте(ах), <strong>@ViewBag.p</strong> организации(ях)-поставщике(ах), <strong>@ViewBag.e</strong> сотруднике(ах) и о <strong>@ViewBag.o</strong> заказе(ах).</p>
-        <p>На @DateTime.Now.ToLongDateString() на складе храниться товаров на общую сумму <strong>@{decimal m = ViewBag.amount; }@m.ToString("0.000")</strong> BYN, общим весом<strong> @ViewBag.w</strong> кг.</p>
+        <p>Система содержит информацию о <strong>@ViewBag.ProductCount</strong>  товаре(ах), <strong>@ViewBag.CustomerCount</strong> клиенте(ах), <strong>@ViewBag.SupplierCount</strong> организации(ях)-поставщике(ах), <strong>@ViewBag.EmployeeCount</strong> сотруднике(ах) и о <strong>@ViewBag.OrderCount</strong> заказе(ах).</p>
+        <p>На @DateTime.Now.ToLongDateString() на складе храниться товаров на общую сумму <strong>@ViewBag.ProductCost</strong> BYN, общим весом<strong> @ViewBag.ProductWeight</strong> кг.</p>
 
     </div>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#panel1">Заказы</a></li>
         <li><a data-toggle="tab" href="#panel2">Денежные поступления</a></li>
-        <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                Другие панели
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a data-toggle="tab" href="#panel3">Панель 3</a></li>
-                <li><a data-toggle="tab" href="#panel4">Панель 4</a></li>
-            </ul>
-        </li>
+        
     </ul>
 
     <div class="tab-content">
         <div id="panel1" class="tab-pane fade in active">
             <h3>Заказы (включая НДС):</h3>
             <ul>
-                <li>За предыдущий год: <strong>@{int counY = ViewBag.o1Y == null ? 0 : ViewBag.o1Y; }@counY</strong> заказа(ов) на сумму <strong>@{decimal m1Y = ViewBag.o1mY == null ? 0 : ViewBag.o1mY; }@m1Y.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий год: <strong>@{int counYN = ViewBag.o1YN == null ? 0 : ViewBag.o1YN; }@counYN</strong> заказа(ов) на сумму <strong>@{decimal m1YN = ViewBag.o1mYN == null ? 0 : ViewBag.o1mYN; }@m1YN.ToString("0.000")</strong> BYN.</li>
+                <li>За предыдущий год: <strong>@{int OrderCountLastYear = ViewBag.OrderCountLastYear == null ? 0 : ViewBag.OrderCountLastYear; }@OrderCountLastYear</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountLastYear = ViewBag.OrderAmountLastYear == null ? 0 : ViewBag.OrderAmountLastYear; }@OrderAmountLastYear.ToString("0.000")</strong> BYN.</li>
+                <li>За текущий год: <strong>@{int OrderCountYear = ViewBag.OrderCountYear == null ? 0 : ViewBag.OrderCountYear; }@OrderCountYear</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountYear = ViewBag.OrderAmountYear == null ? 0 : ViewBag.OrderAmountYear; }@OrderAmountYear.ToString("0.000")</strong> BYN.</li>
 
-                <li>За предыдущий месяц: <strong>@{int coun = ViewBag.o1 == null ? 0 : ViewBag.o1; }@coun</strong> заказа(ов) на сумму <strong>@{decimal m1 = ViewBag.o1m == null ? 0 : ViewBag.o1m; }@m1.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий месяц: <strong>@{int count = ViewBag.o2 == null ? 0 : ViewBag.o2; }@count</strong> заказа(ов) на сумму <strong>@{decimal m2 = ViewBag.o2m == null ? 0 : ViewBag.o2m; }@m2.ToString("0.000")</strong> BYN.</li>
+                <li>За предыдущий месяц: <strong>@{int OrderCountLastMonth = ViewBag.OrderCountLastMonth == null ? 0 : ViewBag.OrderCountLastMonth; }@OrderCountLastMonth</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountLastMonth = ViewBag.OrderAmountLastMonth == null ? 0 : ViewBag.OrderAmountLastMonth; }@OrderAmountLastMonth.ToString("0.000")</strong> BYN.</li>
+                <li>За текущий месяц: <strong>@{int OrderCountMonth = ViewBag.OrderCountMonth == null ? 0 : ViewBag.OrderCountMonth; }@OrderCountMonth</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountMonth = ViewBag.OrderAmountMonth == null ? 0 : ViewBag.OrderAmountMonth; }@OrderAmountMonth.ToString("0.000")</strong> BYN.</li>
             </ul>
         </div>
         <div id="panel2" class="tab-pane fade">
             <h3>Денежные поступления:</h3>
             <ul>
-                <li>За предыдущий год: <strong>@{int coun1Y = ViewBag.o11Y == null ? 0 : ViewBag.o11Y; }@coun1Y</strong> поступление(й) на сумму <strong>@{decimal m11Y = ViewBag.o1m1Y == null ? 0 : ViewBag.o1m1Y; }@m11Y.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий год: <strong>@{int count1Y = ViewBag.o21Y == null ? 0 : ViewBag.o21Y; }@count1Y</strong> поступление(й) на сумму <strong>@{decimal m21Y = ViewBag.o2m1Y == null ? 0 : ViewBag.o2m1Y; }@m21Y.ToString("0.000")</strong> BYN.</li>
+                <li>За предыдущий год: <strong>@{int ReceiptCountLastYear = ViewBag.ReceiptCountLastYear == null ? 0 : ViewBag.ReceiptCountLastYear; }@ReceiptCountLastYear</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountLastYear = ViewBag.ReceiptAmountLastYear == null ? 0 : ViewBag.ReceiptAmountLastYear; }@ReceiptAmountLastYear.ToString("0.000")</strong> BYN.</li>
+                <li>За текущий год: <strong>@{int ReceiptCountYear = ViewBag.ReceiptCountYear == null ? 0 : ViewBag.ReceiptCountYear; }@ReceiptCountYear</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountYear = ViewBag.ReceiptAmountYear == null ? 0 : ViewBag.ReceiptAmountYear; }@ReceiptAmountYear.ToString("0.000")</strong> BYN.</li>
 
-                <li>За предыдущий месяц: <strong>@{int coun1 = ViewBag.o11 == null ? 0 : ViewBag.o11; }@coun1</strong> поступление(й) на сумму <strong>@{decimal m11 = ViewBag.o1m1 == null ? 0 : ViewBag.o1m1; }@m11.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий месяц: <strong>@{int count1 = ViewBag.o21 == null ? 0 : ViewBag.o21; }@count1</strong> поступление(й) на сумму <strong>@{decimal m21 = ViewBag.o2m1 == null ? 0 : ViewBag.o2m1; }@m21.ToString("0.000")</strong> BYN.</li>
+                <li>За предыдущий месяц: <strong>@{int ReceiptCountLastMonth = ViewBag.ReceiptCountLastMonth == null ? 0 : ViewBag.ReceiptCountLastMonth; }@ReceiptCountLastMonth</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountLastMonth = ViewBag.ReceiptAmountLastMonth == null ? 0 : ViewBag.ReceiptAmountLastMonth; }@ReceiptAmountLastMonth.ToString("0.000")</strong> BYN.</li>
+                <li>За текущий месяц: <strong>@{int ReceiptCountMonth = ViewBag.ReceiptCountMonth == null ? 0 : ViewBag.ReceiptCountMonth; }@ReceiptCountMonth</strong> поступление(й) на сумму <strong>@{decimal m21 = ViewBag.o2m1 == null ? 0 : ViewBag.o2m1; }@m21.ToString("0.000")</strong> BYN.</li>
             </ul>
         </div>
-        <div id="panel3" class="tab-pane fade">
-            <h3>Панель 3</h3>
-            <p>Содержимое 3 панели...</p>
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">Right</button>
-
-        </div>
-        <div id="panel4" class="tab-pane fade">
-            <h3>Панель 4</h3>
-            <p>Содержимое 4 панели...</p>
-        </div>
+        
     </div>
 
-
-    @*@section Scripts {
-            @Styles.Render("~/bundles/popupCreateOrders")
-        }*@
 </div>

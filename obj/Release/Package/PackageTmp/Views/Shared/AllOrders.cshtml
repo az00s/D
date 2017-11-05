@@ -1,20 +1,20 @@
-﻿@model IEnumerable<D.Models.Заказ>
+﻿@model IEnumerable<D.Models.Order>
 
 
 @using D.Models
 
-
-        @foreach (Заказ p in Model)
+        @foreach (Order p in Model)
         {
             <tr>
+                <td><strong>@Html.DisplayTextFor(modelItem => p.OrderID)</strong></td>
                 <td>
-                    <strong>@Html.HiddenFor(modelItem => p.ID_заказа) @Html.DisplayTextFor(modelItem => p.Дата_заказа)</strong>
+                    <strong>@Html.HiddenFor(modelItem => p.OrderID) @p.OrderDate.Value.ToShortDateString()</strong>
                     </td>
                 <td>
-                    <strong> @Html.DisplayTextFor(modelItem => p.CustomerEnt.Название_организации)</strong>
+                    <strong> @{string CustomerName = p.CustomerEnt == null?p.CustomerInd.LastName + " " + p.CustomerInd.FirstName:p.CustomerEnt.Name;}@CustomerName</strong>
                 </td>
                 
-                <td><strong>@Html.DisplayTextFor(modelItem => p.Сумма_заказа_с_НДС)</strong></td>
+                <td><strong>@Html.DisplayTextFor(modelItem => p.AmountVat)</strong></td>
 
             </tr>
 

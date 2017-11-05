@@ -29,11 +29,8 @@ namespace D.Controllers
         public JsonResult Table(dtParam param)
         {
             var query = db.Suppliers.AsNoTracking();
-            dtSupplier res = new dtSupplier();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = query.Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<Supplier>,Supplier> res = new dtResult<IQueryable<Supplier>, Supplier>();
+            res.GetData(param, query,query);
             return Json(res);
         }
 
@@ -125,11 +122,8 @@ namespace D.Controllers
         public JsonResult ReportData(dtParam param)
         {
             var query = db.Suppliers.AsNoTracking().Where(s=>s.Address.Contains("минск"));
-            dtSupplier res = new dtSupplier();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.Suppliers.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<Supplier>, Supplier> res = new dtResult<IQueryable<Supplier>, Supplier>();
+            res.GetData(param,db.Suppliers, query);
             return Json(res);
         }
     }

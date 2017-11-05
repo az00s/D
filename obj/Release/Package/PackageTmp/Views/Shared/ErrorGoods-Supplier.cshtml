@@ -1,0 +1,17 @@
+﻿@model HandleErrorInfo
+@{
+    ViewBag.Title = "Ошибка";
+}
+
+
+
+<div class="container">
+    <div class="center-block bs-callout bs-callout-danger">
+
+        <h3>Ошибка!</h3>
+        <p> Похоже, вы пытаетесь удалить товар, который связан с поставщиком. Чтобы это сделать - сначала нужно удалить всех поставщиков этого товара.</p>
+        <div>
+            @Html.ActionLink("<<", "Index")
+        </div>
+    </div>
+</div>

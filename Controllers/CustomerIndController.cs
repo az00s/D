@@ -27,11 +27,8 @@ namespace D.Controllers
         public JsonResult Table(dtParam param)
         {
 
-            dtCustomerInd res = new dtCustomerInd();
-            res.data = res.GetData(param, db.CustomerInds.AsNoTracking());
-            res.draw = param.Draw;
-            res.recordsTotal = db.CustomerInds.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, db.CustomerInds.AsNoTracking());
+            dtResult<IQueryable<CustomerInd>,CustomerInd> res = new dtResult<IQueryable<CustomerInd>, CustomerInd>();
+            res.GetData(param, db.CustomerInds,db.CustomerInds);
             return Json(res);
         }
 
@@ -117,11 +114,8 @@ namespace D.Controllers
         public JsonResult CMogilev(dtParam param)
         {
             var query = db.CustomerInds.AsNoTracking().Where(cus => cus.Address.Contains("могил"));
-            dtCustomerInd res = new dtCustomerInd();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.CustomerInds.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<CustomerInd>, CustomerInd> res = new dtResult<IQueryable<CustomerInd>, CustomerInd>();
+            res.GetData(param,db.CustomerInds, query);
             return Json(res);
         }
 

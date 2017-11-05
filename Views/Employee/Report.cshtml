@@ -28,7 +28,7 @@
                     'data': function (data) { return data = JSON.stringify(data); },
                     "dataSrc": function (json) {
                         for (var i = 0, end = json.data.length; i < end; i++)
-                        { json.data[i].BirstDate = new Date(json.data[i].BirstDate).toLocaleDateString(); }
+                        { json.data[i].BirstDate = new Date(parseInt((json.data[i].BirstDate).substr(6))).toLocaleDateString(); }
                         return json.data;
                     }
 

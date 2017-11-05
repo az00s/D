@@ -187,11 +187,12 @@ $(document).on('click', '#btChoiceProv', (function () {
 }));
 //-----------------------------------------------------------------------------------------------
 $(document).on('click', '#btChoiceOrder', (function () {
-    var a = $('.chosen input[type=hidden]').attr("value");
+    var a = $('.chosen').children()[0].innerText;
     $("#indoorTextOrder").val(a);
     $('#tbOrderChoice tr').removeClass('chosen');
     $("#btChoiceOrder").attr("disabled", "disabled");
 
+    
 
 }));
 

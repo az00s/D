@@ -1,0 +1,269 @@
+﻿@model  D.Models.Supplier
+    @using D.Models
+
+@{
+    ViewBag.Title = "О поставщике";
+}
+
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">Главная</a></li>
+        <li><a href="@Url.Action("Index","Supplier")">Поставщики</a></li>
+        <li class="active">Карточка поставщика</li>
+
+    </ol>
+
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12 col-lg-8">
+
+                <fieldset>
+                    <legend>
+                        <ul class="nav">
+                            <li class="">
+                                <a data-toggle="dropdown" class="dropdown-toggle" style="color:black;">Информация о поставщике  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#EditModal" data-toggle="modal"> Редактировать</a> </li>
+                                    <li><a href="#DeleteModal" data-toggle="modal">Удалить</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </legend>
+
+
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SupplierPAN)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.SupplierPAN)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Telephone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Telephone)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+                        </dl>
+                    </div>
+
+
+
+                </fieldset>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+
+                    <table class="table-bordered table-striped" id="LinkedProvider">
+                        <col width="35%">
+                        <col width="35%">
+                        <thead>
+                            <tr><th class="text-center" colspan="3" style="border:none;">Поставляемые товары</th></tr>
+                            <tr>
+                                <th class="text-center">Обозначение</th>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Цена без НДС</th>
+                            </tr>
+
+
+                        </thead>
+                        <tbody>
+                            @foreach (SupplierPrice i in (ViewBag.List as IQueryable<SupplierPrice>))
+                            {
+                                <tr>
+                                    <td class="text-center">@{ string str = i.Product.Designation ?? "";} @str</td>
+                                    <td class="text-center">@{ string str1 = i.Product.Name ?? "";} @str1</td>
+                                    @{ string str2 = i.Price!=null ? i.Price.Value.ToString("0.00") : "-";}
+                                    <td class="text-center">@Html.DisplayName(str2)</td>
+
+
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<div id="DeleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Вы действительно хотите удалить этого поставщика?</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SupplierPAN)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SupplierPAN)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Telephone)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Telephone)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                </dl>
+            </div>
+
+
+
+
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Supplier", new { id = Model.SupplierPAN }, FormMethod.Post))
+            {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Редактирование поставщика</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6">
+                            <fieldset>
+                                @using (Html.BeginForm("Edit", "Supplier", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+                                        @Html.HiddenFor(model => model.SupplierPAN)
+
+
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @pattern = ".{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @pattern = "[0-9\\+\\(\\)-]{4,20}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,200}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.TextAreaFor(model => model.Description, 2, 34, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Сохранить</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-0 col-lg-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

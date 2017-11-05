@@ -1,0 +1,164 @@
+﻿<div id="mdNewGood" class="modal modal-lg faden" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Новый товар</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-12">
+                            <fieldset>
+
+                                @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+
+
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Обозначение", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Designation", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s]{0,50}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Наименование", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @pattern = "[^\\s][A-Za-zА-Яа-яЁё\\s]{0,119}", @required = "required" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Краткое описание", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.TextArea("Description", null, 2, 46, new { @class = "form-control", @maxlength = "299" })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            @Html.Label("Единица измерения", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.DropDownList("Unit_of_measurement", new SelectList(new[] { "шт", "комплект", "кг", "л", "т", "г" }), new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Остаток на складе", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Balance", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Срок поставки", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Delivery_time", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Вес", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+                                                @Html.Editor("Weight", new { htmlAttributes = new { @class = "form-control", @Value = "0", @required = "required", @min = "0", @max = "2147483647", @pattern = "[0-9]{1,10}" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            @Html.Label("Цена", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-7">
+
+                                                @Html.Editor("Price", new { htmlAttributes = new { @class = "form-control", @Value = "0", @pattern = @"\d+(,\d{1,2})?" } })
+                                                <span class="glyphicon form-control-feedback"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-feedback">
+                                            <label class="control-label col-md-3">Поставщик</label>
+                                            <div class="col-md-7">
+                                                <div class="indoorBtnDiv input-group">
+                                                    <input id="hidNameProv" type="hidden" value="" name="SupplierPrices[0].SupplierPAN" />
+                                                    <input id="indoorText" class="form-control" name="tbxNameProv" type="text" required value="" data-readonly />
+
+                                                    <div class="input-group-btn">
+                                                        <a href="#ChoiceProv" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                            <button type="submit" class="btn btn-success">Добавить товар</button>
+                                        </div>
+
+
+
+                                    </div>
+                                }
+                            </fieldset>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ChoiceProv" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Выберите поставщика</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table-bordered table-striped modalTable" id="tbProviders">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="10%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th class="text-center">УНП</th>
+                            <th class="text-center">Поставщик</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @Html.Action("AllProviders")
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="btChoiceProv" disabled>Выбрать</button>
+            </div>
+        </div>
+    </div>
+</div>
+

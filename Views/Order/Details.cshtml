@@ -1,4 +1,5 @@
-﻿@model D.Models.Order
+﻿
+@model D.Models.Order
 @using D.Models
 @{
     ViewBag.Title = "O заказe";
@@ -79,7 +80,7 @@
         fixedHeader: true
     });
 
-    
+
     });
 
 
@@ -150,7 +151,7 @@
                                         ID = Model.CustomerInd.CustomerIndId.ToString();
                                     }
 
-                                    }
+                                }
                                 @CustomerName
                             </dd>
 
@@ -166,27 +167,27 @@
 
                         </dl>
                     </div>
-                    <table class="table-bordered table-striped" >
+                    <table class="table-bordered table-striped">
                         <colgroup>
-                            <col width="25%"/>
-                            <col  />
+                            <col width="25%" />
+                            <col />
                             <col width="10%" />
                             <col width="10%" />
                             <col width="10%" />
                             <col width="10%" />
                         </colgroup>
                         <thead>
-                            
-                                <tr>
-                                    <th class="text-center">Обозначение</th>
-                                    <th class="text-center">Наименование</th>
-                                    <th class="text-center">Ед.изм.</th>
-                                    <th class="text-center">Количество</th>
-                                    <th class="text-center">Цена</th>
-                                    <th class="text-center">Цена с НДС</th>
 
-                                </tr>
-                            
+                            <tr>
+                                <th class="text-center">Обозначение</th>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Ед.изм.</th>
+                                <th class="text-center">Количество</th>
+                                <th class="text-center">Цена</th>
+                                <th class="text-center">Цена с НДС</th>
+
+                            </tr>
+
                         </thead>
                         <tbody>
                             @foreach (Ordering p in (ViewBag.OfList as IQueryable<Ordering>))
@@ -215,21 +216,21 @@
 
 
                             }
-                            <tr><td colspan="4"></td><td class="text-center" ><strong>Итого:</strong></td><td class="text-center"><strong>@ViewBag.Amount</strong></td></tr>
+                            <tr><td colspan="4"></td><td class="text-center"><strong>Итого:</strong></td><td class="text-center"><strong>@ViewBag.Amount</strong></td></tr>
 
                         </tbody>
                     </table>
-                    
+
 
                 </fieldset>
             </div>
             <div class="col-xs-12 col-lg-4">
 
                 <table class="table-bordered table-striped" id="LinkedProvider">
-                    <col width="15%"/>
-                    <col width="20%"/>
-                    <col >
-                    <col width="15%"/>
+                    <col width="15%" />
+                    <col width="20%" />
+                    <col>
+                    <col width="15%" />
                     <col width="10%" />
                     <thead>
                         <tr><th class="text-center" colspan="4" style="border:none;">Связанные поступления</th></tr>
@@ -254,7 +255,7 @@
                             <tr>
                                 <td class="text-center">@p.ReceiptID.ToString()</td>
                                 <td class="text-center">@p.MoneyReceipt.ReceiptDate.Value.ToString("dd.MM.yyyy")</td>
-                                
+
                                 <td class="text-center">@p.MoneyReceipt.CustomerEnt.Name</td>
                                 <td class="text-center">@p.Amount.Value.ToString("0.00")</td>
                                 <td class="text-center">
@@ -269,10 +270,10 @@
                     </tbody>
                 </table>
 
-               
 
-                    
-               
+
+
+
 
             </div>
         </div>
@@ -350,7 +351,6 @@
 
     </div>
 </div>
-
 <div id="EditModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -363,7 +363,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-lg-12">
                             <fieldset>
-                                @using (Html.BeginForm("Edit", "Order", FormMethod.Post,new { @id="fmEditOrder"}))
+                                @using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { @id = "fmEditOrder" }))
                                 {
                                     @Html.AntiForgeryToken()
 
@@ -389,7 +389,7 @@
                                                 $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
                             });
                                         </script>
-                                        
+
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
@@ -408,7 +408,7 @@
                                                 $('#LinkedProvider').DataTable({
                                                     "ordering": false,
                                                     "processing": true,
-                                                 
+
                                                     fixedHeader: true,
                                                     "autoWidth": false,
                                                     "language": {
@@ -432,19 +432,19 @@
                                                     },
 
                                                     "dom": "t",
-                                                    
+
                                                     fixedHeader: true
                                                     //"pagingType": "full_numbers"
                                                 });
 
 
 
-                                            
 
-                                                
-                                            
-                                                
-                                            
+
+
+
+
+
 
 
 
@@ -459,7 +459,7 @@
 
 
                                         </script>
-                                        
+
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Сотрудник</label>
                                             <div class="col-md-7">
@@ -565,27 +565,28 @@
                                             </thead>
                                             <tbody>
                                                 @{ foreach (var o in (ViewBag.OfList as IQueryable<Ordering>))
-                                                    { <tr>
-                                                        <td class="text-center">@Html.Hidden("OrderID", o.OrderID) @Html.Hidden("ProductID", o.ProductID) @o.Product.Designation</td>
-                                                        <td class="text-center">@o.Product.Name</td>
-                                                          <td class="text-center">@o.Product.Unit_of_measurement</td>
-                                                          <td class="text-center">@o.Product.Price</td>
-                                                          <td class="text-center">@o.Product.Price_with_vat</td>
-                                                          <td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="@o.ProductQuantity" required /></td>
-                                                          <td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>
-                                                </tr>}
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">@Html.Hidden("OrderID", o.OrderID) @Html.Hidden("ProductID", o.ProductID) @o.Product.Designation</td>
+                                                            <td class="text-center">@o.Product.Name</td>
+                                                            <td class="text-center">@o.Product.Unit_of_measurement</td>
+                                                            <td class="text-center">@o.Product.Price</td>
+                                                            <td class="text-center">@o.Product.Price_with_vat</td>
+                                                            <td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="@o.ProductQuantity" required /></td>
+                                                            <td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>
+                                                        </tr>}
                                                 }
                                             </tbody>
 
                                         </table>
-                                       
+
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                             <button type="submit" class="btn btn-success" id="btGoodsChosen">Сохранить</button>
                                         </div>
                                     </div>
-                                }
+                                                    }
                                 <script>
 
                                     $('#fmEditOrder').submit(function () {
@@ -602,7 +603,7 @@
                                 </script>
                             </fieldset>
                         </div>
-                        
+
 
                     </div>
 
@@ -899,3 +900,4 @@
             .draw();
     });
 </script>
+

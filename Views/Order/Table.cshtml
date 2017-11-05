@@ -27,7 +27,15 @@
                     'data': function (data) { return data = JSON.stringify(data); },
                     "dataSrc": function (json) {
                         for (var i = 0, end = json.data.length; i < end; i++)
-                        { json.data[i].OrderDate = new Date(json.data[i].OrderDate).toLocaleDateString(); }
+                        {
+                            json.data[i].OrderDate = new Date(parseInt((json.data[i].OrderDate).substr(6))).toLocaleDateString();
+                            //if(json.data[i].CustomerEnt == null)
+                            //{
+                            //    json.data[i].CustomerEnt = new Object();
+                            //    json.data[i].CustomerEnt.Name = json.data[i].CustomerInd.FirstName + " " + json.data[i].CustomerInd.LastName;
+                            //}
+
+                        }
                         return json.data;
                     }
                 },
@@ -36,10 +44,18 @@
 
                { "data": "OrderID" },
                { "data": "OrderDate" },
-               { "data": "Customer" },
+               {
+                   "data": "CustomerEnt.Name",
+                   "render": function (data, type, row, meta) {
+                       if (row.CustomerEnt == null)
+                           return row.CustomerInd.FirstName + " " + row.CustomerInd.LastName;
+                       else return data;
+                   },
+                   "defaultContent": "Not set"
+               },
                { "data": "AmountVat" },
                { "data": "OrderStatus" },
-               { "data": "Employee","name":"LastName" }
+               { "data": "Employee.LastName" }
                ],
 
                 buttons: [{
@@ -140,14 +156,22 @@
 @Html.Partial("_ModalCreate")
 
 <div class="row">
-    <div class="col-lg-2">
-        <div class="row">@Html.Partial("_SideMenuOrder")</div>
+    <div class="col-lg-2 col-xs-12"></div>
+    <div class="col-lg-9 col-lg-offset-0">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Главная</a></li>
+            <li class="active">Заказы</li>
 
-        <div class="row">
-            <div class="col-lg-12">
-                
-            </div>
-        </div>
+        </ol>
+
+    </div>
+    <div class="col-lg-1"></div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-2">
+        @Html.Partial("_SideMenuOrder")
 
 
 
@@ -156,11 +180,6 @@
     </div>
 
     <div id="dvForTable" class="col-lg-9 col-lg-offset-0">
-        <ol class="breadcrumb">
-            <li><a href="/Home">Главная</a></li>
-            <li class="active">Заказы</li>
-
-        </ol>
 
 
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbOrders">

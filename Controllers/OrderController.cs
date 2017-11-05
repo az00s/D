@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using D.Models;
+using System.Reflection;
 
 namespace D.Controllers
 {
@@ -30,12 +31,11 @@ namespace D.Controllers
         }
         public JsonResult Table(dtParam param)
         {
-            var query = db.Orders.AsNoTracking();
-            Models.DataTableModel.dtOrder res = new Models.DataTableModel.dtOrder();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = query.Count();
-            res.recordsFiltered = res.Count(param, query);
+            var query = db.Orders.Include("CustomerEnt").Include("CustomerInd").Include("Employee");
+            dtResult<IQueryable<Order>,Order> res = new dtResult<IQueryable<Order>, Order>();
+            res.GetData(param, query,query);
+           
+
             return Json(res);
         }
 
@@ -46,7 +46,7 @@ namespace D.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var order = db.Orders.Find(id);
+            Order order = db.Orders.Include("CustomerInd").Include("CustomerEnt").Include("Employee").Single(o=>o.OrderID==id);
            
             if (order == null)
             {
@@ -188,11 +188,9 @@ namespace D.Controllers
         public JsonResult ReportData(dtParam param)
         {
             var query = db.Orders.AsNoTracking().Where(s => s.OrderDate <= param.repEnd && s.OrderDate >= param.repStart);
-            Models.DataTableModel.dtOrder res = new Models.DataTableModel.dtOrder();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.Orders.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<Order>, Order> res = new dtResult<IQueryable<Order>, Order>();
+            res.GetData(param, db.Orders,query);
+            
             return Json(res);
         }
 

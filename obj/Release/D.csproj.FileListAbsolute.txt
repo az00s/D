@@ -16,8 +16,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dl
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.pdb
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Antlr3.Runtime.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.dll
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AI.Agent.Intercept.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.EntityFramework.dll
@@ -53,8 +51,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Syst
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\System.Web.WebPages.Razor.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Antlr3.Runtime.pdb
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Newtonsoft.Json.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.xml
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\EntityFramework.SqlServer.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.Owin.xml
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Microsoft.AspNet.Identity.EntityFramework.xml

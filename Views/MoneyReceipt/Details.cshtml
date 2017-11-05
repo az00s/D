@@ -94,15 +94,15 @@
 
                         </thead>
                         <tbody class="text-center">
-                            @foreach (OrderPayment p in ViewBag.List)
+                            @foreach (Order p in ViewBag.List as IQueryable<Order>)
                             {<tr>
                                 <td>@p.OrderID</td>
                                  <td>
-                                     @{string customer = @p.Order.CustomerEnt != null ? @p.Order.CustomerEnt.Name : @p.Order.CustomerInd.LastName + " " + @p.Order.CustomerInd.FirstName;}
+                                     @{string customer = @p.CustomerEnt != null ? @p.CustomerEnt.Name : @p.CustomerInd.LastName + " " + @p.CustomerInd.FirstName;}
                                  @customer
                              </td>
-                            <td>@p.Order.AmountVat</td>
-                                 <td>@p.Amount</td>
+                            <td>@p.AmountVat</td>
+                                 <td>@p.OrderPayments.FirstOrDefault(op=>op.OrderID==p.OrderID).Amount</td>
   
                               </tr>
                                      }
@@ -420,26 +420,7 @@ $(document).ready(function(){
                 <h4 class="modal-title">Выберите заказ</h4>
             </div>
             <div class="modal-body">
-                <table class="table-bordered table-striped modalTable" id="tbOrderChoice">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="15%">
-                        <col width="60%">
-                    </colgroup>
-
-                    <thead>
-                        <tr>
-                            <th class="text-center">№</th>
-                            <th class="text-center">Дата</th>
-                            <th class="text-center">Клиент</th>
-                            <th class="text-center">Сумма</th>
-                        </tr>
-
-                    </thead>
-                    <tbody class="text-center">
-                        @Html.Action("AllOrders")
-                    </tbody>
-                </table>
+               @Html.Partial("AllOrders")
 
             </div>
             <div class="modal-footer">
@@ -452,53 +433,6 @@ $(document).ready(function(){
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
-<script>
-
-   
-
-    $('#tbOrderChoice').DataTable({
-
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-            "processing": true,
-            "order": [[1, 'desc']],
-            fixedHeader: true,
-            "autoWidth": false,
-            "language": {
-                "lengthMenu": "Показывать _MENU_ записей",
-                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-                "infoFiltered": " (Найдено из _MAX_ записей)",
-                "emptyTable": "Нет данных для отображения",
-                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-                "infoPostFix": "",
-                "thousands": ",",
-                "loadingRecords": "Загрузка...",
-                "processing": "Обработка...",
-                "search": "Поиск:",
-                "zeroRecords": "Ничего не найдено",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "Следующая",
-                    "previous": "Предыдущая"
-                }
-            },
-
-            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
-            "columnDefs": [
-        { "width": "10%", "targets": 0 },
-        { "width": "10%", "targets": 1 }
-            ],
-            fixedHeader: true,
-            "paging": true
-        });
-
-
-
-   
-</script>
  <script>
     $(document).ready(function () {
 

@@ -10,6 +10,10 @@ using D.Models.DataTableModel;
 
 namespace D.Controllers
 {
+    public class TestClass {
+       public String Name { get; set; }
+        public string Thing { get; set; }
+    }
     [Authorize]
     [HandleError(ExceptionType = typeof(SystemException), View = "Error")]
     public class ProductController : Controller
@@ -25,6 +29,8 @@ namespace D.Controllers
         }
         public ActionResult Index()
         {
+           
+            
             return View("Table");
         }
 
@@ -32,11 +38,10 @@ namespace D.Controllers
         public JsonResult Table(dtParam param)
         {
             var query = db.Products.AsNoTracking();
-            dtProduct res = new dtProduct();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = query.Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<Product>,Product> res = new dtResult<IQueryable<Product>, Product>();
+            res.GetData(param, query,query);
+            
+
             return Json(res);
         }
 
@@ -147,11 +152,8 @@ namespace D.Controllers
         public JsonResult Report0(dtParam param)
         {
             var query = db.Products.AsNoTracking().Where(p=>p.Balance==0);
-            dtProduct res = new dtProduct();
-            res.data = res.GetData(param, query);
-            res.draw = param.Draw;
-            res.recordsTotal = db.Products.AsNoTracking().Count();
-            res.recordsFiltered = res.Count(param, query);
+            dtResult<IQueryable<Product>, Product> res = new dtResult<IQueryable<Product>, Product>();
+            res.GetData(param, db.Products,query);
             return Json(res);
         }
 

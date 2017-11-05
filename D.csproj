@@ -32,12 +32,13 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;u</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -265,13 +266,6 @@
     <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\C__MigrationHistory.cs" />
     <Compile Include="Models\DataTableModel\DataTableModel.cs" />
-    <Compile Include="Models\DataTableModel\dtEmployee.cs" />
-    <Compile Include="Models\DataTableModel\dtMoneyReceipt.cs" />
-    <Compile Include="Models\DataTableModel\dtSupplier.cs" />
-    <Compile Include="Models\DataTableModel\dtOrder.cs" />
-    <Compile Include="Models\DataTableModel\dtCustomerInd.cs" />
-    <Compile Include="Models\DataTableModel\dtCustomerEnt.cs" />
-    <Compile Include="Models\DataTableModel\dtProduct.cs" />
     <Compile Include="Models\db.cs" />
     <Compile Include="Models\EntityFramework.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -315,6 +309,7 @@
     <Content Include="fonts\7454.ttf" />
     <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Scripts\datatables.min.css" />
     <Content Include="Scripts\datatables.min.js" />

@@ -35,10 +35,10 @@ namespace D.Infrastructure
             kernel.Bind<IdbInterface>().To<db>();
             kernel.Bind<ISupplierPriceInterface>().To<SupplierPrice>();
             kernel.Bind<IProductInterface>().To<Product>();
-            kernel.Bind<IEmployeeInterface>().To<Employee>();
+            //kernel.Bind<IEmployeeInterface>().To<Employee>();
             kernel.Bind<ISupplierInterface>().To<Supplier>();
-            kernel.Bind<ICustomerEntInterface>().To<CustomerEnt>();
-            kernel.Bind<IOrderInterface>().To<Order>();
+            //kernel.Bind<ICustomerEntInterface>().To<CustomerEnt>();
+            //kernel.Bind<IOrderInterface>().To<Order>();
             kernel.Bind<IMoneyReceiptInterface>().To<MoneyReceipt>();
             kernel.Bind<IOrderPaymentInterface>().To<OrderPayment>();
             kernel.Bind<ICustomerIndInterface>().To<CustomerInd>();
