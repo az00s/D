@@ -1,6 +1,6 @@
 # D
 The application for the auto parts store, which built using  C#,asp.net mvc, JavaScript,JQuery,AJAX,Bootstrap, MSSQL 
-(You can see it on http://azoos.xyz)
+(You can see it on http://iodum.xyz)
 
 Entry form:
 
