@@ -9,27 +9,20 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xs-12 col-lg-12">
-
-
                             <fieldset>
-
                                 @using (Html.BeginForm("Create", "Order", FormMethod.Post, new { @id = "fmNewOrder" }))
                                 {
                                     @Html.AntiForgeryToken()
 
                                     <div class="form-horizontal">
-
-
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             @Html.Label("Дата заказа", htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7 input-group date" id="datetimepicker1">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon-calendar glyphicon"></span>
                                                 </span>
-                                                @Html.TextBox("OrderDate", null, new { @class = "form-control", @readonly = "readonly", @required = "required" })
-
-
-
+                                                <input type="text" name="OrderDate" class="form-control" required = "required" value = "" data-readonly>
+                                                <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
                                         <script type="text/javascript">
@@ -37,12 +30,15 @@
                                         $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
                                     });
                                         </script>
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
                                                 <div class="indoorBtnDiv input-group">
                                                     <input type="hidden" id="iptCustomerHidden" value="" name="" />
-                                                    <input id="indoorText" class="form-control" name="Клиент" type="text" value="" readonly required />
+                                                    <input id="indoorText" class="form-control" name="Клиент" type="text" value=""  required="required" data-readonly
+                                                         
+                                                           />
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                     <div class="input-group-btn">
                                                         <a href="#mdChoiceClient" id="btChoiceCustomer"class="indoorBtn btn btn-default" data-toggle="modal">+</a>
                                                     </div>
@@ -183,9 +179,7 @@
                                                 var name = $(".table-striped .chosen strong")[1].innerText;
                                                 $("#iptCustomerHidden").attr("name", "ClientID");
                                                 $("#iptCustomerHidden").val(id);
-
-
-                                            }
+                                               }
                                             else {
 
                                                 var name = $(".table-striped .chosen strong")[0].innerText + " " + $(".table-striped .chosen strong")[1].innerText;
@@ -211,14 +205,8 @@
                                             $("#mdNewOrder input[name='PersonnelNumber']").val(id);
                                             $('#tbEmployeeChoice tr').removeClass('chosen');
                                             $("#btEmployeeChoice").attr("disabled", "disabled");
-
-
                                         }));
-
-
                                         $("#btChoiceCustomer").click(function () {
-
-
                                             $("#dvCustomerLink").css("display", "block");
                                             $("#dvCustomerEnts").css("display", "none");
                                             $("#dvCustomerInds").css("display", "none");
@@ -230,10 +218,8 @@
                                                 $("input[name='ProductID']", rows[i]).attr('name', 'Orderings[' + i + '].ProductID');
                                                 $("input[name='ProductQuantity']", rows[i]).attr('name', 'Orderings[' + i + '].ProductQuantity');
                                             }
-
                                             return true;
                                         });
-
                                         $("#lkCustomerEnts").click(function () {
                                             $("#dvCustomerLink").css("display", "none");
                                             $("#dvCustomerEnts").css("display", "block");
@@ -243,21 +229,15 @@
                                             $("#dvCustomerLink").css("display", "none");
                                             $("#dvCustomerInds").css("display", "block");
                                         })
-
                                     });
-
-
                                         </script>
-
-
-
-
-                                        <div class="form-group">
+                                        <div class="form-group has-feedback">
                                             <label class="control-label col-md-3">Сотрудник</label>
                                             <div class="col-md-7">
                                                 <div class="indoorBtnDiv input-group">
                                                     <input type="hidden" value="" name="PersonnelNumber" />
-                                                    <input id="indoorTextEmployee" class="form-control" name="Emp" type="text" value="" readonly required />
+                                                    <input id="indoorTextEmployee" class="form-control" name="Emp" type="text" value='' required data-readonly  />
+                                                    <span class="glyphicon form-control-feedback"></span>
                                                     <div class="input-group-btn">
                                                         <a href="#mdEmployeeChoice" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
                                                     </div>
@@ -305,7 +285,7 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default clear" data-dismiss="modal">Закрыть</button>
-                                            <button type="submit" class="btn btn-success">Добавить заказ</button>
+                                            <input type="submit" class="btn btn-success" value="Добавить заказ">
                                         </div>
                                     </div>
                                 }
@@ -370,7 +350,7 @@
                         </tr>
 
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         @Html.Action("AllEmployee")
                     </tbody>
                 </table>
@@ -479,15 +459,9 @@
        
         var tr1 = tr.append('<td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="1" required /></td><td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>');
         tableGoodsChosen.rows.add(tr1).draw();
-        //$('#tbGoodsChosen > tbody:last-child').append(tr);
         $('#tbGoodsChosen tr.chosen').removeClass('chosen').removeClass('odd').removeAttr("role").addClass('added');
-        //$('#tbGoodsChosen tbody tr.added').append('<td class="text-center"><input type="number" min="1" max="2147483647" name="Количество" style="width:70px;" value="1" required /></td><td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>');
         $('#tbGoodsChosen tbody tr.added').removeClass('added');
         $('#tbGoodsChosen tr').unbind('click');
-
-        @*$.ajax({method: "GET",url: "@Url.Action("AllGoods")"}).done( function (data) {
-            $('#dvGoodsChoice').html(data);
-        });*@
     });
 
     $("#mdNewOrder button.clear").click(function () {
@@ -507,6 +481,4 @@
             .remove()
             .draw();
     });
-
-
 </script>

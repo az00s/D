@@ -13,7 +13,7 @@
             Похоже, вы пытаетесь удалить поставщика, который связан с товаром. Чтобы это сделать - сначала нужно удалить все товары этого поставщика.
         </p>
         <div>
-            @Html.ActionLink("<<", "Index")
+            @Html.ActionLink("Вернуться", "Details", new { id = Request.RequestContext.RouteData.Values["id"] }, new { @style = "color:#a9a9a9;text-decoration:none;font-size:small;" })
         </div>
     </div>
 </div>

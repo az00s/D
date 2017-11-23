@@ -1,11 +1,8 @@
 ﻿@model D.Models.Product
 @using D.Models
-
 @{
     ViewBag.Title = "Карточка товара";
-
 }
-
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Главная</a></li>
@@ -13,11 +10,9 @@
         <li class="active">Карточка товара</li>
 
     </ol>
-
     <div class="well bs-component">
         <div class="row">
             <div class="col-xs-12 col-lg-7">
-
                 <fieldset>
                     <legend>
                         <ul class="nav">
@@ -31,11 +26,7 @@
                                 </ul>
                             </li>
                         </ul></legend>
-
-
                     <div>
-
-
                         <dl class="dl-horizontal">
                             <dt>
                                 Обозначение:
@@ -105,17 +96,10 @@
                             </dd>
 
                         </dl>
-
-
                     </div>
-
-                    
-                    
                 </fieldset>
             </div>
-
             <div class="col-xs-12 col-lg-5">
-
                 <div class="test-border tprovider">
                     <table class="table-bordered table-striped" id="LinkedProvider">
                         <col width="35%">
@@ -131,8 +115,6 @@
                                         <th class="text-center"></th>}
                                 }
                             </tr>
-
-
                         </thead>
                         <tbody>
                             @foreach (SupplierPrice i in (ViewBag.ProvPrice as IQueryable<SupplierPrice>))
@@ -163,11 +145,8 @@
             </div>
         </div>
     </div>
-
-
-            
 </div>
-    
+
 <script>
 $(document).ready(function(){
 
@@ -252,15 +231,11 @@ $(document).ready(function(){
 <div id="DeleteModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Вы действительно хотите удалить этот товар?</h4>
             </div>
-            <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-               
-
                     <dl class="dl-horizontal">
                         <dt>
                             @Html.DisplayNameFor(model => model.Name)
@@ -325,65 +300,39 @@ $(document).ready(function(){
                         <dd>
                             @Html.DisplayFor(model => model.Price_with_vat)
                         </dd>
-
-                        
-
                 </dl>
-
-
-            </div>
+              </div>
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "Product", new { id = Model.ProductID }, FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-
-                <button type="submit" @*a href='@Url.Action("Delete",new { id = Model.ID_товара })'*@ class="btn btn-danger">Удалить</button>
-
+                <button type="submit" class="btn btn-danger">Удалить</button>
                 }
             </div>
             </div>
-            <!-- Футер модального окна -->
-        
-
-        </div>
+           </div>
     </div>
 <script>
       $(function() {
-        //при нажатии на кнопку с id="save"
           $('input').change(function () {
-          //переменная formValid
           var formValid = true;
-          //перебрать все элементы управления input
-          //$('input,textarea,select').each(function () {
-          //найти предков, которые имеют класс .form-group, для установления success/error
           var formGroup = $(this).parents('.form-group');
-          //найти glyphicon, который предназначен для показа иконки успеха или ошибки
           var glyphicon = formGroup.find('.form-control-feedback');
-          //для валидации данных используем HTML5 функцию checkValidity
           if (this.checkValidity()) {
-            //добавить к formGroup класс .has-success, удалить has-error
             formGroup.addClass('has-success').removeClass('has-error');
-            //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
             glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
           } else {
-            //добавить к formGroup класс .has-error, удалить .has-success
             formGroup.addClass('has-error').removeClass('has-success');
-            //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
             glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
-            //отметить форму как невалидную
             formValid = false;
           }
-        //});
-        //если форма валидна, то
-
       });
     });
 </script>
 <div id="EditModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Редактирование товара</h4>
@@ -396,13 +345,8 @@ $(document).ready(function(){
                                 @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
                                 {
                                 @Html.AntiForgeryToken()
-
                                 <div class="form-horizontal">
-
-
                                     @Html.HiddenFor(model => model.ProductID)
-
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -417,7 +361,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -425,8 +368,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Unit_of_measurement, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -434,7 +375,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -442,9 +382,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
-
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Delivery_time, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -452,7 +389,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -460,7 +396,6 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
                                     <div class="form-group has-feedback">
                                         @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
@@ -468,24 +403,16 @@ $(document).ready(function(){
                                             <span class="glyphicon form-control-feedback"></span>
                                         </div>
                                     </div>
-
-
-
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                         <button type="submit" class="btn btn-success">Сохранить</button>
                                     </div>
-
-
                                 </div>
                                 }
                             </fieldset>
-
                         </div>
                         <div class="col-xs-0 col-lg-6"></div>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -504,15 +431,10 @@ $(document).ready(function(){
                     <div class="row">
                         <div class="col-xs-12 col-lg-6">
                                 <fieldset>
-                                   
                                     @using (Html.BeginForm("AddP", "Product"))
                                     {
                                         @Html.AntiForgeryToken()
-
                                         <div class="form-horizontal">
-
-
-
                                             <div class="form-group">
                                                 @Html.Label("Обозначение", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
@@ -520,16 +442,12 @@ $(document).ready(function(){
                                                     @Html.TextBox("Designation", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Designation })
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
                                                 @Html.Label("Наименование", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
                                                     @Html.TextBox("Name", "", new { @class = "form-control", @readonly = "readonly", @Value = Model.Name })
                                                 </div>
                                             </div>
-                                            
-
-
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Поставщик</label>
                                                 <div class="col-md-7">
@@ -540,11 +458,8 @@ $(document).ready(function(){
                                                             <a href="#ChoiceProv" class="btn btn-default" data-toggle="modal">+</a>
                                                         </div>
                                                     </div>
-                                                    
-
                                                 </div>
                                             </div>
-                                            
                                             <div class="form-group has-feedback">
                                                 @Html.Label("Цена", htmlAttributes: new { @class = "control-label col-md-3" })
                                                 <div class="col-md-7">
@@ -552,24 +467,17 @@ $(document).ready(function(){
                                                     <span class="glyphicon form-control-feedback"></span>
                                                 </div>
                                             </div>
-
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                                 <button type="submit" class="btn btn-success">Добавить</button>
                                             </div>
-                                            
                                         </div>
                                     }
                                 </fieldset>
-                            
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
     </div>
 </div>
@@ -587,36 +495,24 @@ $(document).ready(function(){
                         <col width="5%">
                         <col width="10%">
                     </colgroup>
-
                     <thead>
                         <tr>
                             <th class="text-center">УНП</th>
                             <th class="text-center">Поставщик</th>
                         </tr>
-
                     </thead>
                     <tbody>
-                        
                         @foreach (Supplier item in (ViewBag.Providers as IQueryable<Supplier>))
             {
-
-
                             <tr class="text-center">
                                 <td>
                                     <strong>@Html.HiddenFor(modelItem => item.SupplierPAN) @Html.DisplayTextFor(modelItem => item.SupplierPAN)</strong>
                                 </td>
                                 <td><strong>@Html.DisplayTextFor(modelItem => item.Name)</strong></td>
-
                             </tr>
-
-
-
-
-
-                        }
+             }
                     </tbody>
                 </table>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -625,3 +521,10 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

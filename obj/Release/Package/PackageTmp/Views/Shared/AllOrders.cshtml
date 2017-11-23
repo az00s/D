@@ -1,23 +1,100 @@
-﻿@model IEnumerable<D.Models.Order>
+﻿<script>
+
+    $(document).ready(function () {
+
+        $('#tbOrderChoice').DataTable({
+            serverSide: true,
+            ajax: {
+                "type": "POST",
+                "url": '/MoneyReceipt/AllOrders',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) { return data = JSON.stringify(data); },
+                "dataSrc": function (json) {
+                    for (var i = 0, end = json.data.length; i < end; i++)
+                    { json.data[i].OrderDate = new Date(parseInt((json.data[i].OrderDate).substr(6))).toLocaleDateString(); }
+                    return json.data;
+                }
+            },
+            "columns": [
+
+           { "data": "OrderID" },
+           { "data": "OrderDate" },
+          {
+                   "data": "CustomerEnt.Name",
+                   "render": function (data, type, row, meta) {
+                       if (row.CustomerEnt == null)
+                           return row.CustomerInd.FirstName + " " + row.CustomerInd.LastName;
+                       else return data;
+                   },
+                   "defaultContent": "Not set"
+               },
+           { "data": "AmountVat" }
+            ],
+           
+            "processing": true,
+            stateSave: true,
+            "stateDuration": 60 * 60 * 24,
+            "order": [],
+            fixedHeader: true,
+            "autoWidth": false,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+            "language": {
+                "lengthMenu": "Показывать _MENU_ записей",
+                "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
+                "infoFiltered": " (Найдено из _MAX_)",
+                "emptyTable": "Нет данных для отображения",
+                "infoEmpty": "Показаны записи с 0 по 0 из 0",
+                "infoPostFix": "",
+                "thousands": ",",
+                "loadingRecords": "Загрузка...",
+                "processing": "Обработка...",
+                "search": "Поиск:",
+                "zeroRecords": "Ничего не найдено",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                },
+                buttons: {
+                    copyTitle: 'Данные скопированы',
+                    copyKeys: 'Используйте клавиатуру или меню для выбора команды',
+                    copyTitle: 'Копирование в буфер',
+                    copySuccess: {
+                        1: "Скопирована одна запись в буфер",
+                        _: "Скопировано %d записей в буфер"
+                    },
+                }
+            },
 
 
-@using D.Models
+            "dom": "<'row'<'col-sm-4'l><'col-sm-3'><'col-sm-5'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-5'><'col-sm-7'p>>",
+            "processing": true,
 
-        @foreach (Order p in Model)
-        {
-            <tr>
-                <td><strong>@Html.DisplayTextFor(modelItem => p.OrderID)</strong></td>
-                <td>
-                    <strong>@Html.HiddenFor(modelItem => p.OrderID) @p.OrderDate.Value.ToShortDateString()</strong>
-                    </td>
-                <td>
-                    <strong> @{string CustomerName = p.CustomerEnt == null?p.CustomerInd.LastName + " " + p.CustomerInd.FirstName:p.CustomerEnt.Name;}@CustomerName</strong>
-                </td>
-                
-                <td><strong>@Html.DisplayTextFor(modelItem => p.AmountVat)</strong></td>
+            fixedHeader: true
+        });
+    });
+</script>
+<table class="table-bordered table-striped modalTable" id="tbOrderChoice">
+    <colgroup>
+        <col width="10%">
+        <col width="15%">
+        <col width="60%">
+    </colgroup>
 
-            </tr>
+    <thead>
+        <tr>
+            <th class="text-center">№</th>
+            <th class="text-center">Дата</th>
+            <th class="text-center">Клиент</th>
+            <th class="text-center">Сумма</th>
+        </tr>
 
-        }
-    
+    </thead>
+    <tbody class="text-center">
+        
+    </tbody>
+</table>
 

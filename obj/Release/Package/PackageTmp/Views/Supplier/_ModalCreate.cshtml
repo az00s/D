@@ -29,7 +29,7 @@
                                         <div class="form-group has-feedback">
                                             @Html.Label("Название организации", htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s0-9]{0,200}" } })
+                                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @pattern = "[A-Za-zА-Яа-яЁё\\s0-9]{0,200}", @required = "required" } })
                                                 <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
@@ -54,14 +54,10 @@
                                         <div class="form-group has-feedback">
                                             @Html.Label("Описание", htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.TextArea("Description", null, 2, 34, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                                                @Html.TextArea("Description", null, 2, 34, new { @class = "form-control", @maxlength = "200" } )
                                                 <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
-
-
-
-
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                             <button type="submit" class="btn btn-success">Добавить поставщика</button>

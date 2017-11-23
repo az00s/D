@@ -1,18 +1,12 @@
-﻿using D.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
 using System.Web.Script.Serialization;
-using System.Xml.Serialization;
 
 namespace D.Models
 {
-    public partial class MoneyReceipt : IMoneyReceiptInterface
+    public partial class MoneyReceipt 
     {
 
         [Required]
@@ -39,11 +33,6 @@ namespace D.Models
 
         public  virtual CustomerEnt CustomerEnt { get; set; }
 
-        public void AddtoTable(IdbInterface db, IMoneyReceiptInterface p)
-        {
-
-            db.MoneyReceipts.Add(p as MoneyReceipt);
-        }
     }
     
     public partial class Order 
@@ -133,7 +122,7 @@ namespace D.Models
         //public ICollection<Order> orders;
     }
 
-    public partial class OrderPayment : IOrderPaymentInterface
+    public partial class OrderPayment 
     {
 
         [Key]
@@ -160,14 +149,9 @@ namespace D.Models
 
         public virtual Order Order { get; set; }
 
-        public void AddtoTable(IdbInterface db, IOrderPaymentInterface p)
-        {
-
-            db.OrderPayments.Add(p as OrderPayment);
-        }
     }
 
-    public partial class Ordering : IOrderingInterface
+    public partial class Ordering 
     {
         public int ProductID { get; set; }
 
@@ -180,11 +164,6 @@ namespace D.Models
         public  Order Order { get; set; }
 
         public  Product Product { get; set; }
-        public void AddtoTable(IdbInterface db, IOrderingInterface p)
-        {
-
-            db.Orderings.Add(p as Ordering);
-        }
     }
 
     //public partial class Employee
@@ -200,14 +179,14 @@ namespace D.Models
     //    public string password { get; set; }
     //}
 
-    public partial class Supplier : ISupplierInterface
+    public partial class Supplier 
     {
 
 
         [Display(Name = "УНП Поставщика")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Range(0, 999999999)]
+        [Range(0, 9999999999)]
         public int SupplierPAN { get; set; }
 
         [Display(Name = "Название организации")]
@@ -219,25 +198,18 @@ namespace D.Models
         [Display(Name = "Телефон")]
         [StringLength(20)]
         public string Telephone { get; set; }
-
+        [Display(Name="Описание")]
         [StringLength(200)]
         public string Description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public  ICollection<SupplierPrice> SupplierPrices { get; set; }
 
-        public void AddtoTable(IdbInterface db, ISupplierInterface p)
-        {
-
-            db.Suppliers.Add(p as Supplier);
-        }
     }
 
-    public partial class SupplierPrice : ISupplierPriceInterface
+    public partial class SupplierPrice 
     {
-        //private IdbInterface db;
-        //public Поставщик_цена() { }
-        //public Поставщик_цена(IdbInterface dbParam) { db = dbParam; }
+        
         [Column(TypeName = "money")]
         public decimal? Price { get; set; }
 
@@ -256,11 +228,6 @@ namespace D.Models
 
         public virtual Product Product { get; set; }
 
-        public void AddtoTable(IdbInterface db, ISupplierPriceInterface p)
-        {
-
-            db.SupplierPrices.Add(p as SupplierPrice);
-        }
     }
     [Serializable]
     public partial class Employee 
@@ -304,7 +271,7 @@ namespace D.Models
         
     }
 
-    public partial class Product : IProductInterface
+    public partial class Product 
     {
 
         [Display(Name = "#")]
@@ -377,16 +344,11 @@ namespace D.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public  ICollection<SupplierPrice> SupplierPrices { get; set; }
 
-        public void AddtoTable(IdbInterface db, IProductInterface p)
-        {
-
-            db.Products.Add(p as Product);
-        }
 
 
     }
     [Serializable]
-    public partial class CustomerInd : ICustomerIndInterface
+    public partial class CustomerInd 
     {
         [Display(Name ="Идентификационный номер")]
         [Required]
@@ -440,10 +402,7 @@ namespace D.Models
             Orders = new HashSet<Order>();
         }
 
-        public void AddtoTable(IdbInterface db, ICustomerIndInterface p)
-        {
-            db.CustomerInds.Add(p as CustomerInd);
-        }
+        
 
        
     }

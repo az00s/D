@@ -12,7 +12,7 @@
         <p>         Похоже, вы пытаетесь удалить заказ, связанный с денежным поступлением. Чтобы это сделать - сначала нужно удалить эту связь(можно сделать в "Деталях заказа") или связанное поступление.
 </p>
         <div>
-            @Html.ActionLink("<<", "Index")
+            @Html.ActionLink("Вернуться", "Details", new { id = Request.RequestContext.RouteData.Values["id"] }, new { @style = "color:#a9a9a9;text-decoration:none;font-size:small;" })
         </div>
     </div>
 </div>

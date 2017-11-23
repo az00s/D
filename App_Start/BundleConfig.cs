@@ -25,9 +25,9 @@ namespace D
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      //"~/Content/site.css",
-                      "~/Content/jquery-ui.css"
+                      "~/Content/bootstrap.min.css"
+
+                      //"~/Content/jquery-ui.css"
                                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(

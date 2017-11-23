@@ -1,0 +1,136 @@
+﻿
+
+.serviceLink {
+
+color: #a9a9a9;
+    text-decoration: none;
+    font-size: small;
+}
+
+/*#about 
+{
+    position:absolute;
+    top:0px;
+    
+        margin-left: 68em;
+    text-decoration: none;
+    color: darkgray;
+}*/ 
+
+button,button:hover, button:active, button:focus, button:visited,
+        a, a:hover, a:active, a:focus, a:visited {
+        
+        outline:none!important;
+        }
+        input[data-readonly] {
+    background-color: #eeeeee;
+     pointer-events: none;
+}
+        .alert {
+        display:none;
+        }
+        .breadcrumb {
+        
+        padding-left:0px!important;
+        border:none!important;
+        background-color:white!important;
+        margin-bottom:7px!important;
+        }
+        #dvCustomerLink a{
+
+        
+            margin-right: 10px;
+    margin-left: 10px;
+        }
+        #dvCustomerLink {
+        
+        text-align:center;
+        }
+        #mdChoiceClient #dvCustomerInds {
+        display:none;
+        }
+        #mdChoiceClient #dvCustomerEnts {
+        
+        display:none;
+        }
+       h4 
+{
+    text-align:center!important;
+    margin-top:5px!important;
+}
+        table{
+        
+        table-layout:fixed;
+    width:100%;
+    
+        }
+        td {
+            /*text-align:center;*/
+             word-wrap: break-word;
+             vertical-align:middle!important;
+             height: 40px;
+             padding-bottom:2px!important;
+             padding-top:2px!important;
+             font-size:11px;
+
+        }
+
+        th {
+            height: 3em;
+             vertical-align:middle!important;
+             /*text-align:center!important;*/
+        }
+
+       
+
+        #divForTable {
+        display:none;
+        }
+
+
+            .chosen {
+            background-color:#E9E9E9 !important;
+
+}
+         
+        .sideMenu
+        {top:113px; /*position: fixed;*/
+         font-size:11px;
+         margin-bottom:10px;
+        }
+
+        div.scrollup {
+  position: fixed; /* фиксированная позиция */
+  color: #fff; /* цвет текста */
+  background-color: #333333; /* цвет заднего фона */
+  right: 20px; /* расстояние от правого края */
+  bottom: 0px; /* расстояние от нижнего края */
+  padding: 4px 10px; /* отступы до содержимого блока */
+  font-size: 20px; /* размер шрифта (иконки) */
+  border-top-left-radius: 4px; /* скругление верхнего левого угла */
+  border-top-right-radius: 4px; /* скругление верхнего правого угла */
+  cursor: pointer; /* форма курсора */
+  display: none; /* не отображать элемент */
+  text-align: center; /*выравнивание содержимого элемента по центру */
+}
+        div {
+        /*word-wrap: break-word;*/
+        word-break: break-all;
+        /*overflow-wrap: break-word;*/
+        }
+
+        .input-group.date {
+        padding:0px 15px 0px 15px!important;
+        }
+
+        /*#dvPeriodSearch {
+        position:fixed;
+        top:200px;
+        display:none;
+                }
+            #dvPeriodSearch div.col-lg-10 {
+            
+            padding-left:9px!important;
+            }*/
+
+            

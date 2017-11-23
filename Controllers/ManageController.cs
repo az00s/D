@@ -6,10 +6,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using D.Models;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
-    [Authorize(Roles = "admin")]
+    
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -49,7 +50,7 @@ namespace D.Controllers
             }
         }
 
-        //
+        [CustomAuthorize(Roles = "admin,manager,accountant,seller,sklad")]
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
@@ -212,14 +213,14 @@ namespace D.Controllers
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin,manager,accountant,seller,sklad")]
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin,manager,accountant,seller,sklad")]
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]

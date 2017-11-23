@@ -1,9 +1,7 @@
 ﻿@model D.Models.CustomerInd
 
-
 <script>
     $(document).ready(function () {
-
             $(document).on('click', '.table-hover tbody tr', function () {
                 var table = $('.table-hover').DataTable();
                 $(this).toggleClass('ch');
@@ -11,14 +9,10 @@
                 var url = "@Url.Action("Details")/" + ID;
                 document.location.href = url;
             });
-
         $("ul.navbar-nav li:contains('Клиенты')").addClass("active");
-
             $("[data-readonly]").on('keydown paste', function (e) {
                 e.preventDefault();
             });
-
-
             $('#tbCustomerInd').DataTable({
                 serverSide: true,
                 ajax: {
@@ -27,7 +21,6 @@
                     "contentType": 'application/json; charset=utf-8',
                     'data': function (data) { return data = JSON.stringify(data); }
                 },
-
                 "columns": [
 
                { "data": "LastName" },
@@ -36,7 +29,6 @@
                { "data": "Email" },
                { "data": "Telephone" }
                ],
-
                 buttons: [{
                     fade: 500,
                     autoClose: true,
@@ -79,12 +71,6 @@
                 }
                     ]
                 }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-                //"preDrawCallback": function (settings) {
-
-                //    $('#divForTable').fadeIn(1000);
-
-                //},
-
                 stateSave: true,
                 "stateDuration": 60 * 60 * 24,
                 "order": [],
@@ -127,7 +113,6 @@
                 "processing": true,
 
                 fixedHeader: true
-                //"pagingType": "full_numbers"
             });
     })
 </script>
@@ -140,9 +125,7 @@
         <ol class="breadcrumb">
             <li><a href="/Home">Главная</a></li>
             <li class="active">Физические лица</li>
-
         </ol>
-
     </div>
     <div class="col-lg-1"></div>
 
@@ -151,8 +134,6 @@
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuCustomerInd")</div>
     <div class="col-lg-9 col-lg-offset-0">
-
-
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbCustomerInd" >
             <colgroup>
                 <col width="15%">
@@ -162,7 +143,6 @@
             </colgroup>
             <thead>
                 <tr>
-
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.LastName)
                     </th>
@@ -180,21 +160,22 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
             </tbody>
         </table>
     </div>
     <div class="col-lg-1"></div>
 </div>
-
-
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
 
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }

@@ -7,9 +7,7 @@
     $(document).ready(function () {
 
     $('.tbChoice').DataTable({
-
-                                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
         "processing": true,
         "order": [[1,'desc']],
         fixedHeader: true,
@@ -33,7 +31,6 @@
                 "previous":   "Предыдущая"
             }
         },
-
         "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-0'><'col-sm-12'p>>",
@@ -45,20 +42,13 @@
         "paging": true
     });
 
-
     $('#tbGoodsChosen').DataTable({
-
         "processing": true,
-
-
         "order": [],
         fixedHeader: true,
         "autoWidth": false,
-
         "language": {
-
             "info": "Показаны записи с _START_ по _END_ из _TOTAL_",
-
             "emptyTable": "Нет данных для отображения",
             "infoEmpty": "Показаны записи с 0 по 0 из 0",
             "infoPostFix": "",
@@ -67,22 +57,12 @@
             "processing": "Обработка...",
             "search": "Поиск:",
             "zeroRecords": "Ничего не найдено",
-
-
         },
-
-
         "dom":
                 "<'row'<'col-sm-12'tr>>",
-
-
         fixedHeader: true
     });
-
-    
     });
-
-
 </script>
 <div class="container">
     <ol class="breadcrumb">
@@ -91,11 +71,9 @@
         <li class="active">Карточка заказа</li>
 
     </ol>
-
     <div class="well bs-component">
         <div class="row">
             <div class="col-xs-12 col-lg-8">
-
                 <fieldset>
                     <legend>
                         <ul class="nav">
@@ -108,16 +86,10 @@
                             </li>
                         </ul>
                     </legend>
-
-
                     <div>
-
                         <dl class="dl-horizontal">
-
-
                             <dt>
                                 @Html.DisplayNameFor(model => model.OrderID)
-
                             </dt>
                             <dd>
                                 @Html.DisplayFor(model => model.OrderID)
@@ -130,7 +102,6 @@
                             <dd>
                                 @Html.DisplayFor(model => model.OrderDate)
                             </dd>
-
                             <dt>
                                 Клиент
                             </dt>
@@ -143,14 +114,12 @@
                                         ID = Model.CustomerEnt.ClientID.ToString();
                                     }
                                     else
-
                                     {
                                         CustomerName = Model.CustomerInd.LastName + " " + Model.CustomerInd.FirstName;
                                         Property = "CustomerIndId";
                                         ID = Model.CustomerInd.CustomerIndId.ToString();
                                     }
-
-                                    }
+                                }
                                 @CustomerName
                             </dd>
 
@@ -161,32 +130,27 @@
                             <dd>
                                 @Html.DisplayFor(model => model.Employee.LastName)
                             </dd>
-
-
-
                         </dl>
                     </div>
-                    <table class="table-bordered table-striped" >
+                    <table class="table-bordered table-striped">
                         <colgroup>
-                            <col width="25%"/>
-                            <col  />
+                            <col width="25%" />
+                            <col />
                             <col width="10%" />
                             <col width="10%" />
                             <col width="10%" />
                             <col width="10%" />
                         </colgroup>
                         <thead>
-                            
-                                <tr>
-                                    <th class="text-center">Обозначение</th>
-                                    <th class="text-center">Наименование</th>
-                                    <th class="text-center">Ед.изм.</th>
-                                    <th class="text-center">Количество</th>
-                                    <th class="text-center">Цена</th>
-                                    <th class="text-center">Цена с НДС</th>
 
-                                </tr>
-                            
+                            <tr>
+                                <th class="text-center">Обозначение</th>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Ед.изм.</th>
+                                <th class="text-center">Количество</th>
+                                <th class="text-center">Цена</th>
+                                <th class="text-center">Цена с НДС</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach (Ordering p in (ViewBag.OfList as IQueryable<Ordering>))
@@ -215,21 +179,21 @@
 
 
                             }
-                            <tr><td colspan="4"></td><td class="text-center" ><strong>Итого:</strong></td><td class="text-center"><strong>@ViewBag.Amount</strong></td></tr>
+                            <tr><td colspan="4"></td><td class="text-center"><strong>Итого:</strong></td><td class="text-center"><strong>@ViewBag.Amount</strong></td></tr>
 
                         </tbody>
                     </table>
-                    
+
 
                 </fieldset>
             </div>
             <div class="col-xs-12 col-lg-4">
 
                 <table class="table-bordered table-striped" id="LinkedProvider">
-                    <col width="15%"/>
-                    <col width="20%"/>
-                    <col >
-                    <col width="15%"/>
+                    <col width="15%" />
+                    <col width="20%" />
+                    <col>
+                    <col width="15%" />
                     <col width="10%" />
                     <thead>
                         <tr><th class="text-center" colspan="4" style="border:none;">Связанные поступления</th></tr>
@@ -254,7 +218,7 @@
                             <tr>
                                 <td class="text-center">@p.ReceiptID.ToString()</td>
                                 <td class="text-center">@p.MoneyReceipt.ReceiptDate.Value.ToString("dd.MM.yyyy")</td>
-                                
+
                                 <td class="text-center">@p.MoneyReceipt.CustomerEnt.Name</td>
                                 <td class="text-center">@p.Amount.Value.ToString("0.00")</td>
                                 <td class="text-center">
@@ -269,17 +233,14 @@
                     </tbody>
                 </table>
 
-               
 
-                    
-               
+
+
+
 
             </div>
         </div>
     </div>
-
-
-
 </div>
 <div id="DeleteModal" class="modal fade">
     <div class="modal-dialog">
@@ -289,23 +250,16 @@
                 <h4 class="modal-title">Вы действительно хотите удалить этот заказ?</h4>
             </div>
             <div class="modal-body">
-
-
                 <dl class="dl-horizontal">
-
-
                     <dt>
                         @Html.DisplayNameFor(model => model.OrderID)
-
                     </dt>
                     <dd>
                         @Html.DisplayFor(model => model.OrderID)
-
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.OrderDate)
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.OrderDate)
                     </dd>
@@ -325,32 +279,19 @@
                     <dd>
                         @Html.DisplayFor(model => model.Employee.LastName)
                     </dd>
-
-
-
                 </dl>
             </div>
-
-
-
-
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "Order", new { id = Model.OrderID }, FormMethod.Post))
             {
                     @Html.AntiForgeryToken()
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-
                     <button type="submit" class="btn btn-danger">Удалить</button>
-
                 }
             </div>
         </div>
-
-
-
     </div>
 </div>
-
 <div id="EditModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -363,17 +304,13 @@
                     <div class="row">
                         <div class="col-xs-12 col-lg-12">
                             <fieldset>
-                                @using (Html.BeginForm("Edit", "Order", FormMethod.Post,new { @id="fmEditOrder"}))
+                                @using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { @id = "fmEditOrder" }))
                                 {
                                     @Html.AntiForgeryToken()
 
                                     <div class="form-horizontal">
-
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(model => model.OrderID)
-
-
-
                                         <div class="form-group">
                                             @Html.Label("Дата заказа", htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7 input-group date" id="datetimepicker1">
@@ -389,7 +326,7 @@
                                                 $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
                             });
                                         </script>
-                                        
+
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
@@ -408,7 +345,7 @@
                                                 $('#LinkedProvider').DataTable({
                                                     "ordering": false,
                                                     "processing": true,
-                                                 
+
                                                     fixedHeader: true,
                                                     "autoWidth": false,
                                                     "language": {
@@ -432,19 +369,19 @@
                                                     },
 
                                                     "dom": "t",
-                                                    
+
                                                     fixedHeader: true
                                                     //"pagingType": "full_numbers"
                                                 });
 
 
 
-                                            
 
-                                                
-                                            
-                                                
-                                            
+
+
+
+
+
 
 
 
@@ -459,7 +396,7 @@
 
 
                                         </script>
-                                        
+
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Сотрудник</label>
                                             <div class="col-md-7">
@@ -565,27 +502,28 @@
                                             </thead>
                                             <tbody>
                                                 @{ foreach (var o in (ViewBag.OfList as IQueryable<Ordering>))
-                                                    { <tr>
-                                                        <td class="text-center">@Html.Hidden("OrderID", o.OrderID) @Html.Hidden("ProductID", o.ProductID) @o.Product.Designation</td>
-                                                        <td class="text-center">@o.Product.Name</td>
-                                                          <td class="text-center">@o.Product.Unit_of_measurement</td>
-                                                          <td class="text-center">@o.Product.Price</td>
-                                                          <td class="text-center">@o.Product.Price_with_vat</td>
-                                                          <td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="@o.ProductQuantity" required /></td>
-                                                          <td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>
-                                                </tr>}
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">@Html.Hidden("OrderID", o.OrderID) @Html.Hidden("ProductID", o.ProductID) @o.Product.Designation</td>
+                                                            <td class="text-center">@o.Product.Name</td>
+                                                            <td class="text-center">@o.Product.Unit_of_measurement</td>
+                                                            <td class="text-center">@o.Product.Price</td>
+                                                            <td class="text-center">@o.Product.Price_with_vat</td>
+                                                            <td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="@o.ProductQuantity" required /></td>
+                                                            <td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>
+                                                        </tr>}
                                                 }
                                             </tbody>
 
                                         </table>
-                                       
+
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                             <button type="submit" class="btn btn-success" id="btGoodsChosen">Сохранить</button>
                                         </div>
                                     </div>
-                                }
+                                                    }
                                 <script>
 
                                     $('#fmEditOrder').submit(function () {
@@ -602,7 +540,7 @@
                                 </script>
                             </fieldset>
                         </div>
-                        
+
 
                     </div>
 
@@ -613,11 +551,8 @@
 </div>
 <script>
                                     $(document).ready(function () {
-
-                                        $('#tbCustomerEnts').DataTable({
-
+                                            $('#tbCustomerEnts').DataTable({
                                             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
                                             "processing": true,
                                             "order": [[1, 'desc']],
                                             fixedHeader: true,
@@ -701,8 +636,6 @@
                                                 var name = $(".table-striped .chosen strong")[1].innerText;
                                                 $("#iptCustomerHidden").attr("name", "ClientID");
                                                 $("#iptCustomerHidden").val(id);
-
-
                                             }
                                             else {
 
@@ -720,29 +653,20 @@
                                         }));
 
                                         $("#btChoiceCustomer").click(function () {
-
-
                                             $("#dvCustomerLink").css("display", "block");
                                             $("#dvCustomerEnts").css("display", "none");
                                             $("#dvCustomerInds").css("display", "none");
                                         });
-
-
                                         $("#lkCustomerEnts").click(function () {
                                             $("#dvCustomerLink").css("display", "none");
                                             $("#dvCustomerEnts").css("display", "block");
                                         });
-
                                         $("#lkCustomerInds").click(function () {
                                             $("#dvCustomerLink").css("display", "none");
                                             $("#dvCustomerInds").css("display", "block");
                                         })
-
-
                                     });
-
 </script>
-
 <div id="mdChoiceClient" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -758,7 +682,6 @@
                 <div id="dvCustomerInds">
                     @Html.Action("AllCustomerInds")
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -809,16 +732,6 @@
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
 
-@section scripts {
-    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
-}
-
-
-
-
 <div id="mdGoodsChoice" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -840,9 +753,7 @@
 </div>
 
 <script>
-
     $(document).on('click', '#tbGoodsChoice tbody tr', (function () {
-
         if ($(this).is('.chosen')) {
             $(this).removeClass('chosen');
         }
@@ -859,12 +770,7 @@
             $("#btChoiceGoods").attr("disabled", "disabled");
         }
     }));
-
-
-
     $('#btChoiceGoods').click(function () {
-
-
                                 var tr = $('#tbGoodsChoice tr.chosen');
                                 var table= $('#tbGoodsChoice').DataTable();
 
@@ -875,23 +781,17 @@
                                 var tableGoodsChosen = $("#tbGoodsChosen").DataTable();
                                 var tr1 = tr.append('<td class="text-center"><input type="number" min="1" max="2147483647" name="ProductQuantity" style="width:70px;" value="1" required /></td><td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>');
                                 tableGoodsChosen.rows.add(tr1).draw();
-        //$('#tbGoodsChosen > tbody:last-child').append(tr);
         $('#tbGoodsChosen tr.chosen').removeClass('chosen').removeClass('odd').removeAttr("role").addClass('added');
-        //$('#tbGoodsChosen tbody tr.added').append('<td class="text-center"><input type="number" min="1" max="2147483647" name="Количество" style="width:70px;" value="1" required /></td><td class="text-center"><a class="glyphicon glyphicon-remove" style="text-decoration:none;color:#E81C2C"></a></td>');
         $('#tbGoodsChosen tbody tr.added').removeClass('added');
         $('#tbGoodsChosen tr').unbind('click');
     });
 
     $("#EditModal button.clear").click(function () {
         $("#EditModal input[type='text']").val(null);
-
-
-
         $('#tbGoodsChosen').DataTable()
             clear()
             .draw();
     });
-
     $(document).on("click", ".glyphicon-remove", function () {
         $('#tbGoodsChosen').DataTable()
             .row($(this).closest("tr"))
@@ -899,3 +799,18 @@
             .draw();
     });
 </script>
+
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+}
+
+
+
+

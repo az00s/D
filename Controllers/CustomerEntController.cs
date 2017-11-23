@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System;
-using D.Models.DataTableModel;
+using D.Infrastructure;
 
 namespace D.Models
 {
-    [Authorize(Roles = "seller,manager,admin")]
+    [CustomAuthorize(Roles = "seller,manager,admin")]
     public class CustomerEntController : Controller
     {
         private IdbInterface db;//dataContext
@@ -69,7 +69,7 @@ namespace D.Models
            
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( CustomerEnt customer)
@@ -88,7 +88,7 @@ namespace D.Models
             { return View("Error"); }
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

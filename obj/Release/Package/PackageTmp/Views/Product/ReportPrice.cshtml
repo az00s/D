@@ -1,5 +1,4 @@
 ﻿@model D.Models.Product
-
 <script>
     $(document).ready(function () {
 
@@ -133,10 +132,6 @@
 
     })
 </script>
-
-@*@Html.Partial("_ModalCreate")*@
-
-
 <div class="row">
     <div class="col-lg-2">@*@Html.Partial("_SideMenuGoods")*@</div>
     <div class="col-lg-9 col-lg-offset-0" id="divTable">
@@ -144,20 +139,15 @@
             <li><a href="@Url.Action("Index","Home")">Главная</a></li>
             <li><a href="@Url.Action("Index","Product")">Товары</a></li>
             <li class="active">Отчет</li>
-
         </ol>
-
         <h4>Прайс-лист</h4>
         <hr />
-
         <table class="table-bordered table-striped table-hover table table-condensed " id="tbReportBalance" cellspacing="0">
             <colgroup>
-
                 <col width="35%">
                 <col width="35%">
                 <col width="10%">
             </colgroup>
-
             <thead>
                 <tr>
                     <th class="text-center">
@@ -171,16 +161,6 @@
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.Unit_of_measurement)
                     </th>
-
-                    @*<th class="text-center">
-                        @Html.DisplayNameFor(model => model.Balance)
-                    </th>
-                    <th class="text-center">
-                        @Html.DisplayNameFor(model => model.Delivery_time)
-                    </th>
-                    <th class="text-center">
-                        @Html.DisplayNameFor(model => model.Weight)
-                    </th>*@
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.Price)
                     </th>
@@ -192,16 +172,17 @@
             </thead>
 
             <tbody class="text-center"></tbody>
-
-
         </table>
-
     </div>
     <div class="col-lg-1"></div>
 </div>
-
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
 
-
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

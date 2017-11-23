@@ -1,9 +1,6 @@
 ﻿@model D.Models.Product
-
-
 <script>
     $(document).ready(function () { 
-
             $(document).on('click', '.table-hover tbody tr', function () {
                 var table = $('.table-hover').DataTable();
                 $(this).toggleClass('ch');
@@ -164,26 +161,19 @@
             fixedHeader: true,
             "paging": true
         });
-
-
     })
 </script>
 @Html.Partial("_ModalCreate")
 <div class="row">
     <div class="col-lg-2 col-xs-12"></div>
     <div class="col-lg-9 col-lg-offset-0">
-
         <ol class="breadcrumb">
             <li><a href="/Home">Главная</a></li>
             <li class="active">Товары</li>
-
         </ol>
-
     </div>
-    <div class="col-lg-1"></div>
-    
+    <div class="col-lg-1"></div>  
 </div>
-
     <div class="row">
         <div class="col-lg-2">
             @Html.Partial("_SideMenuGoods")
@@ -229,13 +219,8 @@
                             </th>
                         </tr>
                     </thead>
-
                     <tbody class="text-center"></tbody>
-
-
                 </table>
-
-
             </div>
             <div class="col-lg-1"></div>
         </div>
@@ -243,3 +228,9 @@
     <div class="scrollup">
         <i class="glyphicon glyphicon-chevron-up"></i>
     </div>
+@section scripts {
+<script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+<script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

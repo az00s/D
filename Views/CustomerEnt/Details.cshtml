@@ -4,7 +4,6 @@
     ViewBag.Title = "О клиенте";
 }
 
-
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Главная</a></li>
@@ -29,10 +28,7 @@
                             </li>
                         </ul>
                     </legend>
-
-
                     <div>
-
                         <dl class="dl-horizontal">
 
                             <dt>
@@ -66,20 +62,12 @@
                             <dd>
                                 @Html.DisplayFor(model => model.Address)
                             </dd>
-
-
                         </dl>
                     </div>
-
-
-
                 </fieldset>
             </div>
-
         </div>
     </div>
-
-
 
 </div>
 
@@ -91,8 +79,6 @@
                 <h4 class="modal-title">Вы действительно хотите удалить этого клиента?</h4>
             </div>
             <div class="modal-body">
-
-
                 <dl class="dl-horizontal">
                     <dt>
                         @Html.DisplayNameFor(model => model.ClientPAN)
@@ -128,24 +114,16 @@
 
                 </dl>
             </div>
-
-
-
-           
-            <div class="modal-footer">
+                        <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "CustomerEnt", new { id = Model.ClientID }, FormMethod.Post))
             {
                     @Html.AntiForgeryToken()
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 
                     <button type="submit" class="btn btn-danger">Удалить</button>
-
                 }
             </div>
         </div>
-        <!-- Футер модального окна -->
-
-
     </div>
 </div>
 
@@ -164,13 +142,9 @@
                                 @using (Html.BeginForm("Edit","CustomerEnt",FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
-
                                     <div class="form-horizontal">
-                                     
-                                        @Html.HiddenFor(model => model.ClientID)
-
-
-
+                                   
+                                       @Html.HiddenFor(model => model.ClientID)
                                         <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.ClientPAN, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
@@ -222,3 +196,10 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

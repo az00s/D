@@ -16,8 +16,6 @@
             $("[data-readonly]").on('keydown paste', function (e) {
                 e.preventDefault();
             });
-
-
             $('#tbSuppliersMinsk').DataTable({
                 serverSide: true,
                 ajax: {
@@ -34,7 +32,6 @@
                 { "data": "Address" },
                 { "data": "Telephone" }
                 ],
-
                 buttons: [{
                     fade: 500,
                     autoClose: true,
@@ -77,12 +74,6 @@
                 }
                     ]
                 }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-                //"preDrawCallback": function (settings) {
-
-                //    $('#divForTable').fadeIn(1000);
-
-                //},
-
                 stateSave: true,
                 "stateDuration": 60 * 60 * 24,
                 "order": [],
@@ -117,8 +108,6 @@
                         },
                     }
                 },
-
-
                 "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
                         "<'row'<'col-sm-12'tr>>" +
                          "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -127,29 +116,17 @@
                 fixedHeader: true
                 //"pagingType": "full_numbers"
             });
-
-
-
         });
-
-            
-    
-    
 </script>
-
-
 <div class="row">
     <div class="col-lg-2 col-xs-0">
     </div>
-
     <div id="dvForTable" class="col-lg-9 col-lg-offset-0">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Home")">Главная</a></li>
             <li><a href="@Url.Action("Index","Supplier")">Поставщики</a></li>
             <li class="active">Отчет</li>
-
         </ol>
-
         <h4>Поставщики из г.Минска</h4>
         <hr />
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbSuppliersMinsk">
@@ -188,6 +165,14 @@
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
 
+
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}
 
 
 

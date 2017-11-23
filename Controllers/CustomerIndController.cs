@@ -1,5 +1,5 @@
-﻿using D.Models;
-using D.Models.DataTableModel;
+﻿using D.Infrastructure;
+using D.Models;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -65,7 +65,7 @@ namespace D.Controllers
             { return View("Error"); }
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( CustomerInd customer)
@@ -85,7 +85,7 @@ namespace D.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorClients")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

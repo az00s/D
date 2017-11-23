@@ -16,5 +16,65 @@
     "inputFiles": [
       "Scripts/myScripts.js"
     ]
+  },
+  {
+    "outputFileName": "Content/LogIn.min.css",
+    "inputFiles": [
+      "Content/LogIn.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/MainJavaScript.min.js",
+    "inputFiles": [
+      "Scripts/MainJavaScript.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/MainCss.min.css",
+    "inputFiles": [
+      "Content/MainCss.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/index.min.css",
+    "inputFiles": [
+      "Content/index.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/bootstrap-datetimepicker.min.css",
+    "inputFiles": [
+      "Content/bootstrap-datetimepicker.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/moment-with-locales.min.js",
+    "inputFiles": [
+      "Scripts/moment-with-locales.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/jsapi.min.js",
+    "inputFiles": [
+      "Scripts/jsapi.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/bootstrap.min.js",
+    "inputFiles": [
+      "Scripts/bootstrap.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/datatables.min.css",
+    "inputFiles": [
+      "Scripts/DataTables/datatables.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/datatables.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/datatables.js"
+    ]
   }
 ]

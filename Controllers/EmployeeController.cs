@@ -5,19 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using D.Models;
-using SimpleChart = System.Web.Helpers;
-using System.IO;
-using System.Web.UI.WebControls;
-using System.Web.UI;
-using D.Interfaces;
-using System.Collections.Generic;
-using D.Models.DataTableModel;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
-    
-     //[SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
-    [Authorize(Roles = "accountant,manager,admin")]
+
+    //[SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
+    [CustomAuthorize(Roles = "accountant,manager,admin")]
     public class EmployeeController : Controller
     {
         private IdbInterface db;//dataContext
@@ -83,7 +77,7 @@ namespace D.Controllers
      
 
         
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Employee emp)
@@ -101,7 +95,7 @@ namespace D.Controllers
 
        
         
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorEmployee")]
         [HttpPost, ActionName("Delete")]

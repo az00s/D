@@ -24,15 +24,11 @@
 </div>
 <script>
     $("ul.navbar-nav li:contains('Сотрудники')").addClass("active");
-
-   
-
     $(document).on('click', '#tbEmployee tbody tr', function () {
         var ID = $(this).children()[0].innerText;
         var url = "@Url.Action("Details")/" + ID;
         document.location.href = url;
     });
-
     $(document).ready(function () {
         $('#tbEmployee').DataTable({
             serverSide: true,
@@ -43,10 +39,9 @@
                 'data': function (data) { return data = JSON.stringify(data); },
                 "dataSrc": function (json) {
                     for (var i = 0, end = json.data.length; i < end; i++)
-                    { json.data[i].BirstDate = new Date(json.data[i].BirstDate).toLocaleDateString(); }
+                    { json.data[i].BirstDate = new Date(parseInt((json.data[i].BirstDate).substr(6))).toLocaleDateString(); }
                     return json.data;
                 }
-
             },
             "columns": [
 
@@ -140,8 +135,6 @@
                     },
                 }
             },
-
-
             "dom": "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                      "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -170,7 +163,6 @@
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuEmployee")</div>
     <div class="col-lg-9 col-lg-offset-0">
-
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbEmployee">
             <colgroup>
                 <col width="9%">
@@ -214,51 +206,27 @@
     </div>
     <div class="col-lg-1"></div>
 </div>
-
-
-
-
-
-
-
-
-
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
 
-
-
-
-
-<script type="text/javascript" src="~/Scripts/jsapi.js"></script>
-
-
+<script type="text/javascript" src="~/Scripts/jsapi.min.js"></script>
 <script type="text/javascript">
-                 // Подгружаем API
             google.load('visualization', '1.0', { 'packages': ['corechart'] });
-
-            // Устанавливаем callback
             google.setOnLoadCallback(drawChart);
-
             function drawChart() {
-
                 var options = {
                     //'title': 'График результативности продавцов',
                     'width': 500,
                     'height': 400,
                     is3D: true,
-                    //pieSliceText: 'label',
-                    //backgroundColor: "#DADDE2",
                     chartArea: { left: 70, top: 40, width: '100%', height: '100%' },
                     pieSliceText: "percentage",
                     tooltip: { showColorCode: true, text: "value" },
                 };
-
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Employees');
                 data.addColumn('number', 'Orders');
-
                 $.getJSON('@Url.Action("GetDataForChart", "Employee")', null,
                                                                         function (result) {
                                                                             if (result.Employees.length) {
@@ -275,8 +243,11 @@
 </script>
 
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }

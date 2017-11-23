@@ -11,7 +11,6 @@ namespace D.Models
 {
     public interface IdbInterface
     {
-         //DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
          DbSet<AspNetRole> AspNetRoles { get; set; }
          DbSet<AspNetUser> AspNetUsers { get; set; }
          DbSet<MoneyReceipt> MoneyReceipts { get; set; }

@@ -4,7 +4,6 @@
     ViewBag.Title = "О клиенте";
 }
 
-
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Главная</a></li>
@@ -102,17 +101,10 @@
 
                         </dl>
                     </div>
-
-
-
                 </fieldset>
             </div>
-
         </div>
     </div>
-
-
-
 </div>
 
 <div id="DeleteModal" class="modal fade">
@@ -123,8 +115,6 @@
                 <h4 class="modal-title">Вы действительно хотите удалить этого клиента?</h4>
             </div>
             <div class="modal-body">
-
-
                 <dl class="dl-horizontal">
                     <dt>
                         @Html.DisplayNameFor(model => model.LastName)
@@ -195,25 +185,16 @@
 
                 </dl>
             </div>
-
-
-
-
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "CustomerInd", new { id = Model.CustomerIndId }, FormMethod.Post))
             {
                     @Html.AntiForgeryToken()
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-
                     <button type="submit" class="btn btn-danger">Удалить</button>
-
                 }
             </div>
         </div>
-       
-
-
-    </div>
+   </div>
 </div>
 
 <div id="EditModal" class="modal fade">
@@ -333,10 +314,12 @@
     </div>
 </div>
 
-
 @section scripts {
-<script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-    
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
 }

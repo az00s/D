@@ -19,9 +19,6 @@
 
             var end = new Date();
             var start = new Date(end.getFullYear() - 0,0,1);
-            
-            //var end=new Date(new Date().setFullYear(today.getFullYear() + 100));
-           
             $("#dtpStart").val(start.toLocaleDateString());
             $("#dtpEnd").val(end.toLocaleDateString());
 
@@ -34,19 +31,27 @@
                     "data": function (data) { data.repStart = $("#dtpStart").val(); data.repEnd = $("#dtpEnd").val(); return data = JSON.stringify(data); },
                     "dataSrc": function (json) {
                         for (var i = 0, end = json.data.length; i < end; i++)
-                        { json.data[i].OrderDate = new Date(json.data[i].OrderDate).toLocaleDateString(); }
+                        { json.data[i].OrderDate = new Date(parseInt((json.data[i].OrderDate).substr(6))).toLocaleDateString(); }
                         return json.data;
                     }
                 },
 
                 "columns": [
 
-               { "data": "OrderID" },
+              { "data": "OrderID" },
                { "data": "OrderDate" },
-               { "data": "Customer" },
+               {
+                   "data": "CustomerEnt.Name",
+                   "render": function (data, type, row, meta) {
+                       if (row.CustomerEnt == null)
+                           return row.CustomerInd.FirstName + " " + row.CustomerInd.LastName;
+                       else return data;
+                   },
+                   "defaultContent": "Not set"
+               },
                { "data": "AmountVat" },
                { "data": "OrderStatus" },
-               { "data": "Employee","name":"LastName" }
+               { "data": "Employee.LastName" }
                ],
 
                 buttons: [{
@@ -91,12 +96,6 @@
                 }
                     ]
                 }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-                //"preDrawCallback": function (settings) {
-
-                //    $('#divForTable').fadeIn(1000);
-
-                //},
-
                 stateSave: true,
                 "stateDuration": 60 * 60 * 24,
                 "order": [],
@@ -171,28 +170,10 @@
             return true;
 
         });
-
-            $("input[name='start'],input[name='end']").on('change', function () {
-
-                //var table= $("#tbOrdersPeriod").DataTable();
-                //table.ajax.data=new {"start": '7',"end":'8'};
+ $("input[name='start'],input[name='end']").on('change', function () {
                 $("#tbOrdersPeriod").DataTable().ajax.url('/Order/ReportData').load();
-                //$(".table-hover").dataTable({
-                //    "ajax": {
-                //        "url": "/Order/PeriodReport",
-                //        "data": {
-                //            "start": 451,
-                //            "end":1000
-                //        }
-                //    }
-                //}).load();
-            });
-
-           
-
-            });
-    
-    
+                });
+          });
 </script>
 
 <div class="row">
@@ -202,24 +183,17 @@
             <li><a href="@Url.Action("Index","Home")">Главная</a></li>
             <li><a href="@Url.Action("Index","Order")">Заказы</a></li>
             <li class="active">Отчет</li>
-
         </ol>
-
     </div>
     <div class="col-lg-1"></div>
-
 </div>
-
-
 <div class="row">
     <div class="col-lg-2">
         <div class="row"><div class="" id="dvPeriodReport">
     <div class="form-group">
         <div class="col-lg-10">
 
-
             <input type="text" name="start" id="dtpStart" class="form-control input-sm" readonly="readonly" required="required" value="" placeholder="Период с..." />
-
         </div>
     </div>
     <div class="form-group">
@@ -293,11 +267,13 @@
 
 
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }
-
 
 

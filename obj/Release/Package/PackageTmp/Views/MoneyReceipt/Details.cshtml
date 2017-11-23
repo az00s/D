@@ -30,11 +30,7 @@
                             </li>
                         </ul>
                     </legend>
-
-
                     <div>
-
-
                         <dl class="dl-horizontal">
                             <dt>
                                 Клиент:
@@ -62,12 +58,7 @@
                             </dd>
 
                         </dl>
-
-
                     </div>
-
-
-
                 </fieldset>
             </div>
 
@@ -94,15 +85,15 @@
 
                         </thead>
                         <tbody class="text-center">
-                            @foreach (OrderPayment p in ViewBag.List)
+                            @foreach (Order p in ViewBag.List as IQueryable<Order>)
                             {<tr>
                                 <td>@p.OrderID</td>
                                  <td>
-                                     @{string customer = @p.Order.CustomerEnt != null ? @p.Order.CustomerEnt.Name : @p.Order.CustomerInd.LastName + " " + @p.Order.CustomerInd.FirstName;}
+                                     @{string customer = @p.CustomerEnt != null ? @p.CustomerEnt.Name : @p.CustomerInd.LastName + " " + @p.CustomerInd.FirstName;}
                                  @customer
                              </td>
-                            <td>@p.Order.AmountVat</td>
-                                 <td>@p.Amount</td>
+                            <td>@p.AmountVat</td>
+                                 <td>@p.OrderPayments.Sum(op=>op.Amount).Value.ToString("0.00")</td>
   
                               </tr>
                                      }
@@ -155,9 +146,6 @@ $(document).ready(function(){
         ],
         fixedHeader: true
         });
-
-
-
 });
 </script>
 
@@ -169,8 +157,6 @@ $(document).ready(function(){
                 <h4 class="modal-title">Вы действительно хотите удалить это поступление?</h4>
             </div>
             <div class="modal-body">
-
-
                 <dl class="dl-horizontal">
                     <dt>
                         Клиент:
@@ -196,11 +182,7 @@ $(document).ready(function(){
 
                         @Html.DisplayFor(model => model.ReceiptDate)
                     </dd>
-
                 </dl>
-
-
-
             </div>
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "MoneyReceipt", new { id = Model.ReceiptID }, FormMethod.Post))
@@ -235,17 +217,13 @@ $(document).ready(function(){
                                     @Html.AntiForgeryToken()
 
                                     <div class="form-horizontal">
-
-
                                         @Html.HiddenFor(model=>model.ReceiptID)
-
-
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
                                                 <div class="indoorBtnDiv input-group">
                                                     <input id="iptCustomerHidden" type="hidden" value="@Model.CustomerEnt.ClientID" name="ClientID" />
-                                                    <input id="indoorText" class="form-control" name="tbxNameClient" type="text" value="@Model.CustomerEnt.Name" readonly required />
+                                                    <input id="indoorText" class="form-control" name="tbxNameClient" type="text" value="@Model.CustomerEnt.Name" data-readonly required />
                                                     <div class="input-group-btn">
                                                         <a href="#ChoiceProv" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
                                                     </div>
@@ -267,7 +245,6 @@ $(document).ready(function(){
                                         </div>
                                         <script type="text/javascript">
                                           $(function () {
-                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
                                               $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
                                           });
                                         </script>
@@ -275,7 +252,7 @@ $(document).ready(function(){
                                         <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?" } })
+                                                @Html.EditorFor(model => model.Amount,  new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?", @required = "required" } } )
                                                 <span class="glyphicon form-control-feedback"></span>
                                                 
                                             </div>
@@ -401,8 +378,6 @@ $(document).ready(function(){
             <div class="modal-body">
                 
                         @Html.Action("AllCustomerEnts")
-                    
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -420,26 +395,7 @@ $(document).ready(function(){
                 <h4 class="modal-title">Выберите заказ</h4>
             </div>
             <div class="modal-body">
-                <table class="table-bordered table-striped modalTable" id="tbOrderChoice">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="15%">
-                        <col width="60%">
-                    </colgroup>
-
-                    <thead>
-                        <tr>
-                            <th class="text-center">№</th>
-                            <th class="text-center">Дата</th>
-                            <th class="text-center">Клиент</th>
-                            <th class="text-center">Сумма</th>
-                        </tr>
-
-                    </thead>
-                    <tbody class="text-center">
-                        @Html.Action("AllOrders")
-                    </tbody>
-                </table>
+               @Html.Partial("AllOrders")
 
             </div>
             <div class="modal-footer">
@@ -452,56 +408,8 @@ $(document).ready(function(){
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
-<script>
-
-   
-
-    $('#tbOrderChoice').DataTable({
-
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
-
-            "processing": true,
-            "order": [[1, 'desc']],
-            fixedHeader: true,
-            "autoWidth": false,
-            "language": {
-                "lengthMenu": "Показывать _MENU_ записей",
-                "info": "Показаны записи с _START_ по _END_ из _TOTAL_ записей",
-                "infoFiltered": " (Найдено из _MAX_ записей)",
-                "emptyTable": "Нет данных для отображения",
-                "infoEmpty": "Показаны записи с 0 по 0 из 0 записей",
-                "infoPostFix": "",
-                "thousands": ",",
-                "loadingRecords": "Загрузка...",
-                "processing": "Обработка...",
-                "search": "Поиск:",
-                "zeroRecords": "Ничего не найдено",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "Следующая",
-                    "previous": "Предыдущая"
-                }
-            },
-
-            "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                     "<'row'<'col-sm-0'><'col-sm-12'p>>",
-            "columnDefs": [
-        { "width": "10%", "targets": 0 },
-        { "width": "10%", "targets": 1 }
-            ],
-            fixedHeader: true,
-            "paging": true
-        });
-
-
-
-   
-</script>
  <script>
     $(document).ready(function () {
-
         $('#tbCustomerEnts').DataTable({
 
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
@@ -540,10 +448,6 @@ $(document).ready(function(){
             fixedHeader: true,
             "paging": true
         });
-
-
-
-
         $(document).on('click', '#btChoiceClient', (function () {
 
             var id = $('.chosen input[type=hidden]').attr("value");
@@ -570,19 +474,18 @@ $(document).ready(function(){
 
 
         }));
-
-
-
-
-
     });
-
 </script>   
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }
+
+
 
 

@@ -7,10 +7,11 @@ using System.Net;
 using System.Web.Mvc;
 using D.Models;
 using System.Reflection;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
-    [Authorize(Roles = "accountant,manager,admin,seller")]
+    [CustomAuthorize(Roles = "accountant,manager,admin,seller")]
     public class OrderController : Controller
     {
         
@@ -92,7 +93,7 @@ namespace D.Controllers
             { return View("Error"); }            
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ICollection<Ordering> listOf, [Bind(Exclude = "Ordering")]Order order)
@@ -127,7 +128,7 @@ namespace D.Controllers
             }
             return View(order);
         }
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
       
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorOrders")]
         [HttpPost, ActionName("Delete")]
@@ -172,7 +173,7 @@ namespace D.Controllers
         }
         //deleting money from order
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         public ActionResult DeleteP(OrderPayment payment)
         {
             
@@ -187,7 +188,9 @@ namespace D.Controllers
         }
         public JsonResult ReportData(dtParam param)
         {
-            var query = db.Orders.AsNoTracking().Where(s => s.OrderDate <= param.repEnd && s.OrderDate >= param.repStart);
+            var query = db.Orders.Include("CustomerEnt").Include("CustomerInd").Include("Employee")
+                .AsNoTracking()
+                .Where(s => s.OrderDate <= param.repEnd && s.OrderDate >= param.repStart);
             dtResult<IQueryable<Order>, Order> res = new dtResult<IQueryable<Order>, Order>();
             res.GetData(param, db.Orders,query);
             

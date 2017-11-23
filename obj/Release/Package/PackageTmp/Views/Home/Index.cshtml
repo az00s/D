@@ -1,51 +1,180 @@
 ﻿@{
     ViewBag.Title = "Главная";
-    
+
 }
 <div class="container">
-    <script>
-        $('[role = search]').addClass("invisible");
-    </script>
-    <div class="center-block bs-callout bs-callout-danger">
+
+    <div class="center-block bs-callout bs-callout-limegreen">
+        <div>
+            <ul class="nav">
+                <li style="float:right">
+                    <a id="about" style="" data-toggle="dropdown" class="dropdown-toggle link-gray" aria-expanded="false">О системе @*<span class="caret"></span>*@</a>
+                    <div id="aboutDiv" class="dropdown-menu">
+                        <p>Система содержит информацию о:</p>
+                        <ul>
+                            <li>Товары:     <span class="text-success">@ViewBag.ProductCount</span>; </li>
+                            <li>Клиенты:    <span class="text-success">@ViewBag.CustomerCount</span>; </li>
+                            <li>Поставщики: <span class="text-success">@ViewBag.SupplierCount</span>;</li>
+                            <li>Сотрудники: <span class="text-success">@ViewBag.EmployeeCount</span>.</li>
+                        </ul>
+                        <p>
+                            На @DateTime.Now.ToLongDateString() на складе храниться товаров на общую сумму
+                            <span class="text-info">@ViewBag.ProductCost</span> BYN, общим весом<span class="text-info"> @ViewBag.ProductWeight</span> т.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <center>
-            <h3>
+            <h3 style="padding-bottom:2em;">
                 Магазин "Автозапчасти"
             </h3>
         </center>
-    </div>
-    <div class="center-block bs-callout bs-callout-limegreen">
-        <p>Система содержит информацию о <strong>@ViewBag.ProductCount</strong>  товаре(ах), <strong>@ViewBag.CustomerCount</strong> клиенте(ах), <strong>@ViewBag.SupplierCount</strong> организации(ях)-поставщике(ах), <strong>@ViewBag.EmployeeCount</strong> сотруднике(ах) и о <strong>@ViewBag.OrderCount</strong> заказе(ах).</p>
-        <p>На @DateTime.Now.ToLongDateString() на складе храниться товаров на общую сумму <strong>@ViewBag.ProductCost</strong> BYN, общим весом<strong> @ViewBag.ProductWeight</strong> кг.</p>
 
     </div>
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#panel1">Заказы</a></li>
-        <li><a data-toggle="tab" href="#panel2">Денежные поступления</a></li>
-        
-    </ul>
+    <!-- Карусель -->
+    <div id="myCarousel" class="carousel slide" data-interval="5000" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="active item ">
+                <center>
+                    <img src="..\Content\img\bosch.png" />
+                    <img src="..\Content\img\dayco.png" />
+                    <img src="..\Content\img\knecht.png" />
+                    <img src="..\Content\img\luk.png" />
+                    <img src="..\Content\img\lemforder.png" />
+                    
+                   
+                </center>
+            </div>
+            <div class="item" >
+                <center>
+                    <img src="..\Content\img\ae.png" />
+                    <img src="..\Content\img\baren.png" />
+                    <img src="..\Content\img\cargo.png" />
+                    <img src="..\Content\img\corteco.png" />
+                    <img src="..\Content\img\denso.png" />
+                    
+                    
+                </center>
+                </div>
+                <div class="item" >
+                    <center>
+                        <img src="..\Content\img\fuchs.png" />
+                        <img src="..\Content\img\hans pries.png" />
+                        <img src="..\Content\img\hutchinson.png" />
+                        <img src="..\Content\img\i.f.h.s.png" />
+                        <img src="..\Content\img\logo_fenox.png" />
+                        </center>
+</div>
+            <div class="item">
+                <center>
+                    <img src="..\Content\img\lpr.png" />
+                    <img src="..\Content\img\narva.png" />
+                    <img src="..\Content\img\sasic.png" />
+                    <img src="..\Content\img\stc_logo.png" />
+                    <img src="..\Content\img\tech-as.png" />
+                </center>
+            </div>
+            <div class="item">
+                <center>
+                    <img src="..\Content\img\ruville.png" />
+                    <img src="..\Content\img\filtron_logo.png" />
+                    <img src="..\Content\img\Logo_SWAG_updated_sm.png" />
+                    <img src="..\Content\img\teknorot.png" />
+                    <img src="..\Content\img\zf.png" />
 
-    <div class="tab-content">
-        <div id="panel1" class="tab-pane fade in active">
-            <h3>Заказы (включая НДС):</h3>
-            <ul>
-                <li>За предыдущий год: <strong>@{int OrderCountLastYear = ViewBag.OrderCountLastYear == null ? 0 : ViewBag.OrderCountLastYear; }@OrderCountLastYear</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountLastYear = ViewBag.OrderAmountLastYear == null ? 0 : ViewBag.OrderAmountLastYear; }@OrderAmountLastYear.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий год: <strong>@{int OrderCountYear = ViewBag.OrderCountYear == null ? 0 : ViewBag.OrderCountYear; }@OrderCountYear</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountYear = ViewBag.OrderAmountYear == null ? 0 : ViewBag.OrderAmountYear; }@OrderAmountYear.ToString("0.000")</strong> BYN.</li>
 
-                <li>За предыдущий месяц: <strong>@{int OrderCountLastMonth = ViewBag.OrderCountLastMonth == null ? 0 : ViewBag.OrderCountLastMonth; }@OrderCountLastMonth</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountLastMonth = ViewBag.OrderAmountLastMonth == null ? 0 : ViewBag.OrderAmountLastMonth; }@OrderAmountLastMonth.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий месяц: <strong>@{int OrderCountMonth = ViewBag.OrderCountMonth == null ? 0 : ViewBag.OrderCountMonth; }@OrderCountMonth</strong> заказа(ов) на сумму <strong>@{decimal OrderAmountMonth = ViewBag.OrderAmountMonth == null ? 0 : ViewBag.OrderAmountMonth; }@OrderAmountMonth.ToString("0.000")</strong> BYN.</li>
-            </ul>
+
+                </center>
+                </div>
+
+            </div>
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $("#stat").click(function () {
+
+                    if ($("#statDiv").css("display") == "none")
+                        $("#statDiv").fadeIn(1000);
+                    else $("#statDiv").fadeOut(1000);
+                }
+                );
+
+        });
+
+    </script>
+    <div style="margin-top:20px;">
+        <a href="#" id="stat" class="link-gray" style="margin-top:20px;">Статистика</a>
+    </div>
+    <div id="statDiv" style="display:none;">
+        <ul class="nav nav-tabs" style="margin-top:20px;">
+            <li class="active"><a data-toggle="tab" href="#panel1">Заказы</a></li>
+            <li><a data-toggle="tab" href="#panel2">Денежные поступления</a></li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div id="panel1" class="tab-pane fade in active">
+                <h3>Заказы (включая НДС):</h3>
+                <ul>
+                    <li>
+                        За предыдущий год:<span class="text-primary">@ViewBag.OrderCountLastYear</span>
+                        заказа(ов) на сумму <span class="text-primary">@ViewBag.OrderAmountLastYear</span> BYN.
+                    </li>
+                    <li>
+                        За текущий год:
+                        <span class="text-primary">@ViewBag.OrderCountYear</span>
+                        заказа(ов) на сумму <span class="text-primary">@ViewBag.OrderAmountYear</span> BYN.
+                    </li>
+
+                    <li>За предыдущий месяц:<span class="text-primary">@ViewBag.OrderCountLastMonth</span> заказа(ов) на сумму <span class="text-primary">@ViewBag.OrderAmountLastMonth</span> BYN.</li>
+                    <li>За текущий месяц: <span class="text-primary">@ViewBag.OrderCountMonth</span> заказа(ов) на сумму <span class="text-primary">@ViewBag.OrderAmountMonth</span> BYN.</li>
+                </ul>
+            </div>
+            <div id="panel2" class="tab-pane fade">
+                <h3>Денежные поступления:</h3>
+                <ul>
+                    <li>
+                        За предыдущий год:
+                        <span class="text-primary">@ViewBag.ReceiptCountLastYear</span>
+                        поступление(й) на сумму
+                        <span class="text-primary">@ViewBag.ReceiptAmountLastYear</span> BYN.
+                    </li>
+                    <li>
+                        За текущий год:
+                        <span class="text-primary">@ViewBag.ReceiptCountYear</span>
+                        поступление(й) на сумму
+                        <span class="text-primary">@ViewBag.ReceiptAmountYear</span> BYN.
+                    </li>
+
+                    <li>
+                        За предыдущий месяц:
+                        <span class="text-primary">@ViewBag.ReceiptCountLastMonth</span>
+                        поступление(й) на сумму
+                        <span class="text-primary">@ViewBag.ReceiptAmountLastMonth</span> BYN.
+                    </li>
+                    <li>
+                        За текущий месяц:
+                        <span class="text-primary">@ViewBag.ReceiptCountMonth</span>
+                        поступление(й) на сумму
+                        <span class="text-primary">@ViewBag.o2m1</span> BYN.
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div id="panel2" class="tab-pane fade">
-            <h3>Денежные поступления:</h3>
-            <ul>
-                <li>За предыдущий год: <strong>@{int ReceiptCountLastYear = ViewBag.ReceiptCountLastYear == null ? 0 : ViewBag.ReceiptCountLastYear; }@ReceiptCountLastYear</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountLastYear = ViewBag.ReceiptAmountLastYear == null ? 0 : ViewBag.ReceiptAmountLastYear; }@ReceiptAmountLastYear.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий год: <strong>@{int ReceiptCountYear = ViewBag.ReceiptCountYear == null ? 0 : ViewBag.ReceiptCountYear; }@ReceiptCountYear</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountYear = ViewBag.ReceiptAmountYear == null ? 0 : ViewBag.ReceiptAmountYear; }@ReceiptAmountYear.ToString("0.000")</strong> BYN.</li>
-
-                <li>За предыдущий месяц: <strong>@{int ReceiptCountLastMonth = ViewBag.ReceiptCountLastMonth == null ? 0 : ViewBag.ReceiptCountLastMonth; }@ReceiptCountLastMonth</strong> поступление(й) на сумму <strong>@{decimal ReceiptAmountLastMonth = ViewBag.ReceiptAmountLastMonth == null ? 0 : ViewBag.ReceiptAmountLastMonth; }@ReceiptAmountLastMonth.ToString("0.000")</strong> BYN.</li>
-                <li>За текущий месяц: <strong>@{int ReceiptCountMonth = ViewBag.ReceiptCountMonth == null ? 0 : ViewBag.ReceiptCountMonth; }@ReceiptCountMonth</strong> поступление(й) на сумму <strong>@{decimal m21 = ViewBag.o2m1 == null ? 0 : ViewBag.o2m1; }@m21.ToString("0.000")</strong> BYN.</li>
-            </ul>
-        </div>
-        
     </div>
 
 </div>
+
+
+@section Styles{
+    <link href="/Content/index.min.css" rel="stylesheet" />
+}

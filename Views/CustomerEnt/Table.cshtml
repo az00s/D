@@ -78,12 +78,6 @@
                 }
                     ]
                 }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-                //"preDrawCallback": function (settings) {
-
-                //    $('#divForTable').fadeIn(1000);
-
-                //},
-                
                 stateSave: true,
                 "stateDuration": 60 * 60 * 24,
                 "order": [],
@@ -126,7 +120,6 @@
                 "processing": true,
 
                 fixedHeader: true
-                //"pagingType": "full_numbers"
             });
     })
 </script>
@@ -139,18 +132,14 @@
         <ol class="breadcrumb">
             <li><a href="/Home">Главная</a></li>
             <li class="active">Юридические лица</li>
-
         </ol>
-
     </div>
     <div class="col-lg-1"></div>
-
 </div>
     
 <div class="row">
     <div class="col-lg-2">@Html.Partial("_SideMenuClients")</div>
     <div class="col-lg-9 col-lg-offset-0" @*id="divTable"*@>
-
         <table class="table-bordered table-striped table-hover table table-condensed " id="tbCustomerEnt" cellspacing="0">
             <colgroup>
                 <col width="15%">
@@ -160,7 +149,6 @@
             </colgroup>
             <thead>
                 <tr>
-
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.ClientPAN)
                     </th>
@@ -173,8 +161,6 @@
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.Address)
                     </th>
-
-
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -183,9 +169,13 @@
         </div>
     <div class="col-lg-1"></div>
     </div>
-
-
-
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

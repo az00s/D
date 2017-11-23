@@ -4,14 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using D.Models;
-using D.Interfaces;
 using System;
-using D.Models.DataTableModel;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
     //[SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
-    [Authorize(Roles = "manager,admin,sklad")]
+    [CustomAuthorize(Roles = "manager,admin,sklad")]
     public class SupplierController : Controller
     {
         private IdbInterface db;//dataContext
@@ -60,8 +59,7 @@ namespace D.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    supplier.AddtoTable(db, supplier);
-
+                    db.Suppliers.Add(supplier);
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = supplier.SupplierPAN });
                 }
@@ -74,8 +72,8 @@ namespace D.Controllers
         }
 
         
-        [Authorize(Roles = "admin")]
-        [HttpPost]
+        [CustomAuthorize(Roles = "admin")]
+        
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Supplier supplier)
         {
@@ -94,7 +92,7 @@ namespace D.Controllers
         }
         
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorProviders")]
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

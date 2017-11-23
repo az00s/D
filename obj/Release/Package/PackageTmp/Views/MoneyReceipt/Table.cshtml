@@ -19,18 +19,17 @@
                 "contentType": 'application/json; charset=utf-8',
                 'data': function (data) { return data = JSON.stringify(data); },
                 "dataSrc": function (json) {
-                    for (var i = 0, end = json.data.length; i < end; i++)
-                    { json.data[i].ReceiptDate = new Date(json.data[i].ReceiptDate).toLocaleDateString(); }
-                    return json.data;
+                for (var i = 0, end = json.data.length; i < end; i++)
+                { json.data[i].ReceiptDate = new Date(parseInt((json.data[i].ReceiptDate).substr(6))).toLocaleDateString(); }
+                return json.data;
                 }
-
             },
             "columns": [
 
            { "data": "ReceiptID" },
            { "data": "ReceiptDate" },
-           { "data": "CustomerPAN" },
-           { "data": "Customer" },
+           { "data": "CustomerEnt.ClientPAN" },
+           { "data": "CustomerEnt.Name" },
            { "data": "Amount" }
             ],
             buttons: [{
@@ -129,7 +128,6 @@
     });
 
     $(function () {
-        //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
         $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
     });
 </script>
@@ -197,8 +195,11 @@
 
 
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }

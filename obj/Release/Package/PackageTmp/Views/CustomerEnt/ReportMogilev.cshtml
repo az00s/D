@@ -130,13 +130,10 @@
             });
     })
 </script>
-
-@*@Html.Partial("_ModalCreate")*@
-
     
 <div class="row">
-    <div class="col-lg-2">@*@Html.Partial("_SideMenuClients")*@</div>
-    <div class="col-lg-9 col-lg-offset-0" @*id="divTable"*@>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-9 col-lg-offset-0">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Home")">Главная</a></li>
             <li><a href="@Url.Action("Index","CustomerEnt")">Юридические лица</a></li>
@@ -178,9 +175,13 @@
         </div>
     <div class="col-lg-1"></div>
     </div>
-
-
-
 <div class="scrollup">
     <i class="glyphicon glyphicon-chevron-up"></i>
 </div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}

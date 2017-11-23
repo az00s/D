@@ -5,7 +5,6 @@
     ViewBag.Title = "О поставщике";
 }
 
-
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Главная</a></li>
@@ -114,11 +113,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 <div id="DeleteModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -171,10 +165,6 @@
                     </dd>
                 </dl>
             </div>
-
-
-
-
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "Supplier", new { id = Model.SupplierPAN }, FormMethod.Post))
             {
@@ -186,12 +176,8 @@
                 }
             </div>
         </div>
-
-
-
     </div>
 </div>
-
 <div id="EditModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -211,13 +197,10 @@
                                     <div class="form-horizontal">
 
                                         @Html.HiddenFor(model => model.SupplierPAN)
-
-
-
                                         <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @pattern = ".{0,200}" } })
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @pattern = ".{0,200}", @required = "required" } })
                                                 <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
@@ -241,7 +224,7 @@
                                         <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.TextAreaFor(model => model.Description, 2, 34, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                                                @Html.TextAreaFor(model => model.Description, 2, 34, new { @class = "form-control", @maxlength = "200" } )
                                                 <span class="glyphicon form-control-feedback"></span>
                                             </div>
                                         </div>
@@ -265,5 +248,12 @@
     </div>
 </div>
 
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
+}
 
 

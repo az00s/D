@@ -5,16 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using D.Models;
-using D.Interfaces;
-using D.Models.DataTableModel;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
-    public class TestClass {
-       public String Name { get; set; }
-        public string Thing { get; set; }
-    }
-    [Authorize]
+    [CustomAuthorize]
     [HandleError(ExceptionType = typeof(SystemException), View = "Error")]
     public class ProductController : Controller
     {
@@ -86,7 +81,7 @@ namespace D.Controllers
         }
 
                
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Product product)
@@ -109,7 +104,7 @@ namespace D.Controllers
             
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HandleError(ExceptionType = typeof(System.Data.Entity.Infrastructure.DbUpdateException), View = "ErrorGoods")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -23,9 +23,10 @@ namespace D.Controllers
            
         }
         
-        [Authorize]
+        [CustomAuthorize]
         public  ActionResult Index()
         {
+
             ViewBag.ProductCount = db.Products.AsNoTracking().Count();
             ViewBag.CustomerCount = db.CustomerEnts.AsNoTracking().Count()+ db.CustomerInds.AsNoTracking().Count();
             ViewBag.SupplierCount = db.Suppliers.AsNoTracking().Count();
@@ -36,17 +37,17 @@ namespace D.Controllers
             
             ViewBag.ProductCost = db.Products
                 .AsNoTracking()
-                .Sum(g => g.Balance * g.Price).Value.ToString("0.00");
+                .Sum(g => g.Balance * g.Price).GetValueOrDefault().ToString("N");
 
-            ViewBag.ProductWeight= db.Products
+            ViewBag.ProductWeight= (db.Products
                 .AsNoTracking().AsEnumerable()
-                .Sum(g => (decimal)(g.Balance)* g.Weight) / 1000;
+                .Sum(g => (decimal)(g.Balance)* g.Weight) / 1000000).GetValueOrDefault().ToString("N");
 
 
             ViewBag.OrderAmountLastYear = db.Orders
                 .AsNoTracking()
                 .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year - 1)
-                .Select(o => o.AmountVat).Sum();
+                .Select(o => o.AmountVat).Sum().GetValueOrDefault().ToString("N");
 
             ViewBag.OrderCountLastYear= db.Orders
                 .AsNoTracking()
@@ -56,7 +57,7 @@ namespace D.Controllers
             ViewBag.OrderAmountYear = db.Orders
                 .AsNoTracking()
                 .Where(o => o.OrderDate.Value.Year == DateTime.Now.Year )
-                .Select(o => o.AmountVat).Sum();
+                .Select(o => o.AmountVat).Sum().GetValueOrDefault().ToString("N");
 
             ViewBag.OrderCountYear = db.Orders
                 .AsNoTracking()
@@ -67,7 +68,7 @@ namespace D.Controllers
             ViewBag.OrderAmountLastMonth= db.Orders
                 .AsNoTracking()
                 .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month-1)
-                .Select(o => o.AmountVat).Sum();
+                .Select(o => o.AmountVat).Sum().GetValueOrDefault().ToString("N");
 
             ViewBag.OrderCountLastMonth= db.Orders
                 .AsNoTracking()
@@ -77,7 +78,7 @@ namespace D.Controllers
             ViewBag.OrderAmountMonth= db.Orders
                 .AsNoTracking()
                 .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month )
-                .Select(o => o.AmountVat).Sum();
+                .Select(o => o.AmountVat).Sum().GetValueOrDefault().ToString("N");
            
             ViewBag.OrderCountMonth = db.Orders
                 .AsNoTracking()
@@ -87,7 +88,7 @@ namespace D.Controllers
             ViewBag.ReceiptAmountLastMonth= db.MoneyReceipts
                 .AsNoTracking()
                 .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month-1 && o.ReceiptDate.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Amount).Sum();
+                .Select(o => o.Amount).Sum().GetValueOrDefault().ToString("N");
 
             
             ViewBag.ReceiptCountLastMonth = db.MoneyReceipts
@@ -99,7 +100,7 @@ namespace D.Controllers
             ViewBag.o2m1= db.MoneyReceipts
                 .AsNoTracking()
                 .Where(o => o.ReceiptDate.Value.Month == DateTime.Now.Month && o.ReceiptDate.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Amount).Sum();
+                .Select(o => o.Amount).Sum().GetValueOrDefault().ToString("N");
 
             ViewBag.ReceiptCountMonth = db.MoneyReceipts
                 .AsNoTracking()
@@ -110,7 +111,7 @@ namespace D.Controllers
             ViewBag.ReceiptAmountLastYear = db.MoneyReceipts
                 .AsNoTracking()
                 .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year-1)
-                .Select(o => o.Amount).Sum();
+                .Select(o => o.Amount).Sum().GetValueOrDefault().ToString("N");
             
             ViewBag.ReceiptCountLastYear = db.MoneyReceipts
                 .AsNoTracking()
@@ -120,7 +121,7 @@ namespace D.Controllers
             ViewBag.ReceiptAmountYear = db.MoneyReceipts
                 .AsNoTracking()
                 .Where(o => o.ReceiptDate.Value.Year == DateTime.Now.Year)
-                .Select(o => o.Amount).Sum();
+                .Select(o => o.Amount).Sum().GetValueOrDefault().ToString("N");
 
             ViewBag.ReceiptCountYear = db.MoneyReceipts
                 .AsNoTracking()

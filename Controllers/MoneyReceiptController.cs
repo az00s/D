@@ -5,13 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using D.Models;
-using D.Interfaces;
-using D.Models.DataTableModel;
+using D.Infrastructure;
 
 namespace D.Controllers
 {
     //[SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
-    [Authorize(Roles = "accountant,manager,admin")]
+    [CustomAuthorize(Roles = "accountant,manager,admin")]
     public class MoneyReceiptController : Controller
     {
         
@@ -71,7 +70,7 @@ namespace D.Controllers
         }
 
         
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MoneyReceipt receipt)
@@ -92,7 +91,7 @@ namespace D.Controllers
             
         }
 
-        [Authorize(Roles = "admin")]
+        [CustomAuthorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

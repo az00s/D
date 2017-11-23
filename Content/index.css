@@ -1,0 +1,58 @@
+﻿
+.link-gray {
+top:0px;
+/*margin-left: 65em;*/
+text-decoration: none;
+color: darkgray; 
+font-size:small;
+
+}
+
+.link-gray:hover {
+
+color: darkgray; 
+text-decoration: none;
+}
+
+.link-gray:focus {
+
+color: darkgray; 
+text-decoration: none;
+}
+
+.item img {
+
+margin:20px;
+}
+
+
+
+
+#aboutDiv {
+
+font-size:small;color:darkgray;width:20em;/*margin-left: 75em;*/
+    /*position: absolute;*/
+    background-color: white;
+    /*border-radius: 10px;*/
+    padding: 17px;
+    border: 1px solid lightgray;
+    float:right!important;
+}
+
+h2 {
+            margin: 0;
+            color: #666;
+            padding-top: 90px;
+            font-size: 52px;
+            font-family: "trebuchet ms", sans-serif;
+        }
+
+        .item {
+            /*background: #333;*/
+            text-align: center;
+            height: 200px !important;
+        }
+
+        .carousel {
+            margin-top: 20px;
+        }

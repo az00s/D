@@ -1,8 +1,6 @@
 ﻿@model D.Models.Order
-
 <script>
     $(document).ready(function () {
-
             $(document).on('click', '.table-hover tbody tr', function () {
                 var table = $('.table-hover').DataTable();
                 $(this).toggleClass('ch');
@@ -10,7 +8,6 @@
                 var url = "@Url.Action("Details")/" + ID;
                 document.location.href = url;
             });
-
         $("ul.navbar-nav li:contains('Заказы')").addClass("active");
 
             $("[data-readonly]").on('keydown paste', function (e) {
@@ -29,17 +26,10 @@
                         for (var i = 0, end = json.data.length; i < end; i++)
                         {
                             json.data[i].OrderDate = new Date(parseInt((json.data[i].OrderDate).substr(6))).toLocaleDateString();
-                            //if(json.data[i].CustomerEnt == null)
-                            //{
-                            //    json.data[i].CustomerEnt = new Object();
-                            //    json.data[i].CustomerEnt.Name = json.data[i].CustomerInd.FirstName + " " + json.data[i].CustomerInd.LastName;
-                            //}
-
                         }
                         return json.data;
                     }
                 },
-
                 "columns": [
 
                { "data": "OrderID" },
@@ -57,7 +47,6 @@
                { "data": "OrderStatus" },
                { "data": "Employee.LastName" }
                ],
-
                 buttons: [{
                     fade: 500,
                     autoClose: true,
@@ -100,12 +89,6 @@
                 }
                     ]
                 }, { extend: 'colvis', text: 'Видимость столбцов', className: 'btn btn-xs' }],
-                //"preDrawCallback": function (settings) {
-
-                //    $('#divForTable').fadeIn(1000);
-
-                //},
-
                 stateSave: true,
                 "stateDuration": 60 * 60 * 24,
                 "order": [],
@@ -148,40 +131,27 @@
                 "processing": true,
 
                 fixedHeader: true
-                //"pagingType": "full_numbers"
+
             });
     })
 </script>
-
 @Html.Partial("_ModalCreate")
-
 <div class="row">
     <div class="col-lg-2 col-xs-12"></div>
     <div class="col-lg-9 col-lg-offset-0">
         <ol class="breadcrumb">
             <li><a href="/Home">Главная</a></li>
             <li class="active">Заказы</li>
-
         </ol>
-
     </div>
     <div class="col-lg-1"></div>
 
 </div>
-
 <div class="row">
     <div class="col-lg-2">
         @Html.Partial("_SideMenuOrder")
-
-
-
-
-
     </div>
-
     <div id="dvForTable" class="col-lg-9 col-lg-offset-0">
-
-
         <table class="table-bordered table-striped table-hover table table-condensed" id="tbOrders">
             <colgroup>
                 <col width="15%">
@@ -191,7 +161,6 @@
             </colgroup>
             <thead>
                 <tr>
-
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.OrderID)
                     </th>
@@ -212,8 +181,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody class="text-center">
-               
+            <tbody class="text-center">           
             </tbody>
         </table>
     </div>
@@ -226,10 +194,13 @@
 
 
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }
 
 

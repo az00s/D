@@ -30,11 +30,7 @@
                             </li>
                         </ul>
                     </legend>
-
-
                     <div>
-
-
                         <dl class="dl-horizontal">
                             <dt>
                                 Клиент:
@@ -62,12 +58,7 @@
                             </dd>
 
                         </dl>
-
-
                     </div>
-
-
-
                 </fieldset>
             </div>
 
@@ -102,7 +93,7 @@
                                  @customer
                              </td>
                             <td>@p.AmountVat</td>
-                                 <td>@p.OrderPayments.FirstOrDefault(op=>op.OrderID==p.OrderID).Amount</td>
+                                 <td>@p.OrderPayments.Sum(op=>op.Amount).Value.ToString("0.00")</td>
   
                               </tr>
                                      }
@@ -155,9 +146,6 @@ $(document).ready(function(){
         ],
         fixedHeader: true
         });
-
-
-
 });
 </script>
 
@@ -169,8 +157,6 @@ $(document).ready(function(){
                 <h4 class="modal-title">Вы действительно хотите удалить это поступление?</h4>
             </div>
             <div class="modal-body">
-
-
                 <dl class="dl-horizontal">
                     <dt>
                         Клиент:
@@ -196,11 +182,7 @@ $(document).ready(function(){
 
                         @Html.DisplayFor(model => model.ReceiptDate)
                     </dd>
-
                 </dl>
-
-
-
             </div>
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "MoneyReceipt", new { id = Model.ReceiptID }, FormMethod.Post))
@@ -235,17 +217,13 @@ $(document).ready(function(){
                                     @Html.AntiForgeryToken()
 
                                     <div class="form-horizontal">
-
-
                                         @Html.HiddenFor(model=>model.ReceiptID)
-
-
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Клиент</label>
                                             <div class="col-md-7">
                                                 <div class="indoorBtnDiv input-group">
                                                     <input id="iptCustomerHidden" type="hidden" value="@Model.CustomerEnt.ClientID" name="ClientID" />
-                                                    <input id="indoorText" class="form-control" name="tbxNameClient" type="text" value="@Model.CustomerEnt.Name" readonly required />
+                                                    <input id="indoorText" class="form-control" name="tbxNameClient" type="text" value="@Model.CustomerEnt.Name" data-readonly required />
                                                     <div class="input-group-btn">
                                                         <a href="#ChoiceProv" class="indoorBtn btn btn-default" data-toggle="modal">+</a>
                                                     </div>
@@ -267,7 +245,6 @@ $(document).ready(function(){
                                         </div>
                                         <script type="text/javascript">
                                           $(function () {
-                                            //Идентификатор элемента HTML (например: #datetimepicker1), для которого необходимо инициализировать виджет "Bootstrap datetimepicker"
                                               $('#datetimepicker1').datetimepicker({ pickTime: false, language: 'ru' });
                                           });
                                         </script>
@@ -275,7 +252,7 @@ $(document).ready(function(){
                                         <div class="form-group has-feedback">
                                             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-7">
-                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?" } })
+                                                @Html.EditorFor(model => model.Amount,  new { htmlAttributes = new { @class = "form-control", @pattern = @"\d+(,\d{1,2})?", @required = "required" } } )
                                                 <span class="glyphicon form-control-feedback"></span>
                                                 
                                             </div>
@@ -401,8 +378,6 @@ $(document).ready(function(){
             <div class="modal-body">
                 
                         @Html.Action("AllCustomerEnts")
-                    
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -435,7 +410,6 @@ $(document).ready(function(){
 </div>
  <script>
     $(document).ready(function () {
-
         $('#tbCustomerEnts').DataTable({
 
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
@@ -474,10 +448,6 @@ $(document).ready(function(){
             fixedHeader: true,
             "paging": true
         });
-
-
-
-
         $(document).on('click', '#btChoiceClient', (function () {
 
             var id = $('.chosen input[type=hidden]').attr("value");
@@ -504,19 +474,18 @@ $(document).ready(function(){
 
 
         }));
-
-
-
-
-
     });
-
 </script>   
 @section scripts {
+    <script type="text/javascript" src="~/Scripts/MainJavaScript.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MainCss.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
-
 }
+
+
 
 

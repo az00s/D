@@ -1,204 +1,58 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <style>
-        .alert {
-        display:none;
-        }
-        .breadcrumb {
-        
-        padding-left:0px!important;
-        border:none!important;
-        background-color:white!important;
-        margin-bottom:7px!important;
-        }
-        #dvCustomerLink a{
-
-        
-            margin-right: 10px;
-    margin-left: 10px;
-        }
-        #dvCustomerLink {
-        
-        text-align:center;
-        }
-        #mdChoiceClient #dvCustomerInds {
-        display:none;
-        }
-        #mdChoiceClient #dvCustomerEnts {
-        
-        display:none;
-        }
-       h4 
-{
-    text-align:center!important;
-    margin-top:5px!important;
-}
-        table{
-        
-        table-layout:fixed;
-    width:100%;
-    
-        }
-        td {
-            /*text-align:center;*/
-             word-wrap: break-word;
-             vertical-align:middle!important;
-             height: 40px;
-             padding-bottom:2px!important;
-             padding-top:2px!important;
-             font-size:11px;
-
-        }
-
-        th {
-            height: 3em;
-             vertical-align:middle!important;
-             /*text-align:center!important;*/
-        }
-
-        hr {
-        border-color:black;
-
-        }
-
-        #divForTable {
-        display:none;
-        }
-
-
-            .chosen {
-            background-color:#E9E9E9 !important;
-
-}
-         
-        .sideMenu
-        {top:113px; /*position: fixed;*/
-         font-size:11px;
-         margin-bottom:10px;
-        }
-
-        div.scrollup {
-  position: fixed; /* фиксированная позиция */
-  color: #fff; /* цвет текста */
-  background-color: #333333; /* цвет заднего фона */
-  right: 20px; /* расстояние от правого края */
-  bottom: 0px; /* расстояние от нижнего края */
-  padding: 4px 10px; /* отступы до содержимого блока */
-  font-size: 20px; /* размер шрифта (иконки) */
-  border-top-left-radius: 4px; /* скругление верхнего левого угла */
-  border-top-right-radius: 4px; /* скругление верхнего правого угла */
-  cursor: pointer; /* форма курсора */
-  display: none; /* не отображать элемент */
-  text-align: center; /*выравнивание содержимого элемента по центру */
-}
-        div {
-        /*word-wrap: break-word;*/
-        word-break: break-all;
-        /*overflow-wrap: break-word;*/
-        }
-
-        .input-group.date {
-        padding:0px 15px 0px 15px!important;
-        }
-
-        #dvPeriodSearch {
-        position:fixed;
-        top:200px;
-        display:none;
-                }
-            #dvPeriodSearch div.col-lg-10 {
-            
-            padding-left:9px!important;
-            }
-
-            input[data-readonly] {
-  pointer-events: none;
-}
-
-    </style>
+    <link rel="manifest" href="/manifest.json">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title </title>
-    
-    
-    @*@Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery-ui")
-    @Scripts.Render("~/bundles/myScripts")*@
-
-    
-    <script src="~/Scripts/MainJavaScript.js"></script>
+    @Styles.Render("~/Content/css")
+    @RenderSection("Styles", false)
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", false)
-    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
-
-    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
-   @Styles.Render("~/Content/css")
-
+  
     <meta name="description" content="Автоматизированная система учета автозапчастей" />
-    
 </head>
 <body>
-    
-    <div class="navbar navbar-default navbar-static-top">
-        <div class="container">
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Главная", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li >@Html.ActionLink("Товары", "Index", "Product")</li>
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Клиенты <b class="caret"></b></a>
-                        <ul role="menu" class="dropdown-menu">
-                            <li>@Html.ActionLink("Юридические лица", "Index", "CustomerEnt")</li>
-                            
-                            <li>@Html.ActionLink("Физические лица", "Index", "CustomerInd")</li>
-                            
-                        </ul>
-                    </li>
-                   
-                    
-                    
-                    <li>@Html.ActionLink("Заказы", "Index", "Order")</li>
-                    <li>@Html.ActionLink("Поставщики", "Index", "Supplier")</li>
-                    <li>@Html.ActionLink("Денежные поступления", "Index", "MoneyReceipt")</li>
-                    <li>@Html.ActionLink("Сотрудники", "Index", "Employee")</li>
-                </ul>
-                @*<form class="navbar-form navbar-left" role="search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Введите запрос">
-                        <div class="input-group-btn"></div>
-                        <button type="submit" class="form-control btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-                    </div>
-                </form>*@
-                @Html.Partial("_LoginPartial")
+        <div class="navbar navbar-default navbar-static-top pulsate-bg">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Главная", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>@Html.ActionLink("Товары", "Index", "Product")</li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Клиенты <b class="caret"></b></a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>@Html.ActionLink("Юридические лица", "Index", "CustomerEnt")</li>
+                                <li>@Html.ActionLink("Физические лица", "Index", "CustomerInd")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("Заказы", "Index", "Order")</li>
+                        <li>@Html.ActionLink("Поставщики", "Index", "Supplier")</li>
+                        <li>@Html.ActionLink("Денежные поступления", "Index", "MoneyReceipt")</li>
+                        <li>@Html.ActionLink("Сотрудники", "Index", "Employee")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
-    </div>
+    
     <div class="container-fluid body-content" id="body">
-       
         @RenderBody()
-       
-
-        
     </div>
-
     <div class="container footer dontPrint">
         <hr />
         <footer>
             <p>&copy; К. Ю., @DateTime.Now.Year </p>
         </footer>
     </div>
-  
 </body>
 </html>

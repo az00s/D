@@ -1,4 +1,3 @@
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\ApplicationInsights.config
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\csc.exe
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -11,7 +10,6 @@ C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\rosl
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\vbc.exe
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\VBCSCompiler.exe
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\Content\Site.css
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dll.config
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.dll
 C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\bin\D.pdb
