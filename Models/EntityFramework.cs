@@ -10,9 +10,9 @@ namespace D.Models
     {
 
         [Required]
-        [Range(0, 100000000000000.00)]
         [Display(Name = "Сумма")]
         [Column(TypeName = "money")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Пожалуйста, введите положительное значение для цены")]
         public decimal? Amount { get; set; }
 
         [Required]
@@ -98,7 +98,7 @@ namespace D.Models
 
 
 
-        [Range(0, 999999999)]
+        [Range(0, int.MaxValue)]
         //[StringLength(9)]
         [Display(Name = "УНП клиента")]
         public int? ClientPAN { get; set; }
@@ -186,7 +186,7 @@ namespace D.Models
         [Display(Name = "УНП Поставщика")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Range(0, 9999999999)]
+        [Range(0, int.MaxValue)]
         public int SupplierPAN { get; set; }
 
         [Display(Name = "Название организации")]
@@ -293,22 +293,22 @@ namespace D.Models
         [StringLength(20)]
         public string Unit_of_measurement { get; set; }
 
-        [Range(0, 2147483647)]
+        [Range(0, int.MaxValue)]
         [Required]
         [Display(Name = "Остаток")]
         public int Balance { get; set; }
 
-        [Range(0, 2147483647)]
+        [Range(0, int.MaxValue)]
 
         [Display(Name = "Поставка,\nдней")]
         public int? Delivery_time { get; set; }
 
-        [Range(0, 2147483647)]
+        [Range(0, int.MaxValue)]
 
         [Display(Name = "Вес,\nг")]
         public int? Weight { get; set; }
         [Display(Name = "Цена")]
-        [Range(0, 100000000000000.00)]
+        [Range(0.01,double.MaxValue)]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "money")]
         public decimal? Price { get; set; }

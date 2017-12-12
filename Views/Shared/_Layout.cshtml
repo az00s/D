@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
+    @*<link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">*@
     <link rel="manifest" href="/manifest.json">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,9 +52,32 @@
     </div>
     <div class="container footer dontPrint">
         <hr />
-        <footer>
+        <footer >
             <p>&copy; К. Ю., @DateTime.Now.Year </p>
         </footer>
     </div>
+
+    <script>
+
+        function testAnim(x) {
+            $('footer').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).removeClass();
+            });
+        };
+
+        $(document).ready(function () {
+            $('footer').click(function (e) {
+               
+                var anim = "rubberBand";
+                testAnim(anim);
+            });
+
+           
+        });
+
+
+        
+       
+    </script>
 </body>
 </html>
