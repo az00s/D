@@ -1,0 +1,6 @@
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\png\menu.png|8743
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\png\fast-forward-1.png|11407
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\png\skip.png|10239
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\png\add.png|403
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\background-main-small.jpg|89959
+C:\Users\Константин\Documents\Visual Studio 2015\Projects\D\D\Content\Engine4.png|14042
