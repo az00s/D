@@ -273,6 +273,7 @@
     </Content>
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\ae.png" />
+    <Content Include="Content\img\background-main-small.jpg" />
     <Content Include="Content\img\baren.png" />
     <Content Include="Content\img\bosch.png" />
     <Content Include="Content\img\cargo.png" />
@@ -325,6 +326,7 @@
     <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings %285%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Scripts\datatables.min.css" />
     <Content Include="Scripts\datatables.min.js" />
